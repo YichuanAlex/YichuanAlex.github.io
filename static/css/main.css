@@ -1,6 +1,6 @@
 :root {
     --bg: #ffffff;
-    --sidebar: #f8fafc;
+    --sidebar: #f7faf9;
     --ink: #1e293b;
     --text: #475569;
     --muted: #64748b;
@@ -9,6 +9,10 @@
     --link: #1d4ed8;
     --link-hover: #0f172a;
     --card: #ffffff;
+    --accent: #0f766e;
+    --accent-soft: #e6fffb;
+    --warm: #b45309;
+    --warm-soft: #fff7ed;
 }
 
 * {
@@ -22,7 +26,9 @@ html {
 body {
     margin: 0;
     color: var(--text);
-    background: var(--bg);
+    background:
+        linear-gradient(90deg, rgba(15, 118, 110, 0.045), transparent 34%),
+        var(--bg);
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 16px;
     line-height: 1.65;
@@ -52,7 +58,9 @@ a:hover {
     height: 100vh;
     padding: 42px 38px;
     overflow-y: auto;
-    background: var(--sidebar);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(247, 250, 249, 0.96)),
+        var(--sidebar);
     border-right: 1px solid var(--line);
 }
 
@@ -70,6 +78,7 @@ a:hover {
     object-position: 72% 82%;
     border: 1px solid var(--line);
     background: #e5e7eb;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
 }
 
 .profile-block h1 {
@@ -87,6 +96,27 @@ a:hover {
     color: var(--muted);
     font-size: 0.96rem;
     line-height: 1.5;
+}
+
+.profile-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 16px;
+}
+
+.profile-badges span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 3px 8px;
+    border: 1px solid rgba(15, 118, 110, 0.22);
+    border-radius: 4px;
+    background: var(--accent-soft);
+    color: #115e59;
+    font-size: 0.76rem;
+    font-weight: 800;
+    line-height: 1;
 }
 
 .profile-affiliation {
@@ -109,6 +139,7 @@ a:hover {
     color: var(--text);
     font-size: 0.94rem;
     line-height: 1.35;
+    transition: color 0.15s ease, transform 0.15s ease;
 }
 
 .profile-links i {
@@ -122,6 +153,10 @@ a:hover {
     color: var(--link);
 }
 
+.profile-links a:hover {
+    transform: translateX(2px);
+}
+
 .side-nav {
     display: grid;
     gap: 8px;
@@ -131,9 +166,18 @@ a:hover {
 }
 
 .side-nav a {
+    width: fit-content;
+    padding: 2px 0;
     color: var(--ink);
     font-size: 0.92rem;
     font-weight: 700;
+    border-bottom: 2px solid transparent;
+}
+
+.side-nav a:hover {
+    color: var(--accent);
+    border-bottom-color: rgba(15, 118, 110, 0.42);
+    text-decoration: none;
 }
 
 .sidebar-note {
@@ -173,6 +217,15 @@ a:hover {
     letter-spacing: 0;
 }
 
+.content-section h2::after {
+    content: "";
+    display: block;
+    width: 48px;
+    height: 2px;
+    margin-top: 10px;
+    background: var(--accent);
+}
+
 .main-body {
     color: var(--text);
 }
@@ -199,13 +252,16 @@ a:hover {
 
 .research-list article,
 .timeline article {
-    padding: 0 0 18px;
-    border-bottom: 1px solid var(--soft-line);
+    padding: 16px 18px;
+    border: 1px solid var(--soft-line);
+    border-left: 3px solid rgba(15, 118, 110, 0.5);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.78);
 }
 
 .research-list article:last-child,
 .timeline article:last-child {
-    border-bottom: 0;
+    border-bottom: 1px solid var(--soft-line);
 }
 
 .research-list h3,
@@ -230,6 +286,11 @@ a:hover {
     color: var(--muted);
     font-size: 0.86rem;
     font-weight: 700;
+}
+
+.timeline article:nth-child(2n),
+.research-list article:nth-child(2n) {
+    border-left-color: rgba(180, 83, 9, 0.45);
 }
 
 .pub-items {
@@ -261,6 +322,19 @@ a:hover {
     max-width: 900px;
 }
 
+.skill-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 18px;
+}
+
+.skill-badges img {
+    display: block;
+    max-width: 100%;
+    height: 23px;
+}
+
 .skills-list div,
 .credentials-list p {
     margin: 0;
@@ -285,7 +359,9 @@ a:hover {
     padding: 18px;
     border: 1px solid var(--line);
     border-radius: 6px;
-    background: var(--card);
+    background:
+        linear-gradient(180deg, #ffffff, #fbfdff);
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.045);
 }
 
 .stat-card span {
@@ -304,6 +380,42 @@ a:hover {
     line-height: 1.1;
 }
 
+.section-subtitle {
+    margin: 18px 0 12px;
+    color: var(--accent);
+    font-size: 0.86rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+}
+
+.repo-region-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+    gap: 14px;
+    margin: -4px 0 22px;
+}
+
+.repo-region-panel > div {
+    padding: 16px 18px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #ffffff;
+}
+
+.repo-region-panel h3 {
+    margin: 0 0 8px;
+    color: var(--ink);
+    font-size: 0.94rem;
+    font-weight: 800;
+}
+
+.repo-region-panel p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+}
+
 .visitor-panel {
     display: grid;
     grid-template-columns: 220px minmax(0, 1fr);
@@ -313,6 +425,7 @@ a:hover {
     border: 1px solid var(--line);
     border-radius: 6px;
     background: #fbfdff;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.045);
 }
 
 .visitor-globe {
@@ -404,6 +517,24 @@ a:hover {
     font-size: 0.88rem;
 }
 
+.blog-card {
+    max-width: 760px;
+    padding: 18px 20px;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--warm);
+    border-radius: 6px;
+    background: var(--warm-soft);
+}
+
+.blog-card h3 {
+    margin: 0 0 8px;
+    color: var(--ink);
+}
+
+.blog-card p {
+    margin-bottom: 12px;
+}
+
 @media (max-width: 900px) {
     .page-shell {
         display: block;
@@ -447,6 +578,7 @@ a:hover {
     }
 
     .stats-grid,
+    .repo-region-panel,
     .visitor-panel {
         grid-template-columns: 1fr;
     }

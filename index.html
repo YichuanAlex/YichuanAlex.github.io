@@ -17,6 +17,7 @@
 
     <script type="text/javascript" src="static/js/marked.min.js"></script>
     <script type="text/javascript" src="static/js/js-yaml.min.js"></script>
+    <script type="text/javascript" src="static/js/visitor-config.js"></script>
     <script defer src="https://events.vercount.one/js"></script>
     <script type="text/javascript" src="static/js/scripts.js"></script>
 </head>
@@ -29,6 +30,12 @@
                 <h1 id="page-top-title">Zixi Jiang</h1>
                 <p class="profile-title">B.S. Candidate in Data Science and Big Data Technology</p>
                 <p class="profile-affiliation">Anhui University</p>
+                <div class="profile-badges" aria-label="Research and engineering tags">
+                    <span>GNN</span>
+                    <span>ADAS</span>
+                    <span>Quant</span>
+                    <span>BioAI</span>
+                </div>
             </div>
 
             <div class="profile-links" aria-label="Profile links">
@@ -38,6 +45,7 @@
                 <a href="https://www.linkedin.com/in/zixijiang/" target="_blank" rel="noopener"><i class="bi bi-linkedin"></i><span>LinkedIn</span></a>
                 <a href="https://orcid.org/0009-0001-6302-6107" target="_blank" rel="noopener"><i class="bi bi-person-badge"></i><span>ORCID</span></a>
                 <a href="https://github.com/YichuanAlex" target="_blank" rel="noopener"><i class="bi bi-github"></i><span>GitHub</span></a>
+                <a href="https://www.kaggle.com/jzx15274356759" target="_blank" rel="noopener"><i class="bi bi-bar-chart-line"></i><span>Kaggle</span></a>
             </div>
 
             <nav class="side-nav" aria-label="Page navigation">
@@ -47,6 +55,7 @@
                 <a href="#experience">Experience</a>
                 <a href="#skills">Skills</a>
                 <a href="#stats">Statistics</a>
+                <a href="#blog">Blog</a>
             </nav>
 
             <div class="sidebar-note">
@@ -92,6 +101,7 @@
 
             <section id="stats" class="content-section">
                 <h2>Visitor Statistics</h2>
+                <h3 class="section-subtitle">Live Counters</h3>
                 <div class="stats-grid">
                     <div class="stat-card">
                         <span>Page Views</span>
@@ -107,6 +117,32 @@
                     </div>
                 </div>
 
+                <h3 class="section-subtitle">Repository-Backed Log</h3>
+                <div class="stats-grid repo-stats-grid">
+                    <div class="stat-card">
+                        <span>Recorded Visits</span>
+                        <strong id="repo_total_visits">0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span>Unique Visitors</span>
+                        <strong id="repo_unique_visitors">0</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span>Top Region</span>
+                        <strong id="repo_top_region">Pending</strong>
+                    </div>
+                </div>
+                <div class="repo-region-panel">
+                    <div>
+                        <h3>Regional Distribution</h3>
+                        <p id="repo_region_list">No repository-backed visits recorded yet.</p>
+                    </div>
+                    <div>
+                        <h3>Last Repository Update</h3>
+                        <p id="repo_updated_at">Pending</p>
+                    </div>
+                </div>
+
                 <div class="visitor-panel">
                     <div class="visitor-globe" id="visitor-globe" aria-label="Approximate current visitor region">
                         <span class="globe-line horizontal one"></span>
@@ -118,9 +154,14 @@
                     <div class="visitor-copy">
                         <h3>Current Visitor Region</h3>
                         <p id="visitor-region">Detecting approximate region...</p>
-                        <p class="privacy-note">The site displays approximate browser-side geolocation for the current visit only. It does not store IP addresses in this repository.</p>
+                        <p class="privacy-note" id="visitor-log-status">The repository-backed collector is ready. It records aggregate region data only and does not store raw IP addresses.</p>
                     </div>
                 </div>
+            </section>
+
+            <section id="blog" class="content-section">
+                <h2>Blog</h2>
+                <div class="main-body" id="blog-md"></div>
             </section>
         </main>
     </div>
