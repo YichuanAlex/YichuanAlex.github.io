@@ -1,22 +1,18 @@
-<div class="research-grid">
+<div class="research-list">
   <article>
-    <span>Bioinformatics · Graph Learning</span>
-    <h3>Multi-Omics GAT for Triple-Negative Breast Cancer</h3>
-    <p>Developed a GAT-MLP prognostic framework integrating scRNA-seq, ATAC-seq, radiomics, CCA-aligned multimodal features, intercellular communication analysis, and transcription-factor regulatory networks for key gene prediction and patient-risk stratification.</p>
+    <h3>Multi-Omics Learning for Cancer Biology</h3>
+    <p>I developed a GAT-MLP prognostic framework for triple-negative breast cancer by integrating scRNA-seq, ATAC-seq, radiomics features, CCA-aligned multimodal representations, intercellular communication analysis, and transcription-factor regulatory networks.</p>
   </article>
   <article>
-    <span>LNP Formulation · Multi-Modal Learning</span>
-    <h3>DeepLNP</h3>
-    <p>Built a discriminative deep learning system for LNP property prediction, including four-component MPNN encoding, molar-ratio weighted fusion, cross-attention, MoE-style fusion, uncertainty-weighted multi-task learning, and feature-priority handling.</p>
+    <h3>Lipid Nanoparticle Property Prediction</h3>
+    <p>DeepLNP is a multi-modal discriminative model for predicting LNP formulation properties. It uses four-component molecular encoding, molar-ratio weighted fusion, cross-attention, expert-based fusion, and uncertainty-weighted multi-task learning.</p>
   </article>
   <article>
-    <span>Healthcare AI · Gait Recognition</span>
-    <h3>AdaptiveGaitSegNet</h3>
-    <p>Designed dual-branch feature extraction, focus convolution, edge-aware pooling, multi-scale pyramid pooling, and joint metric/classification loss for Parkinson's disease gait recognition.</p>
+    <h3>Medical Time-Series and Gait Recognition</h3>
+    <p>AdaptiveGaitSegNet studies Parkinson's disease gait recognition with dual-branch feature extraction, focus convolution, edge-aware pooling, multi-scale feature fusion, and joint metric/classification objectives.</p>
   </article>
   <article>
-    <span>Agricultural NLP · Knowledge Extraction</span>
-    <h3>Tea Plant Pest and Disease NER</h3>
-    <p>Co-authored a BERT-BiLSTM-CRF named entity recognition method for tea plant pest and disease text, supporting domain knowledge extraction and downstream agricultural knowledge graph construction.</p>
+    <h3>Domain NLP for Agricultural Knowledge Extraction</h3>
+    <p>I co-authored a BERT-BiLSTM-CRF named entity recognition method for tea plant pest and disease text, supporting structured extraction from domain-specific agricultural literature.</p>
   </article>
 </div>

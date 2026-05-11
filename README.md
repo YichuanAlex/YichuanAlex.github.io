@@ -1,6 +1,6 @@
 # Zixi Jiang Personal Homepage
 
-This repository contains the static GitHub Pages site for Zixi Jiang.
+Static GitHub Pages site for Zixi Jiang.
 
 ## Structure
 
@@ -9,27 +9,23 @@ This repository contains the static GitHub Pages site for Zixi Jiang.
 ├── contents/              # Markdown content loaded by the page
 ├── source/                # CV and source documents
 ├── static/
-│   ├── assets/img/        # Profile and hero images
-│   ├── css/               # Theme styles
-│   └── js/                # Markdown/YAML loader scripts
+│   ├── assets/img/        # Profile and supporting images
+│   ├── css/               # Site styles
+│   └── js/                # Markdown/YAML loader and visitor widgets
 └── index.html
 ```
 
 ## Local Preview
 
-Run a local static server from the repository root:
-
 ```bash
 python3 -m http.server 8000
 ```
 
-Then open `http://127.0.0.1:8000/`.
+Open `http://127.0.0.1:8000/`.
 
 ## Editing
 
-- Global text such as the title and hero copy is in `contents/config.yml`.
-- Page sections are in `contents/*.md`.
-- Layout is in `index.html`.
-- Visual styling is in `static/css/main.css`.
-
-The site is based on the original academic homepage template by Sen Li and keeps the upstream MIT license in `LICENSE`.
+- `contents/*.md` controls the main text sections.
+- `contents/config.yml` controls small global labels.
+- `static/css/main.css` controls layout and visual style.
+- `static/js/scripts.js` loads Markdown and powers the visitor-region widget.
