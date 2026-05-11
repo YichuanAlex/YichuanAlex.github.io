@@ -17,7 +17,7 @@ This is near-real-time, not true browser real-time. A static GitHub Pages page m
 2. Open DevTools, select the Network tab, then refresh your QQ Zone page.
 3. Filter requests by `emotion_cgi_msglist_v6`, `taotao.qq.com`, or `user.qzone.qq.com`.
 4. Click the request that returns your recent posts.
-5. In Request Headers, copy the full `Cookie` value. It should usually include `p_skey` or `skey`.
+5. In Request Headers, copy only the full `Cookie` value. It should usually include `p_skey` or `skey`.
 6. Open `https://github.com/YichuanAlex/YichuanAlex.github.io`.
 7. Go to Settings -> Secrets and variables -> Actions -> New repository secret.
 8. Name the secret `QZONE_COOKIE`.
@@ -25,6 +25,14 @@ This is near-real-time, not true browser real-time. A static GitHub Pages page m
 10. Go to Actions -> Sync QQ Zone News -> Run workflow.
 
 The workflow also runs automatically twice per hour at minute 17 and 47. GitHub may delay scheduled workflows, so this should be treated as near-real-time synchronization.
+
+The sync script uses the logged-in PC endpoint:
+
+```text
+https://user.qzone.qq.com/proxy/domain/taotao.qq.com/cgi-bin/emotion_cgi_msglist_v6
+```
+
+It requests `ftype=0`, `sort=0`, `replynum=100`, `format=jsonp`, `need_private_comment=1`, and paginates with `pos` and `num`. The `g_tk` token is calculated from `p_skey` or `skey` in the secret cookie. Text, Unicode emoji, QQ custom `[em]...[/em]` emoji, and post images are normalized into `data/news.json`.
 
 ## Optional Shared Links
 
@@ -45,7 +53,7 @@ If Chrome's HAR export does not include the Cookie header but does include the `
 QZONE_HAR_PATH=user.qzone.qq.com.har QZONE_LIMIT=20 node scripts/sync-qzone.mjs
 ```
 
-This updates `data/news.json` from the HAR snapshot. It is useful for a one-time import, but it is not an automatic live sync. Treat HAR files like private login data and do not commit them to Git.
+This updates `data/news.json` from the HAR snapshot. It is useful for a one-time import, but it is not an automatic live sync. Treat HAR files like private login data. If a HAR must be retained in this repository, keep it in Git LFS and verify that it does not contain a `Cookie` request header before pushing.
 
 The workflow runs `scripts/sync-qzone.mjs`, fetches recent QQ Zone posts, and commits them into `data/news.json`. The public website reads only that JSON file; it never exposes the QQ login cookie.
 

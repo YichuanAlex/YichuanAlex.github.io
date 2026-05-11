@@ -6,7 +6,11 @@ const QZONE_UIN = process.env.QZONE_UIN || '1527435659'
 const QZONE_COOKIE = process.env.QZONE_COOKIE || ''
 const QZONE_SHARE_URLS = process.env.QZONE_SHARE_URLS || ''
 const QZONE_HAR_PATH = process.env.QZONE_HAR_PATH || ''
-const LIMIT = Math.max(1, Number(process.env.QZONE_LIMIT || 18))
+const QZONE_G_TK = process.env.QZONE_G_TK || ''
+const LIMIT = Math.max(1, Number(process.env.QZONE_LIMIT || 40))
+const PAGE_SIZE = Math.min(40, Math.max(1, Number(process.env.QZONE_PAGE_SIZE || 20)))
+const MAX_IMAGES = Math.max(1, Number(process.env.QZONE_MAX_IMAGES || 9))
+const FETCH_DETAIL = process.env.QZONE_FETCH_DETAIL !== '0'
 
 const news = JSON.parse(await readFile(DATA_PATH, 'utf8'))
 const existingPosts = Array.isArray(news.qzone?.items) ? news.qzone.items : []
@@ -54,24 +58,52 @@ await writeFile(DATA_PATH, `${JSON.stringify(news, null, 2)}\n`)
 console.log(news.qzone.sync_status)
 
 async function fetchQzonePosts(uin, cookie, limit) {
-    const gtk = qzoneGtk(cookie)
+    const gtk = QZONE_G_TK || qzoneGtk(cookie)
+    const posts = []
+
+    for (let pos = 0; posts.length < limit; pos += PAGE_SIZE) {
+        const num = Math.min(PAGE_SIZE, limit - posts.length)
+        const payload = await fetchQzoneMsgListPage({ uin, cookie, gtk, pos, num })
+        const msglist = Array.isArray(payload.msglist) ? payload.msglist : []
+
+        if (!msglist.length) {
+            break
+        }
+
+        for (const post of msglist) {
+            posts.push(await hydrateQzonePost(post, { uin, cookie, gtk }))
+        }
+
+        if (msglist.length < num) {
+            break
+        }
+    }
+
+    return mergePosts(posts).slice(0, limit).filter(post => post.body || post.images.length)
+}
+
+async function fetchQzoneMsgListPage({ uin, cookie, gtk, pos, num }) {
     const url = new URL('https://user.qzone.qq.com/proxy/domain/taotao.qq.com/cgi-bin/emotion_cgi_msglist_v6')
     url.searchParams.set('uin', uin)
+    url.searchParams.set('inCharset', 'utf-8')
+    url.searchParams.set('outCharset', 'utf-8')
     url.searchParams.set('ftype', '0')
     url.searchParams.set('sort', '0')
-    url.searchParams.set('pos', '0')
-    url.searchParams.set('num', String(limit))
-    url.searchParams.set('replynum', '0')
+    url.searchParams.set('pos', String(pos))
+    url.searchParams.set('num', String(num))
+    url.searchParams.set('replynum', '100')
     url.searchParams.set('g_tk', String(gtk))
-    url.searchParams.set('callback', '_Callback')
+    url.searchParams.set('callback', '_preloadCallback')
     url.searchParams.set('code_version', '1')
     url.searchParams.set('format', 'jsonp')
     url.searchParams.set('need_private_comment', '1')
 
     const response = await fetch(url, {
         headers: {
+            'Accept': '*/*',
+            'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
             'Cookie': cookie,
-            'Referer': `https://user.qzone.qq.com/${uin}/311`,
+            'Referer': `https://user.qzone.qq.com/${uin}/infocenter?loginfrom=31`,
             'User-Agent': 'Mozilla/5.0 AppleWebKit/537.36 Chrome/124.0 Safari/537.36'
         }
     })
@@ -85,9 +117,74 @@ async function fetchQzonePosts(uin, cookie, limit) {
         throw new Error(payload.message || payload.msg || `QZone API returned code ${payload.code}`)
     }
 
-    const msglist = Array.isArray(payload.msglist) ? payload.msglist : []
+    return payload
+}
 
-    return msglist.map(post => mapQzonePost(post, uin)).filter(post => post.body || post.images.length)
+async function hydrateQzonePost(post, context) {
+    const mapped = mapQzonePost(post, context.uin)
+
+    if (!FETCH_DETAIL || !post.tid || !shouldFetchQzoneDetail(post, mapped)) {
+        return mapped
+    }
+
+    try {
+        const detail = await fetchQzonePostDetail(post, context)
+        return mapQzonePost(mergeQzoneDetail(post, detail), context.uin)
+    } catch {
+        return mapped
+    }
+}
+
+function shouldFetchQzoneDetail(post, mapped) {
+    const declaredPhotoCount = Number(post.pictotal || post.pic_total || post.picnum || post.photo_count || 0)
+    return Boolean(post.hasmore || post.has_more || post.has_more_con || post.more)
+        || (declaredPhotoCount && mapped.images.length < Math.min(MAX_IMAGES, declaredPhotoCount))
+}
+
+async function fetchQzonePostDetail(post, { uin, cookie, gtk }) {
+    const url = new URL('https://user.qzone.qq.com/proxy/domain/taotao.qq.com/cgi-bin/emotion_cgi_msgdetail_v6')
+    url.searchParams.set('uin', uin)
+    url.searchParams.set('tid', post.tid)
+    url.searchParams.set('t1_source', String(post.t1_source || post.t1Source || post.source || 0))
+    url.searchParams.set('ftype', '0')
+    url.searchParams.set('sort', '0')
+    url.searchParams.set('pos', '0')
+    url.searchParams.set('num', '20')
+    url.searchParams.set('g_tk', String(gtk))
+    url.searchParams.set('callback', '_preloadCallback')
+    url.searchParams.set('code_version', '1')
+    url.searchParams.set('format', 'jsonp')
+    url.searchParams.set('need_private_comment', '1')
+
+    const response = await fetch(url, {
+        headers: {
+            'Accept': '*/*',
+            'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+            'Cookie': cookie,
+            'Referer': `https://user.qzone.qq.com/${uin}/311/${post.tid}`,
+            'User-Agent': 'Mozilla/5.0 AppleWebKit/537.36 Chrome/124.0 Safari/537.36'
+        }
+    })
+
+    if (!response.ok) {
+        throw new Error(`QZone detail request failed with HTTP ${response.status}`)
+    }
+
+    const payload = parseJsonp(await response.text())
+    if (payload.code && Number(payload.code) !== 0) {
+        throw new Error(payload.message || payload.msg || `QZone detail API returned code ${payload.code}`)
+    }
+
+    return payload
+}
+
+function mergeQzoneDetail(post, detail) {
+    const detailPost = [detail.msg, detail.message, detail.data?.msg, detail.data?.msglist?.[0], detail.msglist?.[0]]
+        .find(item => item && typeof item === 'object' && !Array.isArray(item)) || {}
+    return Object.assign({}, post, detailPost, {
+        pic: mergeArrays(post.pic, detailPost.pic || detail.pic),
+        conlist: mergeArrays(post.conlist, detailPost.conlist || detail.conlist)
+    })
 }
 
 async function fetchQzonePostsFromHar(path, limit) {
@@ -118,13 +215,18 @@ async function fetchQzonePostsFromHar(path, limit) {
 }
 
 function mapQzonePost(post, uin) {
+    const createdTime = Number(post.created_time || post.createdTime || post.create_time || post.time || 0)
+    const date = createdTime
+        ? new Date(createdTime > 1000000000000 ? createdTime : createdTime * 1000).toISOString()
+        : new Date().toISOString()
+
     return {
         id: post.tid || post.id || '',
-        date: post.created_time ? new Date(Number(post.created_time) * 1000).toISOString() : new Date().toISOString(),
+        date,
         title: 'QQ Zone Post',
-        body: cleanText(post.content || conlistText(post) || post.shortcon || ''),
+        body: cleanText(post.content || conlistText(post) || post.shortcon || post.summary || ''),
         url: post.tid ? `https://user.qzone.qq.com/${uin}/311/${post.tid}` : `https://user.qzone.qq.com/${uin}/311`,
-        images: imageUrlsFromPost(post).slice(0, 3)
+        images: imageUrlsFromPost(post).slice(0, MAX_IMAGES)
     }
 }
 
@@ -197,11 +299,18 @@ async function fetchSharePost(url, cookie) {
 }
 
 function parseJsonp(text) {
-    const match = text.match(/^[^(]*\(([\s\S]*)\);?$/)
-    if (!match) {
+    const payload = String(text || '').trim()
+
+    if (payload.startsWith('{')) {
+        return JSON.parse(payload)
+    }
+
+    const start = payload.indexOf('(')
+    const end = payload.lastIndexOf(')')
+    if (start === -1 || end <= start) {
         throw new Error('Unexpected QZone response format.')
     }
-    return JSON.parse(match[1])
+    return JSON.parse(payload.slice(start + 1, end))
 }
 
 function qzoneGtk(cookie) {
@@ -226,13 +335,70 @@ function conlistText(post) {
 }
 
 function imageUrlsFromPost(post) {
-    if (!Array.isArray(post.pic)) {
-        return []
+    const urls = []
+    collectImageUrls(post.pic, urls)
+    collectImageUrls(post.pics, urls)
+    collectImageUrls(post.images, urls)
+    collectImageUrls(post.photo, urls)
+    collectImageUrls(post.photos, urls)
+    collectImageUrls(post.photolist, urls)
+    collectImageUrls(post.rich_info?.pic, urls)
+    collectImageUrls(post.rich_info?.pics, urls)
+
+    return [...new Set(urls.map(normalizeUrl).filter(isUsableImageUrl))]
+}
+
+function collectImageUrls(value, urls, depth = 0) {
+    if (!value || depth > 4) {
+        return
     }
 
-    return post.pic.map(image => {
-        return image.url1 || image.url2 || image.url3 || image.origin_url || image.photourl || image.smallurl || image.pic_id || ''
-    }).map(normalizeUrl).filter(Boolean)
+    if (Array.isArray(value)) {
+        value.forEach(item => collectImageUrls(item, urls, depth + 1))
+        return
+    }
+
+    if (typeof value === 'string') {
+        if (value.trim()) {
+            urls.push(value)
+        }
+        return
+    }
+
+    if (typeof value !== 'object') {
+        return
+    }
+
+    const directKeys = [
+        'hd_pic',
+        'origin_url',
+        'origin',
+        'url3',
+        'url2',
+        'url1',
+        'url',
+        'photourl',
+        'smallurl',
+        'pre',
+        'raw',
+        'bigurl',
+        'b_url',
+        'o_url',
+        'pic_url',
+        'thumbnail',
+        'thumb'
+    ]
+
+    for (const key of directKeys) {
+        if (typeof value[key] === 'string' && value[key].trim()) {
+            urls.push(value[key])
+            return
+        }
+    }
+
+    for (const key of ['pic', 'pics', 'images', 'photo', 'photos', 'photolist', 'list']) {
+        collectImageUrls(value[key], urls, depth + 1)
+    }
 }
 
 function normalizeUrl(value) {
@@ -247,6 +413,10 @@ function normalizeUrl(value) {
         return url.replace(/^http:/, 'https:')
     }
     return url
+}
+
+function isUsableImageUrl(value) {
+    return /^https?:\/\//i.test(value)
 }
 
 function extractMeta(html, keys) {
@@ -332,7 +502,7 @@ function normalizePost(post) {
         title: cleanText(post.title || 'QQ Zone Post'),
         body: cleanText(post.body || post.content || ''),
         url: post.url || `https://user.qzone.qq.com/${QZONE_UIN}/311`,
-        images: Array.isArray(post.images) ? post.images.map(normalizeUrl).filter(Boolean).slice(0, 3) : []
+        images: Array.isArray(post.images) ? post.images.map(normalizeUrl).filter(isUsableImageUrl).slice(0, MAX_IMAGES) : []
     }
 }
 
@@ -358,24 +528,34 @@ function buildSyncStatus(postCount, harCount, shareCount, errors) {
 }
 
 function cleanText(value) {
-    return String(value || '')
+    return decodeEntities(String(value || '')
+        .replace(/<br\s*\/?>/gi, '\n')
+        .replace(/<\/p>/gi, '\n')
         .replace(/<[^>]*>/g, '')
-        .replace(/\[em\][^\[]*?\[\/em\]/g, '')
-        .replace(/\\n/g, ' ')
+        .replace(/\\n/g, '\n'))
+        .replace(/\r\n?/g, '\n')
         .replace(/&nbsp;/g, ' ')
-        .replace(/&amp;/g, '&')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/\s+/g, ' ')
+        .replace(/[ \t\f\v]+/g, ' ')
+        .replace(/\n{3,}/g, '\n\n')
         .trim()
 }
 
 function decodeEntities(value) {
     return String(value || '')
+        .replace(/&#x([0-9a-f]+);/gi, (raw, code) => decodeCodePoint(Number.parseInt(code, 16), raw))
+        .replace(/&#(\d+);/g, (raw, code) => decodeCodePoint(Number.parseInt(code, 10), raw))
         .replace(/&quot;/g, '"')
         .replace(/&#39;/g, "'")
         .replace(/&nbsp;/g, ' ')
         .replace(/&amp;/g, '&')
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
+}
+
+function decodeCodePoint(value, fallback) {
+    return Number.isFinite(value) && value >= 0 && value <= 0x10ffff ? String.fromCodePoint(value) : fallback
+}
+
+function mergeArrays(...groups) {
+    return groups.flatMap(group => Array.isArray(group) ? group : []).filter(Boolean)
 }

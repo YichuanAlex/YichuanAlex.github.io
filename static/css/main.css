@@ -725,6 +725,25 @@ a:hover {
     margin: 0;
 }
 
+.news-body {
+    white-space: pre-line;
+}
+
+.qq-emote {
+    display: inline-block;
+    width: 1.35em;
+    height: 1.35em;
+    margin: 0 0.08em;
+    object-fit: contain;
+    vertical-align: -0.28em;
+}
+
+.qq-emote-fallback {
+    display: inline-block;
+    margin: 0 0.08em;
+    vertical-align: -0.08em;
+}
+
 .news-source-panel a,
 .news-link {
     white-space: nowrap;
@@ -765,15 +784,16 @@ a:hover {
 }
 
 .news-images {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
     gap: 8px;
     margin-top: 12px;
 }
 
 .news-images img {
-    width: 108px;
-    height: 78px;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    height: auto;
     border-radius: 5px;
     object-fit: cover;
 }

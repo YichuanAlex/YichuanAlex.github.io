@@ -25,6 +25,7 @@ const visitorEarthState = {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('error', handleQqEmoteError, true)
     loadConfig()
     loadMarkdownSections()
     loadNewsFeed()
@@ -138,11 +139,33 @@ function renderNewsItem(item) {
                 <time>${escapeHtml(date)}</time>
             </div>
             <h3>${escapeHtml(title)}</h3>
-            <p>${escapeHtml(body)}</p>
+            <p class="news-body">${formatNewsBody(body)}</p>
             ${images.length ? `<div class="news-images">${images.map(src => `<img src="${escapeAttribute(src)}" alt="">`).join('')}</div>` : ''}
             ${item.url ? `<a class="news-link" href="${escapeAttribute(item.url)}" target="_blank" rel="noopener">Open original</a>` : ''}
         </article>
     `
+}
+
+function formatNewsBody(value) {
+    return escapeHtml(value)
+        .replace(/\[em\]([a-z0-9_-]+)\[\/em\]/gi, (_, code) => {
+            const safeCode = escapeAttribute(code)
+            return `<img class="qq-emote" src="https://qzonestyle.gtimg.cn/qzone/em/${safeCode}@2x.gif" alt="QQ emoji" title="${safeCode}" loading="lazy" decoding="async">`
+        })
+}
+
+function handleQqEmoteError(event) {
+    const target = event.target
+
+    if (!(target instanceof HTMLImageElement) || !target.classList.contains('qq-emote')) {
+        return
+    }
+
+    const fallback = document.createElement('span')
+    fallback.className = 'qq-emote-fallback'
+    fallback.textContent = '🙂'
+    fallback.title = target.title || 'QQ emoji'
+    target.replaceWith(fallback)
 }
 
 function formatDate(value) {
