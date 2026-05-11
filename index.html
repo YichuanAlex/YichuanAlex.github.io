@@ -50,13 +50,57 @@
 
             <nav class="side-nav" aria-label="Page navigation">
                 <a href="#about">About</a>
-                <a href="#research">Research</a>
                 <a href="#publications">Publications</a>
-                <a href="#experience">Experience</a>
-                <a href="#skills">Skills</a>
-                <a href="#stats">Statistics</a>
-                <a href="#blog">Blog</a>
+                <a href="#news">News</a>
             </nav>
+
+            <section id="stats" class="sidebar-stats" aria-label="Visitor statistics">
+                <div class="sidebar-stats-header">
+                    <h2>Visitor Earth</h2>
+                    <span>Live</span>
+                </div>
+                <div class="mini-stats-grid">
+                    <div><span>Page</span><strong id="vercount_value_page_pv">0</strong></div>
+                    <div><span>Site</span><strong id="vercount_value_site_pv">0</strong></div>
+                    <div><span>UV</span><strong id="vercount_value_site_uv">0</strong></div>
+                </div>
+
+                <div class="visitor-earth-shell sidebar-earth">
+                    <div class="earth-topbar">
+                        <div>
+                            <h3>Visitors</h3>
+                            <p id="visitor-region">Detecting region...</p>
+                        </div>
+                        <div class="earth-metrics" aria-label="Repository-backed visitor summary">
+                            <span><strong id="earth_total_visits">0</strong> visits</span>
+                            <span><strong id="earth_country_count">0</strong> countries</span>
+                        </div>
+                    </div>
+
+                    <div class="earth-layout">
+                        <div class="earth-stage">
+                            <canvas id="visitor-earth-canvas" width="360" height="240" aria-label="Visitor earth visualization"></canvas>
+                            <div class="earth-status">
+                                <span id="visitor-log-status">Repository-backed collector ready.</span>
+                            </div>
+                        </div>
+                        <aside class="earth-recent-panel">
+                            <h3>Recent</h3>
+                            <div id="earth_latest_visitors" class="earth-visitor-list">
+                                <p>No recorded visits yet.</p>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+
+                <div class="repo-mini">
+                    <span>Repo Visits <strong id="repo_total_visits">0</strong></span>
+                    <span>Unique <strong id="repo_unique_visitors">0</strong></span>
+                    <span id="repo_top_region">Pending</span>
+                    <span id="repo_region_list">No repository-backed visits recorded yet.</span>
+                    <span id="repo_updated_at">Pending</span>
+                </div>
+            </section>
 
             <div class="sidebar-note">
                 <span>WeChat: YichuanAlex</span>
@@ -74,94 +118,15 @@
                 <div class="main-body about-copy" id="home-md"></div>
             </section>
 
-            <section id="research" class="content-section">
-                <h2>Research</h2>
-                <div class="main-body" id="research-md"></div>
-            </section>
-
             <section id="publications" class="content-section">
                 <h2>Publications</h2>
                 <div class="main-body publication-list" id="publications-md"></div>
             </section>
 
-            <section id="experience" class="content-section">
-                <h2>Experience</h2>
-                <div class="main-body" id="experience-md"></div>
-            </section>
-
-            <section id="skills" class="content-section">
-                <h2>Skills</h2>
-                <div class="main-body" id="skills-md"></div>
-            </section>
-
-            <section id="credentials" class="content-section">
-                <h2>Education and Credentials</h2>
-                <div class="main-body" id="awards-md"></div>
-            </section>
-
-            <section id="stats" class="content-section">
-                <h2>Visitor Statistics</h2>
-                <h3 class="section-subtitle">Live Counters</h3>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span>Page Views</span>
-                        <strong id="vercount_value_page_pv">Loading</strong>
-                    </div>
-                    <div class="stat-card">
-                        <span>Site Visits</span>
-                        <strong id="vercount_value_site_pv">Loading</strong>
-                    </div>
-                    <div class="stat-card">
-                        <span>Unique Visitors</span>
-                        <strong id="vercount_value_site_uv">Loading</strong>
-                    </div>
-                </div>
-
-                <h3 class="section-subtitle">Repository-Backed Log</h3>
-                <div class="stats-grid repo-stats-grid">
-                    <div class="stat-card">
-                        <span>Recorded Visits</span>
-                        <strong id="repo_total_visits">0</strong>
-                    </div>
-                    <div class="stat-card">
-                        <span>Unique Visitors</span>
-                        <strong id="repo_unique_visitors">0</strong>
-                    </div>
-                    <div class="stat-card">
-                        <span>Top Region</span>
-                        <strong id="repo_top_region">Pending</strong>
-                    </div>
-                </div>
-                <div class="repo-region-panel">
-                    <div>
-                        <h3>Regional Distribution</h3>
-                        <p id="repo_region_list">No repository-backed visits recorded yet.</p>
-                    </div>
-                    <div>
-                        <h3>Last Repository Update</h3>
-                        <p id="repo_updated_at">Pending</p>
-                    </div>
-                </div>
-
-                <div class="visitor-panel">
-                    <div class="visitor-globe" id="visitor-globe" aria-label="Approximate current visitor region">
-                        <span class="globe-line horizontal one"></span>
-                        <span class="globe-line horizontal two"></span>
-                        <span class="globe-line vertical one"></span>
-                        <span class="globe-line vertical two"></span>
-                        <span class="visitor-pin" id="visitor-pin"></span>
-                    </div>
-                    <div class="visitor-copy">
-                        <h3>Current Visitor Region</h3>
-                        <p id="visitor-region">Detecting approximate region...</p>
-                        <p class="privacy-note" id="visitor-log-status">The repository-backed collector is ready. It records aggregate region data only and does not store raw IP addresses.</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="blog" class="content-section">
-                <h2>Blog</h2>
-                <div class="main-body" id="blog-md"></div>
+            <section id="news" class="content-section">
+                <h2>News</h2>
+                <div class="main-body" id="news-md"></div>
+                <div id="news-feed" class="news-feed"></div>
             </section>
         </main>
     </div>

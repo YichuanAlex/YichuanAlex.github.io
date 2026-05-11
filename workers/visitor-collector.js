@@ -78,6 +78,8 @@ async function buildVisitUpdate(request, env, body) {
         region,
         city,
         timezone,
+        latitude: cleanNumber(body.latitude || cf.latitude),
+        longitude: cleanNumber(body.longitude || cf.longitude),
         path: cleanPath(body.path || '/'),
         referrer: cleanUrl(body.referrer || '')
     }
@@ -109,6 +111,8 @@ function mergeVisit(stats, visit) {
         region: visit.region,
         city: visit.city,
         timezone: visit.timezone,
+        latitude: visit.latitude,
+        longitude: visit.longitude,
         path: visit.path,
         referrer: visit.referrer,
         visitor: visit.visitorHash.slice(0, 12)
@@ -193,6 +197,11 @@ function cleanPath(value) {
 
 function cleanUrl(value) {
     return String(value || '').replace(/[<>]/g, '').slice(0, 220)
+}
+
+function cleanNumber(value) {
+    const number = Number(value)
+    return Number.isFinite(number) ? number : ''
 }
 
 async function sha256(value) {

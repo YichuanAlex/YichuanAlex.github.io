@@ -1,0 +1,15 @@
+{
+  "manual": [
+    {
+      "date": "2026-05-11",
+      "title": "Personal Homepage Rebuilt",
+      "body": "The homepage was simplified into a research-focused academic layout with a compact visitor-earth dashboard and a data-driven news feed."
+    }
+  ],
+  "qzone": {
+    "profile_url": "https://user.qzone.qq.com/1527435659",
+    "last_synced_at": "",
+    "sync_status": "QQ Zone sync is ready. Add the QZONE_COOKIE GitHub Actions secret to fetch QQ Zone posts into this feed.",
+    "items": []
+  }
+}
