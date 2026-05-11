@@ -37,6 +37,16 @@ There are two supported ways to provide share links:
 
 The script will try to read Open Graph metadata from each share page and merge it with the cookie-backed feed.
 
+## HAR Import Fallback
+
+If Chrome's HAR export does not include the Cookie header but does include the `emotion_cgi_msglist_v6` response body, the script can import the captured posts locally:
+
+```bash
+QZONE_HAR_PATH=user.qzone.qq.com.har QZONE_LIMIT=20 node scripts/sync-qzone.mjs
+```
+
+This updates `data/news.json` from the HAR snapshot. It is useful for a one-time import, but it is not an automatic live sync. Treat HAR files like private login data and do not commit them to Git.
+
 The workflow runs `scripts/sync-qzone.mjs`, fetches recent QQ Zone posts, and commits them into `data/news.json`. The public website reads only that JSON file; it never exposes the QQ login cookie.
 
 ## Maintenance

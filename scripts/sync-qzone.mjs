@@ -5,12 +5,14 @@ const SHARE_LINKS_PATH = new URL('../data/qzone-share-links.json', import.meta.u
 const QZONE_UIN = process.env.QZONE_UIN || '1527435659'
 const QZONE_COOKIE = process.env.QZONE_COOKIE || ''
 const QZONE_SHARE_URLS = process.env.QZONE_SHARE_URLS || ''
+const QZONE_HAR_PATH = process.env.QZONE_HAR_PATH || ''
 const LIMIT = Math.max(1, Number(process.env.QZONE_LIMIT || 18))
 
 const news = JSON.parse(await readFile(DATA_PATH, 'utf8'))
 const existingPosts = Array.isArray(news.qzone?.items) ? news.qzone.items : []
 const errors = []
 let qzonePosts = []
+let harPosts = []
 let sharePosts = []
 
 if (QZONE_COOKIE) {
@@ -21,22 +23,30 @@ if (QZONE_COOKIE) {
     }
 }
 
+if (QZONE_HAR_PATH) {
+    try {
+        harPosts = await fetchQzonePostsFromHar(QZONE_HAR_PATH, LIMIT)
+    } catch (error) {
+        errors.push(`QZone HAR import failed: ${error.message}`)
+    }
+}
+
 const shareUrls = await loadShareUrls()
 if (shareUrls.length) {
     sharePosts = await fetchSharePosts(shareUrls, QZONE_COOKIE)
 }
 
-if (!QZONE_COOKIE && !shareUrls.length) {
-    console.log('Neither QZONE_COOKIE nor QZone share URLs are configured; leaving data/news.json unchanged.')
+if (!QZONE_COOKIE && !QZONE_HAR_PATH && !shareUrls.length) {
+    console.log('Neither QZONE_COOKIE, QZONE_HAR_PATH, nor QZone share URLs are configured; leaving data/news.json unchanged.')
     process.exit(0)
 }
 
-const mergedPosts = mergePosts(qzonePosts, sharePosts, existingPosts).slice(0, LIMIT)
+const mergedPosts = mergePosts(qzonePosts, harPosts, sharePosts, existingPosts).slice(0, LIMIT)
 
 news.qzone = Object.assign({}, news.qzone, {
     profile_url: `https://user.qzone.qq.com/${QZONE_UIN}`,
     last_synced_at: new Date().toISOString(),
-    sync_status: buildSyncStatus(qzonePosts.length, sharePosts.length, errors),
+    sync_status: buildSyncStatus(qzonePosts.length, harPosts.length, sharePosts.length, errors),
     items: mergedPosts
 })
 
@@ -77,14 +87,45 @@ async function fetchQzonePosts(uin, cookie, limit) {
 
     const msglist = Array.isArray(payload.msglist) ? payload.msglist : []
 
-    return msglist.map(post => ({
+    return msglist.map(post => mapQzonePost(post, uin)).filter(post => post.body || post.images.length)
+}
+
+async function fetchQzonePostsFromHar(path, limit) {
+    const har = JSON.parse(await readFile(path, 'utf8'))
+    const entries = Array.isArray(har.log?.entries) ? har.log.entries : []
+    const posts = []
+
+    entries
+        .filter(entry => /emotion_cgi_msglist_v6/.test(entry.request?.url || ''))
+        .forEach(entry => {
+            const content = entry.response?.content || {}
+            let text = content.text || ''
+            if (!text) {
+                return
+            }
+            if (content.encoding === 'base64') {
+                text = Buffer.from(text, 'base64').toString('utf8')
+            }
+            const payload = parseJsonp(text)
+            if (payload.code && Number(payload.code) !== 0) {
+                throw new Error(payload.message || payload.msg || `QZone HAR response returned code ${payload.code}`)
+            }
+            const msglist = Array.isArray(payload.msglist) ? payload.msglist : []
+            posts.push(...msglist.map(post => mapQzonePost(post, post.uin || QZONE_UIN)))
+        })
+
+    return mergePosts(posts).slice(0, limit)
+}
+
+function mapQzonePost(post, uin) {
+    return {
         id: post.tid || post.id || '',
         date: post.created_time ? new Date(Number(post.created_time) * 1000).toISOString() : new Date().toISOString(),
         title: 'QQ Zone Post',
         body: cleanText(post.content || conlistText(post) || post.shortcon || ''),
         url: post.tid ? `https://user.qzone.qq.com/${uin}/311/${post.tid}` : `https://user.qzone.qq.com/${uin}/311`,
         images: imageUrlsFromPost(post).slice(0, 3)
-    })).filter(post => post.body || post.images.length)
+    }
 }
 
 async function loadShareUrls() {
@@ -202,6 +243,9 @@ function normalizeUrl(value) {
     if (url.startsWith('//')) {
         return `https:${url}`
     }
+    if (url.startsWith('http://')) {
+        return url.replace(/^http:/, 'https:')
+    }
     return url
 }
 
@@ -292,12 +336,17 @@ function normalizePost(post) {
     }
 }
 
-function buildSyncStatus(postCount, shareCount, errors) {
+function buildSyncStatus(postCount, harCount, shareCount, errors) {
     const parts = []
     if (QZONE_COOKIE) {
         parts.push(`Fetched ${postCount} QQ Zone posts`)
-    } else {
+    } else if (!harCount) {
         parts.push('QZONE_COOKIE is not configured')
+    }
+    if (harCount) {
+        parts.push(`Imported ${harCount} QQ Zone posts from HAR`)
+    } else {
+        parts.push('HAR import is not configured')
     }
     if (shareCount) {
         parts.push(`parsed ${shareCount} shared links`)
@@ -311,6 +360,7 @@ function buildSyncStatus(postCount, shareCount, errors) {
 function cleanText(value) {
     return String(value || '')
         .replace(/<[^>]*>/g, '')
+        .replace(/\[em\][^\[]*?\[\/em\]/g, '')
         .replace(/\\n/g, ' ')
         .replace(/&nbsp;/g, ' ')
         .replace(/&amp;/g, '&')
