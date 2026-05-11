@@ -5,7 +5,23 @@ const visitorEarthState = {
     stats: {},
     current: null,
     stars: [],
-    animationStarted: false
+    animationStarted: false,
+    globe: {
+        renderer: null,
+        scene: null,
+        camera: null,
+        group: null,
+        pinGroup: null,
+        interactivePins: [],
+        raycaster: null,
+        pointer: null,
+        pointerActive: false,
+        dragging: false,
+        lastPointer: { x: 0, y: 0 },
+        targetScale: 1,
+        scale: 1,
+        interactionsAttached: false
+    }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -275,13 +291,23 @@ function initVisitorEarthCanvas() {
     }
 
     visitorEarthState.stars = buildStarField(160)
+    try {
+        initThreeVisitorGlobe(canvas)
+    } catch (error) {
+        console.log('Three.js visitor globe unavailable; falling back to canvas renderer.', error)
+        resetThreeVisitorGlobe()
+    }
     if (!visitorEarthState.animationStarted) {
         visitorEarthState.animationStarted = true
         requestAnimationFrame(drawVisitorEarth)
     }
 
     window.addEventListener('resize', () => {
-        resizeEarthCanvas(canvas)
+        if (visitorEarthState.globe.renderer) {
+            resizeThreeGlobe()
+        } else {
+            resizeEarthCanvas(canvas)
+        }
     })
 }
 
@@ -299,6 +325,7 @@ function renderEarthDashboard() {
     setText('earth_total_visits', Math.max(Number(stats.total_visits || 0), visits.length ? 1 : 0).toLocaleString())
     setText('earth_country_count', countries.size.toLocaleString())
     renderLatestVisitors(visits)
+    syncGlobePins(visits)
 }
 
 function collectEarthVisits() {
@@ -388,7 +415,488 @@ function renderLatestVisitors(visits) {
     }).join('')
 }
 
+function initThreeVisitorGlobe(canvas) {
+    const THREE = window.THREE
+    const globe = visitorEarthState.globe
+
+    if (!THREE || globe.renderer) {
+        return
+    }
+
+    const renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: true
+    })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+    renderer.setClearColor(0x000000, 0)
+
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100)
+    camera.position.set(0, 0, 3.9)
+
+    const group = new THREE.Group()
+    group.rotation.x = toRadians(-8)
+    scene.add(group)
+
+    const earthMaterial = new THREE.MeshPhongMaterial({
+        map: createEarthTexture(THREE),
+        specular: new THREE.Color(0x0f3a5f),
+        shininess: 18
+    })
+    const earth = new THREE.Mesh(new THREE.SphereGeometry(1, 96, 96), earthMaterial)
+    group.add(earth)
+
+    const clouds = new THREE.Mesh(
+        new THREE.SphereGeometry(1.012, 96, 96),
+        new THREE.MeshLambertMaterial({
+            map: createCloudTexture(THREE),
+            transparent: true,
+            opacity: 0.24,
+            depthWrite: false
+        })
+    )
+    group.add(clouds)
+
+    const pinGroup = new THREE.Group()
+    group.add(pinGroup)
+
+    const ambient = new THREE.AmbientLight(0xffffff, 1.9)
+    const sun = new THREE.DirectionalLight(0xffffff, 2.25)
+    sun.position.set(-2.2, 1.4, 3.2)
+    const rim = new THREE.DirectionalLight(0x60a5fa, 0.75)
+    rim.position.set(2.8, -1.2, -2.4)
+    scene.add(ambient, sun, rim)
+    scene.add(createStarPoints(THREE))
+
+    Object.assign(globe, {
+        renderer,
+        scene,
+        camera,
+        group,
+        clouds,
+        pinGroup,
+        raycaster: new THREE.Raycaster(),
+        pointer: new THREE.Vector2(-4, -4),
+        pointerActive: false,
+        targetScale: 1,
+        scale: 1,
+        interactivePins: []
+    })
+
+    focusThreeGlobe()
+    attachGlobeInteractions(canvas)
+    resizeThreeGlobe()
+    syncGlobePins(collectEarthVisits())
+    setText('visitor-log-status', 'Drag · zoom · hover visitor')
+}
+
+function resetThreeVisitorGlobe() {
+    Object.assign(visitorEarthState.globe, {
+        renderer: null,
+        scene: null,
+        camera: null,
+        group: null,
+        pinGroup: null,
+        interactivePins: [],
+        raycaster: null,
+        pointer: null,
+        pointerActive: false,
+        dragging: false
+    })
+}
+
+function createEarthTexture(THREE) {
+    const canvas = document.createElement('canvas')
+    canvas.width = 1024
+    canvas.height = 512
+    const ctx = canvas.getContext('2d')
+    const ocean = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
+    ocean.addColorStop(0, '#0b3d91')
+    ocean.addColorStop(0.36, '#1261c4')
+    ocean.addColorStop(0.68, '#071f57')
+    ocean.addColorStop(1, '#02142d')
+    ctx.fillStyle = ocean
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+    ctx.save()
+    ctx.globalAlpha = 0.28
+    ctx.strokeStyle = '#8bd3ff'
+    ctx.lineWidth = 1
+    for (let lon = -150; lon <= 180; lon += 30) {
+        const x = lonToTextureX(lon, canvas.width)
+        ctx.beginPath()
+        ctx.moveTo(x, 0)
+        ctx.lineTo(x, canvas.height)
+        ctx.stroke()
+    }
+    for (let lat = -60; lat <= 60; lat += 30) {
+        const y = latToTextureY(lat, canvas.height)
+        ctx.beginPath()
+        ctx.moveTo(0, y)
+        ctx.lineTo(canvas.width, y)
+        ctx.stroke()
+    }
+    ctx.restore()
+
+    landMasses().forEach((land, index) => {
+        ctx.beginPath()
+        land.points.forEach(([lat, lon], pointIndex) => {
+            const x = lonToTextureX(lon, canvas.width)
+            const y = latToTextureY(lat, canvas.height)
+            if (pointIndex === 0) {
+                ctx.moveTo(x, y)
+            } else {
+                ctx.lineTo(x, y)
+            }
+        })
+        ctx.closePath()
+        ctx.fillStyle = index % 2 ? '#b8a960' : '#4f9b5c'
+        ctx.fill()
+        ctx.strokeStyle = 'rgba(245, 245, 220, 0.52)'
+        ctx.lineWidth = 2
+        ctx.stroke()
+    })
+
+    const texture = new THREE.CanvasTexture(canvas)
+    if (THREE.SRGBColorSpace) {
+        texture.colorSpace = THREE.SRGBColorSpace
+    }
+    texture.anisotropy = 4
+    return texture
+}
+
+function createCloudTexture(THREE) {
+    const canvas = document.createElement('canvas')
+    canvas.width = 1024
+    canvas.height = 512
+    const ctx = canvas.getContext('2d')
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)'
+    ctx.lineWidth = 11
+    for (let index = 0; index < 12; index += 1) {
+        const y = 80 + index * 32
+        ctx.beginPath()
+        for (let x = -40; x <= canvas.width + 40; x += 24) {
+            const wave = Math.sin(x * 0.015 + index) * 9
+            if (x === -40) {
+                ctx.moveTo(x, y + wave)
+            } else {
+                ctx.lineTo(x, y + wave)
+            }
+        }
+        ctx.stroke()
+    }
+    const texture = new THREE.CanvasTexture(canvas)
+    if (THREE.SRGBColorSpace) {
+        texture.colorSpace = THREE.SRGBColorSpace
+    }
+    return texture
+}
+
+function createStarPoints(THREE) {
+    const geometry = new THREE.BufferGeometry()
+    const positions = []
+    let seed = 991
+    const random = () => {
+        seed = (seed * 48271) % 2147483647
+        return (seed - 1) / 2147483646
+    }
+
+    for (let index = 0; index < 260; index += 1) {
+        positions.push((random() - 0.5) * 7.8, (random() - 0.5) * 4.8, -2.4 - random() * 1.8)
+    }
+
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3))
+    return new THREE.Points(geometry, new THREE.PointsMaterial({
+        color: 0xdbeafe,
+        size: 0.012,
+        transparent: true,
+        opacity: 0.78
+    }))
+}
+
+function attachGlobeInteractions(canvas) {
+    const globe = visitorEarthState.globe
+
+    if (globe.interactionsAttached) {
+        return
+    }
+
+    canvas.addEventListener('pointerdown', event => {
+        globe.dragging = true
+        globe.lastPointer = { x: event.clientX, y: event.clientY }
+        canvas.setPointerCapture(event.pointerId)
+    })
+
+    canvas.addEventListener('pointermove', event => {
+        updateGlobePointer(event)
+        if (!globe.dragging || !globe.group) {
+            return
+        }
+
+        const deltaX = event.clientX - globe.lastPointer.x
+        const deltaY = event.clientY - globe.lastPointer.y
+        globe.group.rotation.y += deltaX * 0.0065
+        globe.group.rotation.x = clamp(globe.group.rotation.x + deltaY * 0.0045, -1.05, 1.05)
+        globe.lastPointer = { x: event.clientX, y: event.clientY }
+        hideGlobeTooltip()
+    })
+
+    canvas.addEventListener('pointerup', event => {
+        globe.dragging = false
+        if (canvas.hasPointerCapture(event.pointerId)) {
+            canvas.releasePointerCapture(event.pointerId)
+        }
+    })
+
+    canvas.addEventListener('pointercancel', () => {
+        globe.dragging = false
+    })
+
+    canvas.addEventListener('pointerleave', () => {
+        globe.pointerActive = false
+        globe.dragging = false
+        hideGlobeTooltip()
+    })
+
+    canvas.addEventListener('wheel', event => {
+        event.preventDefault()
+        globe.targetScale = clamp(globe.targetScale + (event.deltaY > 0 ? -0.08 : 0.08), 0.82, 1.42)
+    }, { passive: false })
+
+    globe.interactionsAttached = true
+}
+
+function updateGlobePointer(event) {
+    const globe = visitorEarthState.globe
+    const rect = event.currentTarget.getBoundingClientRect()
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
+    globe.pointer.x = (x / rect.width) * 2 - 1
+    globe.pointer.y = -(y / rect.height) * 2 + 1
+    globe.pointerActive = true
+    globe.pointerScreen = { x, y }
+}
+
+function syncGlobePins(visits) {
+    const THREE = window.THREE
+    const globe = visitorEarthState.globe
+
+    if (!THREE || !globe.pinGroup) {
+        return
+    }
+
+    while (globe.pinGroup.children.length) {
+        globe.pinGroup.remove(globe.pinGroup.children[0])
+    }
+
+    globe.interactivePins = []
+    visits.slice(0, 18).forEach((visit, index) => {
+        if (!Number.isFinite(visit.latitude) || !Number.isFinite(visit.longitude)) {
+            return
+        }
+
+        const base = latLonToVector3(THREE, visit.latitude, visit.longitude, 1.03)
+        const pinMaterial = new THREE.MeshBasicMaterial({ color: visit.isCurrent ? 0xfacc15 : 0xef4444 })
+        const pin = new THREE.Mesh(new THREE.SphereGeometry(visit.isCurrent ? 0.035 : 0.025, 18, 18), pinMaterial)
+        pin.position.copy(base)
+        pin.userData.visit = visit
+        globe.pinGroup.add(pin)
+        globe.interactivePins.push(pin)
+
+        const glow = new THREE.Sprite(new THREE.SpriteMaterial({
+            map: createPinGlowTexture(THREE, visit.isCurrent ? '#facc15' : '#ef4444'),
+            transparent: true,
+            opacity: visit.isCurrent ? 0.72 : 0.5,
+            depthWrite: false
+        }))
+        glow.position.copy(latLonToVector3(THREE, visit.latitude, visit.longitude, 1.04))
+        glow.scale.set(visit.isCurrent ? 0.28 : 0.18, visit.isCurrent ? 0.28 : 0.18, 1)
+        glow.userData.visit = visit
+        globe.pinGroup.add(glow)
+
+        if (visit.isCurrent || index < 2) {
+            const label = createGlobeLabel(THREE, visit)
+            label.position.copy(latLonToVector3(THREE, visit.latitude, visit.longitude, 1.2))
+            globe.pinGroup.add(label)
+        }
+    })
+
+    focusThreeGlobe()
+}
+
+function createPinGlowTexture(THREE, color) {
+    const canvas = document.createElement('canvas')
+    canvas.width = 96
+    canvas.height = 96
+    const ctx = canvas.getContext('2d')
+    const gradient = ctx.createRadialGradient(48, 48, 4, 48, 48, 46)
+    gradient.addColorStop(0, color)
+    gradient.addColorStop(0.34, `${color}99`)
+    gradient.addColorStop(1, `${color}00`)
+    ctx.fillStyle = gradient
+    ctx.beginPath()
+    ctx.arc(48, 48, 46, 0, Math.PI * 2)
+    ctx.fill()
+    return new THREE.CanvasTexture(canvas)
+}
+
+function createGlobeLabel(THREE, visit) {
+    const label = [visit.city, visit.region || visit.country].filter(Boolean).join(', ') || 'Visitor'
+    const text = label.slice(0, 24)
+    const canvas = document.createElement('canvas')
+    canvas.width = 384
+    canvas.height = 96
+    const ctx = canvas.getContext('2d')
+    ctx.font = '700 30px Inter, sans-serif'
+    const textWidth = Math.min(340, ctx.measureText(text).width + 44)
+    const x = (canvas.width - textWidth) / 2
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.82)'
+    roundRect(ctx, x, 20, textWidth, 48, 9)
+    ctx.fill()
+    ctx.strokeStyle = 'rgba(96, 165, 250, 0.5)'
+    ctx.stroke()
+    ctx.fillStyle = '#e0f2fe'
+    ctx.fillText(text, x + 22, 53)
+
+    const texture = new THREE.CanvasTexture(canvas)
+    if (THREE.SRGBColorSpace) {
+        texture.colorSpace = THREE.SRGBColorSpace
+    }
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: texture,
+        transparent: true,
+        depthWrite: false
+    }))
+    sprite.scale.set(0.72, 0.18, 1)
+    return sprite
+}
+
+function drawThreeVisitorGlobe() {
+    const globe = visitorEarthState.globe
+
+    if (!globe.renderer || !globe.scene || !globe.camera || !globe.group) {
+        return false
+    }
+
+    resizeThreeGlobe()
+
+    if (!globe.dragging) {
+        globe.group.rotation.y += 0.0022
+        if (globe.clouds) {
+            globe.clouds.rotation.y += 0.0007
+        }
+    }
+
+    globe.scale += (globe.targetScale - globe.scale) * 0.08
+    globe.group.scale.setScalar(globe.scale)
+    updateGlobeHover()
+    globe.renderer.render(globe.scene, globe.camera)
+    return true
+}
+
+function resizeThreeGlobe() {
+    const globe = visitorEarthState.globe
+
+    if (!globe.renderer || !globe.camera) {
+        return
+    }
+
+    const canvas = globe.renderer.domElement
+    const width = Math.max(120, Math.floor(canvas.clientWidth || canvas.getBoundingClientRect().width || 240))
+    const height = Math.max(120, Math.floor(canvas.clientHeight || canvas.getBoundingClientRect().height || 240))
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
+
+    globe.renderer.setPixelRatio(pixelRatio)
+    globe.renderer.setSize(width, height, false)
+    globe.camera.aspect = width / height
+    globe.camera.updateProjectionMatrix()
+}
+
+function updateGlobeHover() {
+    const globe = visitorEarthState.globe
+
+    if (!globe.pointerActive || globe.dragging || !globe.interactivePins.length) {
+        hideGlobeTooltip()
+        return
+    }
+
+    globe.raycaster.setFromCamera(globe.pointer, globe.camera)
+    const [hit] = globe.raycaster.intersectObjects(globe.interactivePins, false)
+
+    if (!hit || !hit.object.userData.visit) {
+        hideGlobeTooltip()
+        return
+    }
+
+    showGlobeTooltip(hit.object.userData.visit, globe.pointerScreen)
+}
+
+function showGlobeTooltip(visit, pointer) {
+    const tooltip = document.getElementById('visitor-earth-tooltip')
+
+    if (!tooltip || !pointer) {
+        return
+    }
+
+    const place = [visit.city, visit.region, visit.country].filter(Boolean).join(', ') || 'Unknown region'
+    tooltip.textContent = `${place} · ${relativeTime(visit.time)}`
+    tooltip.style.display = 'block'
+    tooltip.style.left = `${Math.max(18, Math.min(pointer.x, tooltip.parentElement.clientWidth - 18))}px`
+    tooltip.style.top = `${Math.max(18, pointer.y - 12)}px`
+}
+
+function hideGlobeTooltip() {
+    const tooltip = document.getElementById('visitor-earth-tooltip')
+
+    if (tooltip) {
+        tooltip.style.display = 'none'
+    }
+}
+
+function focusThreeGlobe() {
+    const globe = visitorEarthState.globe
+
+    if (!globe.group || globe.dragging) {
+        return
+    }
+
+    const focus = collectEarthVisits().find(visit => Number.isFinite(visit.longitude))
+    if (focus && !globe.hasFocused) {
+        globe.group.rotation.y = toRadians(Number(focus.longitude) + 180)
+        globe.hasFocused = true
+    }
+}
+
+function latLonToVector3(THREE, latitudeValue, longitudeValue, radius) {
+    const latitude = toRadians(Number(latitudeValue))
+    const longitude = toRadians(Number(longitudeValue) + 180)
+    return new THREE.Vector3(
+        -radius * Math.sin(longitude) * Math.cos(latitude),
+        radius * Math.sin(latitude),
+        radius * Math.cos(longitude) * Math.cos(latitude)
+    )
+}
+
+function lonToTextureX(lon, width) {
+    return ((Number(lon) + 180) / 360) * width
+}
+
+function latToTextureY(lat, height) {
+    return ((90 - Number(lat)) / 180) * height
+}
+
+function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value))
+}
+
 function drawVisitorEarth() {
+    if (drawThreeVisitorGlobe()) {
+        requestAnimationFrame(drawVisitorEarth)
+        return
+    }
+
     const canvas = document.getElementById('visitor-earth-canvas')
 
     if (!canvas) {
@@ -402,8 +910,8 @@ function drawVisitorEarth() {
     const height = size.height
     const now = Date.now()
     const radius = Math.min(width * 0.43, height * 0.45)
-    const centerX = width * 0.43
-    const centerY = height * 0.48
+    const centerX = width * 0.5
+    const centerY = height * 0.5
     const centerLon = earthFocusLongitude() + Math.sin(now * 0.00008) * 6
     const centerLat = 8
 
@@ -811,7 +1319,7 @@ function submitVisitorEvent(data, statusNode) {
 
     if (!endpoint) {
         if (statusNode) {
-            statusNode.textContent = 'Repository-backed logging is configured in the codebase. Deploy the collector endpoint to start writing aggregate visits into data/visitor-stats.json.'
+            statusNode.textContent = 'Drag · zoom · hover visitor'
         }
         return
     }
@@ -845,12 +1353,12 @@ function submitVisitorEvent(data, statusNode) {
                 applyRepositoryStats(result.stats)
             }
             if (statusNode) {
-                statusNode.textContent = 'This visit was sent to the repository-backed aggregate logger. Raw IP addresses are not stored.'
+                statusNode.textContent = 'Visit recorded · drag · hover'
             }
         })
         .catch(() => {
             if (statusNode) {
-                statusNode.textContent = 'Live counters are available. Repository-backed logging is temporarily unavailable.'
+                statusNode.textContent = 'Live counters ready · drag · hover'
             }
         })
 }

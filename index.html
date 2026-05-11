@@ -19,6 +19,7 @@
     <script type="text/javascript" src="static/js/js-yaml.min.js"></script>
     <script type="text/javascript" src="static/js/visitor-config.js"></script>
     <script defer src="https://events.vercount.one/js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
     <script type="text/javascript" src="static/js/scripts.js"></script>
 </head>
 
@@ -27,7 +28,10 @@
         <aside class="sidebar">
             <div class="profile-block">
                 <img class="profile-photo" src="static/assets/img/photo.jpg" alt="Zixi Jiang" />
-                <h1 id="page-top-title">Zixi Jiang</h1>
+                <div class="name-row">
+                    <h1 id="page-top-title">Zixi Jiang</h1>
+                    <img class="signature-image" src="static/assets/img/jiangzixi-sign-agreement.jpg" alt="江子曦 handwritten signature" />
+                </div>
                 <p class="profile-title">B.S. Candidate in Data Science and Big Data Technology</p>
                 <p class="profile-affiliation">Anhui University</p>
                 <div class="profile-badges" aria-label="Research and engineering tags">
@@ -80,6 +84,7 @@
                     <div class="earth-layout">
                         <div class="earth-stage">
                             <canvas id="visitor-earth-canvas" width="360" height="240" aria-label="Visitor earth visualization"></canvas>
+                            <div id="visitor-earth-tooltip" class="earth-tooltip" role="status"></div>
                             <div class="earth-status">
                                 <span id="visitor-log-status">Repository-backed collector ready.</span>
                             </div>
