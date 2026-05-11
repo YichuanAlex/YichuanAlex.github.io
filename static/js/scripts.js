@@ -18,8 +18,8 @@ const visitorEarthState = {
         pointerActive: false,
         dragging: false,
         lastPointer: { x: 0, y: 0 },
-        targetScale: 1,
-        scale: 1,
+        targetScale: 0.92,
+        scale: 0.92,
         interactionsAttached: false
     }
 }
@@ -479,8 +479,8 @@ function initThreeVisitorGlobe(canvas) {
         raycaster: new THREE.Raycaster(),
         pointer: new THREE.Vector2(-4, -4),
         pointerActive: false,
-        targetScale: 1,
-        scale: 1,
+        targetScale: 0.92,
+        scale: 0.92,
         interactivePins: []
     })
 
@@ -507,58 +507,17 @@ function resetThreeVisitorGlobe() {
 }
 
 function createEarthTexture(THREE) {
-    const canvas = document.createElement('canvas')
-    canvas.width = 1024
-    canvas.height = 512
-    const ctx = canvas.getContext('2d')
-    const ocean = ctx.createLinearGradient(0, 0, canvas.width, canvas.height)
-    ocean.addColorStop(0, '#0b3d91')
-    ocean.addColorStop(0.36, '#1261c4')
-    ocean.addColorStop(0.68, '#071f57')
-    ocean.addColorStop(1, '#02142d')
-    ctx.fillStyle = ocean
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
-
-    ctx.save()
-    ctx.globalAlpha = 0.28
-    ctx.strokeStyle = '#8bd3ff'
-    ctx.lineWidth = 1
-    for (let lon = -150; lon <= 180; lon += 30) {
-        const x = lonToTextureX(lon, canvas.width)
-        ctx.beginPath()
-        ctx.moveTo(x, 0)
-        ctx.lineTo(x, canvas.height)
-        ctx.stroke()
-    }
-    for (let lat = -60; lat <= 60; lat += 30) {
-        const y = latToTextureY(lat, canvas.height)
-        ctx.beginPath()
-        ctx.moveTo(0, y)
-        ctx.lineTo(canvas.width, y)
-        ctx.stroke()
-    }
-    ctx.restore()
-
-    landMasses().forEach((land, index) => {
-        ctx.beginPath()
-        land.points.forEach(([lat, lon], pointIndex) => {
-            const x = lonToTextureX(lon, canvas.width)
-            const y = latToTextureY(lat, canvas.height)
-            if (pointIndex === 0) {
-                ctx.moveTo(x, y)
-            } else {
-                ctx.lineTo(x, y)
+    const texture = new THREE.TextureLoader().load(
+        'static/assets/img/earth_atmos_2048.jpg',
+        loaded => {
+            if (THREE.SRGBColorSpace) {
+                loaded.colorSpace = THREE.SRGBColorSpace
             }
-        })
-        ctx.closePath()
-        ctx.fillStyle = index % 2 ? '#b8a960' : '#4f9b5c'
-        ctx.fill()
-        ctx.strokeStyle = 'rgba(245, 245, 220, 0.52)'
-        ctx.lineWidth = 2
-        ctx.stroke()
-    })
-
-    const texture = new THREE.CanvasTexture(canvas)
+            loaded.anisotropy = 4
+        },
+        undefined,
+        () => {}
+    )
     if (THREE.SRGBColorSpace) {
         texture.colorSpace = THREE.SRGBColorSpace
     }
@@ -567,27 +526,16 @@ function createEarthTexture(THREE) {
 }
 
 function createCloudTexture(THREE) {
-    const canvas = document.createElement('canvas')
-    canvas.width = 1024
-    canvas.height = 512
-    const ctx = canvas.getContext('2d')
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)'
-    ctx.lineWidth = 11
-    for (let index = 0; index < 12; index += 1) {
-        const y = 80 + index * 32
-        ctx.beginPath()
-        for (let x = -40; x <= canvas.width + 40; x += 24) {
-            const wave = Math.sin(x * 0.015 + index) * 9
-            if (x === -40) {
-                ctx.moveTo(x, y + wave)
-            } else {
-                ctx.lineTo(x, y + wave)
+    const texture = new THREE.TextureLoader().load(
+        'static/assets/img/earth_clouds_1024.png',
+        loaded => {
+            if (THREE.SRGBColorSpace) {
+                loaded.colorSpace = THREE.SRGBColorSpace
             }
-        }
-        ctx.stroke()
-    }
-    const texture = new THREE.CanvasTexture(canvas)
+        },
+        undefined,
+        () => {}
+    )
     if (THREE.SRGBColorSpace) {
         texture.colorSpace = THREE.SRGBColorSpace
     }
@@ -662,7 +610,7 @@ function attachGlobeInteractions(canvas) {
 
     canvas.addEventListener('wheel', event => {
         event.preventDefault()
-        globe.targetScale = clamp(globe.targetScale + (event.deltaY > 0 ? -0.08 : 0.08), 0.82, 1.42)
+        globe.targetScale = clamp(globe.targetScale + (event.deltaY > 0 ? -0.06 : 0.06), 0.72, 1.04)
     }, { passive: false })
 
     globe.interactionsAttached = true
@@ -864,7 +812,7 @@ function focusThreeGlobe() {
 
     const focus = collectEarthVisits().find(visit => Number.isFinite(visit.longitude))
     if (focus && !globe.hasFocused) {
-        globe.group.rotation.y = toRadians(Number(focus.longitude) + 180)
+        globe.group.rotation.y = toRadians(-Number(focus.longitude) - 90)
         globe.hasFocused = true
     }
 }
@@ -873,18 +821,10 @@ function latLonToVector3(THREE, latitudeValue, longitudeValue, radius) {
     const latitude = toRadians(Number(latitudeValue))
     const longitude = toRadians(Number(longitudeValue) + 180)
     return new THREE.Vector3(
-        -radius * Math.sin(longitude) * Math.cos(latitude),
+        -radius * Math.cos(longitude) * Math.cos(latitude),
         radius * Math.sin(latitude),
-        radius * Math.cos(longitude) * Math.cos(latitude)
+        radius * Math.sin(longitude) * Math.cos(latitude)
     )
-}
-
-function lonToTextureX(lon, width) {
-    return ((Number(lon) + 180) / 360) * width
-}
-
-function latToTextureY(lat, height) {
-    return ((90 - Number(lat)) / 180) * height
 }
 
 function clamp(value, min, max) {
