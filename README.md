@@ -47,4 +47,6 @@ See `docs/visitor-stats.md` for deployment variables and privacy notes.
 
 The News section reads `data/news.json`. Manual updates can be edited directly. QQ Zone posts can be synchronized by adding the `QZONE_COOKIE` repository secret and running the `Sync QQ Zone News` GitHub Actions workflow.
 
-See `docs/qzone-news-sync.md` for setup details.
+The sync workflow now runs twice per hour and can also merge selected H5 share links from `data/qzone-share-links.json` or the optional `QZONE_SHARE_URLS` secret.
+
+See `docs/qzone-news-sync.md` for setup details and cookie safety notes.
