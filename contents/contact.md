@@ -14,6 +14,11 @@
     <span>LinkedIn</span>
     <strong>linkedin.com/in/zixijiang</strong>
   </a>
+  <a class="contact-card" href="https://github.com/YichuanAlex" target="_blank" rel="noopener">
+    <i class="bi bi-github"></i>
+    <span>GitHub</span>
+    <strong>github.com/YichuanAlex</strong>
+  </a>
   <a class="contact-card" href="https://orcid.org/0009-0001-6302-6107" target="_blank" rel="noopener">
     <i class="bi bi-person-badge-fill"></i>
     <span>ORCID</span>
