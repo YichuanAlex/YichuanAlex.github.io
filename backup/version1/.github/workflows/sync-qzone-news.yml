@@ -1,0 +1,34 @@
+name: Sync QQ Zone News
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 2 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Fetch QQ Zone posts
+        run: node scripts/sync-qzone.mjs
+        env:
+          QZONE_UIN: "1527435659"
+          QZONE_COOKIE: ${{ secrets.QZONE_COOKIE }}
+      - name: Commit updated news
+        run: |
+          if git diff --quiet -- data/news.json; then
+            echo "No QQ Zone news changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/news.json
+          git commit -m "chore: sync QQ Zone news"
+          git push

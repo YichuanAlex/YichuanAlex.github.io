@@ -1,0 +1,13 @@
+{
+  "total_visits": 0,
+  "unique_visitors": 0,
+  "regions": {},
+  "countries": {},
+  "recent_visits": [],
+  "visitor_hashes": {},
+  "updated_at": "",
+  "meta": {
+    "storage": "GitHub repository",
+    "privacy": "Stores aggregate region counts and salted visitor hashes only. Raw IP addresses are not stored."
+  }
+}
