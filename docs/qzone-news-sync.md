@@ -13,16 +13,44 @@ This is near-real-time, not true browser real-time. A static GitHub Pages page m
 
 ## Setup
 
-1. Open QQ Zone in Chrome while logged in to QQ `1527435659`.
-2. Open DevTools, select the Network tab, then refresh your QQ Zone page.
-3. Filter requests by `emotion_cgi_msglist_v6`, `taotao.qq.com`, or `user.qzone.qq.com`.
-4. Click the request that returns your recent posts.
-5. In Request Headers, copy only the full `Cookie` value. It should usually include `p_skey` or `skey`.
-6. Open `https://github.com/YichuanAlex/YichuanAlex.github.io`.
-7. Go to Settings -> Secrets and variables -> Actions -> New repository secret.
-8. Name the secret `QZONE_COOKIE`.
-9. Paste the full cookie string as the secret value, then save.
-10. Go to Actions -> Sync QQ Zone News -> Run workflow.
+The easiest setup is the automated local capture helper. It opens a real Chrome QQ Zone login page, listens to Chrome's own network events, and updates `data/news.json` after it sees `emotion_cgi_msglist_v6`.
+
+```bash
+node scripts/capture-qzone-session.mjs --keep-open
+```
+
+Then:
+
+1. Log in to QQ Zone in the Chrome window opened by the script.
+2. If the feed is not visible after login, open `https://user.qzone.qq.com/1527435659/infocenter?loginfrom=31` or click 说说.
+3. Wait until the terminal prints `Captured ... posts`.
+4. Review `data/news.json`.
+5. Commit and push the changed News data if it looks correct.
+
+The helper writes temporary capture files to `/private/tmp/qzone-capture/`:
+
+- `qzone-capture.har`: response snapshot used for local import.
+- `qzone-fields.json`: non-secret report showing endpoint, request params, cookie names, sample post keys, and sample image keys.
+- `qzone-cookie.txt`: the captured Cookie value, mode `0600`; do not commit this file.
+
+To enable scheduled GitHub Actions sync, put the content of `/private/tmp/qzone-capture/qzone-cookie.txt` into a repository secret:
+
+1. Open `https://github.com/YichuanAlex/YichuanAlex.github.io`.
+2. Go to Settings -> Secrets and variables -> Actions -> New repository secret.
+3. Name the secret `QZONE_COOKIE`.
+4. Paste the cookie string as the secret value, then save.
+5. Go to Actions -> Sync QQ Zone News -> Run workflow.
+
+If the helper cannot open Chrome automatically, start Chrome manually with remote debugging and attach to it:
+
+```bash
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+  --remote-debugging-port=9222 \
+  --user-data-dir=/private/tmp/qzone-capture/chrome-profile \
+  "https://user.qzone.qq.com/1527435659/infocenter?loginfrom=31"
+
+node scripts/capture-qzone-session.mjs --attach --keep-open
+```
 
 The workflow also runs automatically twice per hour at minute 17 and 47. GitHub may delay scheduled workflows, so this should be treated as near-real-time synchronization.
 
