@@ -61,7 +61,7 @@ async function main() {
     await cdp.send('Page.navigate', { url: loginUrl })
 
     console.log('[qzone-capture] Chrome is open. Log in to QQ Zone in that browser window.')
-    console.log('[qzone-capture] After login, open the QQ Zone feed or click Shuoshuo/说说 if needed.')
+    console.log('[qzone-capture] After login, open the QQ Zone feed or click the status-feed tab if needed.')
     console.log(`[qzone-capture] Waiting for ${TARGET_CGI} for up to ${Math.round(timeoutMs / 1000)} seconds...`)
 
     const result = await capture.waitForMsgList(timeoutMs)
@@ -212,7 +212,7 @@ function createCaptureState(cdp) {
                 timeoutId = setTimeout(() => {
                     if (!completed) {
                         completed = true
-                        reject(new Error(`Timed out waiting for ${TARGET_CGI}. Make sure QQ Zone is logged in and the feed/说说 page is open.`))
+                        reject(new Error(`Timed out waiting for ${TARGET_CGI}. Make sure QQ Zone is logged in and the status-feed page is open.`))
                     }
                 }, timeout)
             })

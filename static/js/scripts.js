@@ -1168,12 +1168,12 @@ function coordinatesForLocation(country, region, city) {
     const key = String(country || '').trim().toLowerCase()
     const regionKey = `${country || ''} ${region || ''} ${city || ''}`.toLowerCase()
     const precise = [
-        [/beijing|北京/, { latitude: 39.9042, longitude: 116.4074 }],
-        [/shanghai|上海/, { latitude: 31.2304, longitude: 121.4737 }],
-        [/anhui|hefei|合肥|安徽/, { latitude: 31.8612, longitude: 117.2857 }],
+        [/beijing/, { latitude: 39.9042, longitude: 116.4074 }],
+        [/shanghai/, { latitude: 31.2304, longitude: 121.4737 }],
+        [/anhui|hefei/, { latitude: 31.8612, longitude: 117.2857 }],
         [/new york/, { latitude: 40.7128, longitude: -74.006 }],
         [/california|san francisco|los angeles/, { latitude: 36.7783, longitude: -119.4179 }],
-        [/tokyo|東京|东京/, { latitude: 35.6762, longitude: 139.6503 }],
+        [/tokyo/, { latitude: 35.6762, longitude: 139.6503 }],
         [/moscow|москва/, { latitude: 55.7558, longitude: 37.6173 }],
         [/frankfurt|germany|deutschland/, { latitude: 50.1109, longitude: 8.6821 }]
     ].find(([pattern]) => pattern.test(regionKey))
@@ -1185,7 +1185,6 @@ function coordinatesForLocation(country, region, city) {
     const countries = {
         cn: { latitude: 35.8617, longitude: 104.1954 },
         china: { latitude: 35.8617, longitude: 104.1954 },
-        '中国': { latitude: 35.8617, longitude: 104.1954 },
         us: { latitude: 39.8283, longitude: -98.5795 },
         usa: { latitude: 39.8283, longitude: -98.5795 },
         'united states': { latitude: 39.8283, longitude: -98.5795 },
@@ -1221,7 +1220,6 @@ function countryCode(country) {
     const value = String(country || '').trim()
     const codes = {
         china: 'CN',
-        '中国': 'CN',
         'united states': 'US',
         usa: 'US',
         japan: 'JP',

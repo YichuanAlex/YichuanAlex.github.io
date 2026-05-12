@@ -425,7 +425,7 @@ function normalizeUrl(value) {
 }
 
 function isUsableImageUrl(value) {
-    return /^https?:\/\//i.test(value)
+    return isRemoteImageUrl(value) || isCachedImageUrl(value)
 }
 
 async function cachePostImages(posts, cookie, uin) {
@@ -433,22 +433,27 @@ async function cachePostImages(posts, cookie, uin) {
     const activeFiles = new Set()
 
     for (const post of posts) {
+        const existingCachedImages = Array.isArray(post.images) ? post.images.filter(isCachedImageUrl) : []
+        existingCachedImages.map(cachedImageFilename).filter(Boolean).forEach(filename => activeFiles.add(filename))
+
         const remoteImages = limitImages(Array.isArray(post.images) ? post.images.filter(isRemoteImageUrl) : [], CACHE_IMAGES_PER_POST)
         if (!remoteImages.length) {
             continue
         }
 
-        const cachedImages = []
+        const downloadedImages = []
         for (let index = 0; index < remoteImages.length; index += 1) {
             const cached = await cacheOneImage(remoteImages[index], post, index, cookie, uin)
             if (cached) {
-                cachedImages.push(cached.publicPath)
+                downloadedImages.push(cached.publicPath)
                 activeFiles.add(cached.filename)
             }
         }
 
-        if (cachedImages.length) {
-            post.images = cachedImages
+        if (downloadedImages.length) {
+            post.images = downloadedImages
+        } else if (existingCachedImages.length) {
+            post.images = existingCachedImages
         }
     }
 
@@ -515,6 +520,15 @@ async function removeStaleCachedImages(activeFiles) {
 
 function isRemoteImageUrl(value) {
     return /^https?:\/\//i.test(String(value || ''))
+}
+
+function isCachedImageUrl(value) {
+    const escapedPrefix = IMAGE_CACHE_PUBLIC_PREFIX.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    return new RegExp(`^${escapedPrefix}/[^?#]+\\.(avif|gif|jpe?g|png|webp)$`, 'i').test(String(value || ''))
+}
+
+function cachedImageFilename(value) {
+    return String(value || '').split('/').pop()?.split(/[?#]/)[0] || ''
 }
 
 function imageExtension(contentType, url) {
@@ -604,20 +618,37 @@ function dateFromShareUrl(value) {
 }
 
 function mergePosts(...groups) {
-    const seen = new Set()
+    const postIndexes = new Map()
     const posts = []
 
     groups.flat().forEach(post => {
         const normalized = normalizePost(post)
         const key = normalized.id || normalized.url || `${normalized.date}:${normalized.body.slice(0, 120)}`
-        if (seen.has(key)) {
+        const existingIndex = postIndexes.get(key)
+        if (existingIndex !== undefined) {
+            posts[existingIndex] = mergePostData(posts[existingIndex], normalized)
             return
         }
-        seen.add(key)
+        postIndexes.set(key, posts.length)
         posts.push(normalized)
     })
 
     return posts.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0))
+}
+
+function mergePostData(primary, fallback) {
+    return {
+        id: primary.id || fallback.id || '',
+        date: primary.date || fallback.date || new Date().toISOString(),
+        title: primary.title || fallback.title || 'QQ Zone Post',
+        body: primary.body || fallback.body || '',
+        url: primary.url || fallback.url || `https://user.qzone.qq.com/${QZONE_UIN}/311`,
+        images: limitImages(mergeImageLists(primary.images, fallback.images), MAX_IMAGES)
+    }
+}
+
+function mergeImageLists(...groups) {
+    return [...new Set(groups.flat().filter(Boolean))]
 }
 
 function normalizePost(post) {

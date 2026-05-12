@@ -22,7 +22,7 @@ node scripts/capture-qzone-session.mjs --keep-open
 Then:
 
 1. Log in to QQ Zone in the Chrome window opened by the script.
-2. If the feed is not visible after login, open `https://user.qzone.qq.com/1527435659/infocenter?loginfrom=31` or click 说说.
+2. If the feed is not visible after login, open `https://user.qzone.qq.com/1527435659/infocenter?loginfrom=31` or click the QQ Zone status-feed tab.
 3. Wait until the terminal prints `Captured ... posts`.
 4. Review `data/news.json`.
 5. Commit and push the changed News data if it looks correct.
