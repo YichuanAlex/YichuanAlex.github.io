@@ -130,7 +130,7 @@ function renderNewsItem(item) {
     const date = formatDate(item.date || item.time)
     const title = item.title || (item.source === 'QQ Zone' ? 'QQ Zone Post' : 'Update')
     const body = item.body || item.content || ''
-    const images = Array.isArray(item.images) ? item.images.slice(0, 3) : []
+    const images = Array.isArray(item.images) ? item.images.slice(0, 9) : []
 
     return `
         <article class="news-item">
@@ -140,7 +140,7 @@ function renderNewsItem(item) {
             </div>
             <h3>${escapeHtml(title)}</h3>
             <p class="news-body">${formatNewsBody(body)}</p>
-            ${images.length ? `<div class="news-images">${images.map(src => `<img src="${escapeAttribute(src)}" alt="">`).join('')}</div>` : ''}
+            ${images.length ? `<div class="news-images">${images.map(src => `<img src="${escapeAttribute(src)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer">`).join('')}</div>` : ''}
             ${item.url ? `<a class="news-link" href="${escapeAttribute(item.url)}" target="_blank" rel="noopener">Open original</a>` : ''}
         </article>
     `

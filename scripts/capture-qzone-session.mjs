@@ -77,7 +77,7 @@ async function main() {
     await writeFile(fieldsPath, `${JSON.stringify(buildFieldsReport({ url: result.url, cookie, gtk, posts }), null, 2)}\n`, 'utf8')
     await writeFile(cookiePath, cookie, { encoding: 'utf8', mode: 0o600 })
 
-    await runNewsSync(harPath, limit)
+    await runNewsSync(harPath, limit, cookie)
 
     console.log(`[qzone-capture] Captured ${posts.length} posts from ${TARGET_CGI}.`)
     console.log(`[qzone-capture] Updated data/news.json through scripts/sync-qzone.mjs.`)
@@ -328,12 +328,13 @@ function headerObjectToHarHeaders(headers = {}) {
     return Object.entries(headers).map(([name, value]) => ({ name, value: String(value) }))
 }
 
-async function runNewsSync(harPath, syncLimit) {
+async function runNewsSync(harPath, syncLimit, cookie) {
     await new Promise((resolvePromise, rejectPromise) => {
         const child = spawn(process.execPath, ['scripts/sync-qzone.mjs'], {
             cwd: ROOT_DIR,
             env: Object.assign({}, process.env, {
                 QZONE_HAR_PATH: harPath,
+                QZONE_COOKIE: cookie,
                 QZONE_LIMIT: String(syncLimit)
             }),
             stdio: 'inherit'

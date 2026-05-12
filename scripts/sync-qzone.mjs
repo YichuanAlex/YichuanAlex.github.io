@@ -1,7 +1,10 @@
-import { readFile, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, readdir, unlink, writeFile } from 'node:fs/promises'
+import { createHash } from 'node:crypto'
 
 const DATA_PATH = new URL('../data/news.json', import.meta.url)
 const SHARE_LINKS_PATH = new URL('../data/qzone-share-links.json', import.meta.url)
+const IMAGE_CACHE_DIR = new URL('../static/assets/qzone/', import.meta.url)
+const IMAGE_CACHE_PUBLIC_PREFIX = 'static/assets/qzone'
 const QZONE_UIN = process.env.QZONE_UIN || '1527435659'
 const QZONE_COOKIE = process.env.QZONE_COOKIE || ''
 const QZONE_SHARE_URLS = process.env.QZONE_SHARE_URLS || ''
@@ -10,6 +13,8 @@ const QZONE_G_TK = process.env.QZONE_G_TK || ''
 const LIMIT = Math.max(1, Number(process.env.QZONE_LIMIT || 40))
 const PAGE_SIZE = Math.min(40, Math.max(1, Number(process.env.QZONE_PAGE_SIZE || 20)))
 const MAX_IMAGES = Math.max(1, Number(process.env.QZONE_MAX_IMAGES || 9))
+const CACHE_IMAGES_PER_POST = Math.max(1, Number(process.env.QZONE_CACHE_IMAGES_PER_POST || 3))
+const CACHE_IMAGES = process.env.QZONE_CACHE_IMAGES !== '0' && Boolean(QZONE_COOKIE)
 const FETCH_DETAIL = process.env.QZONE_FETCH_DETAIL !== '0'
 
 const news = JSON.parse(await readFile(DATA_PATH, 'utf8'))
@@ -46,6 +51,9 @@ if (!QZONE_COOKIE && !QZONE_HAR_PATH && !shareUrls.length) {
 }
 
 const mergedPosts = mergePosts(qzonePosts, harPosts, sharePosts, existingPosts).slice(0, LIMIT)
+if (CACHE_IMAGES) {
+    await cachePostImages(mergedPosts, QZONE_COOKIE, QZONE_UIN)
+}
 
 news.qzone = Object.assign({}, news.qzone, {
     profile_url: `https://user.qzone.qq.com/${QZONE_UIN}`,
@@ -370,15 +378,12 @@ function collectImageUrls(value, urls, depth = 0) {
     }
 
     const directKeys = [
-        'hd_pic',
-        'origin_url',
-        'origin',
+        'smallurl',
+        'url1',
         'url3',
         'url2',
-        'url1',
         'url',
         'photourl',
-        'smallurl',
         'pre',
         'raw',
         'bigurl',
@@ -386,7 +391,10 @@ function collectImageUrls(value, urls, depth = 0) {
         'o_url',
         'pic_url',
         'thumbnail',
-        'thumb'
+        'thumb',
+        'origin_url',
+        'origin',
+        'hd_pic'
     ]
 
     for (const key of directKeys) {
@@ -417,6 +425,122 @@ function normalizeUrl(value) {
 
 function isUsableImageUrl(value) {
     return /^https?:\/\//i.test(value)
+}
+
+async function cachePostImages(posts, cookie, uin) {
+    await mkdir(IMAGE_CACHE_DIR, { recursive: true })
+    const activeFiles = new Set()
+
+    for (const post of posts) {
+        const remoteImages = Array.isArray(post.images) ? post.images.filter(isRemoteImageUrl).slice(0, CACHE_IMAGES_PER_POST) : []
+        if (!remoteImages.length) {
+            continue
+        }
+
+        const cachedImages = []
+        for (let index = 0; index < remoteImages.length; index += 1) {
+            const cached = await cacheOneImage(remoteImages[index], post, index, cookie, uin)
+            if (cached) {
+                cachedImages.push(cached.publicPath)
+                activeFiles.add(cached.filename)
+            }
+        }
+
+        if (cachedImages.length) {
+            post.images = cachedImages
+        }
+    }
+
+    await removeStaleCachedImages(activeFiles)
+}
+
+async function cacheOneImage(url, post, index, cookie, uin) {
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+                'Cookie': cookie,
+                'Referer': post.url || `https://user.qzone.qq.com/${uin}/infocenter?loginfrom=31`,
+                'User-Agent': 'Mozilla/5.0 AppleWebKit/537.36 Chrome/124.0 Safari/537.36'
+            }
+        })
+
+        if (!response.ok) {
+            console.warn(`Image cache skipped ${post.id || 'post'}#${index}: HTTP ${response.status}`)
+            return null
+        }
+
+        const contentType = response.headers.get('content-type') || ''
+        if (!contentType.startsWith('image/')) {
+            console.warn(`Image cache skipped ${post.id || 'post'}#${index}: content type ${contentType || 'unknown'}`)
+            return null
+        }
+
+        const bytes = Buffer.from(await response.arrayBuffer())
+        if (!bytes.length) {
+            return null
+        }
+
+        const hash = createHash('sha256').update(url).digest('hex').slice(0, 14)
+        const safePostId = String(post.id || post.date || 'qzone').replace(/[^a-z0-9_-]/gi, '').slice(0, 32) || 'qzone'
+        const extension = imageExtension(contentType, url)
+        const filename = `${safePostId}-${String(index + 1).padStart(2, '0')}-${hash}.${extension}`
+        const target = new URL(filename, IMAGE_CACHE_DIR)
+
+        await writeFile(target, bytes)
+        return {
+            filename,
+            publicPath: `${IMAGE_CACHE_PUBLIC_PREFIX}/${filename}`
+        }
+    } catch (error) {
+        console.warn(`Image cache skipped ${post.id || 'post'}#${index}: ${error.message}`)
+        return null
+    }
+}
+
+async function removeStaleCachedImages(activeFiles) {
+    let filenames = []
+    try {
+        filenames = await readdir(IMAGE_CACHE_DIR)
+    } catch {
+        return
+    }
+
+    await Promise.all(filenames
+        .filter(filename => /\.(avif|gif|jpe?g|png|webp)$/i.test(filename))
+        .filter(filename => !activeFiles.has(filename))
+        .map(filename => unlink(new URL(filename, IMAGE_CACHE_DIR)).catch(() => {})))
+}
+
+function isRemoteImageUrl(value) {
+    return /^https?:\/\//i.test(String(value || ''))
+}
+
+function imageExtension(contentType, url) {
+    const normalized = contentType.split(';')[0].trim().toLowerCase()
+    if (normalized === 'image/jpeg') {
+        return 'jpg'
+    }
+    if (normalized === 'image/png') {
+        return 'png'
+    }
+    if (normalized === 'image/gif') {
+        return 'gif'
+    }
+    if (normalized === 'image/avif') {
+        return 'avif'
+    }
+    if (normalized === 'image/webp') {
+        return 'webp'
+    }
+
+    try {
+        const pathname = new URL(url).pathname
+        const match = pathname.match(/\.([a-z0-9]{2,5})$/i)
+        return match ? match[1].toLowerCase() : 'jpg'
+    } catch {
+        return 'jpg'
+    }
 }
 
 function extractMeta(html, keys) {
