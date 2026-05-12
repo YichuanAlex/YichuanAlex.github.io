@@ -130,7 +130,7 @@ function renderNewsItem(item) {
     const date = formatDate(item.date || item.time)
     const title = item.title || (item.source === 'QQ Zone' ? 'QQ Zone Post' : 'Update')
     const body = item.body || item.content || ''
-    const images = Array.isArray(item.images) ? item.images.slice(0, 9) : []
+    const images = Array.isArray(item.images) ? item.images : []
 
     return `
         <article class="news-item">

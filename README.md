@@ -55,7 +55,7 @@ node scripts/capture-qzone-session.mjs --keep-open
 
 Log in to QQ Zone in the opened Chrome window. The helper listens for `emotion_cgi_msglist_v6`, writes a temporary HAR under `/private/tmp/qzone-capture/`, and updates `data/news.json`.
 
-Synced QQ photo URLs are cached under `static/assets/qzone/` so the public site does not depend on expiring QQ image links.
+Synced QQ photo URLs are cached under `static/assets/qzone/` so the public site does not depend on expiring QQ image links. The workflow is configured to cache all returned images for each QQ Zone post.
 
 The sync workflow now runs twice per hour and can also merge selected H5 share links from `data/qzone-share-links.json` or the optional `QZONE_SHARE_URLS` secret.
 

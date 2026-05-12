@@ -12,8 +12,8 @@ const QZONE_HAR_PATH = process.env.QZONE_HAR_PATH || ''
 const QZONE_G_TK = process.env.QZONE_G_TK || ''
 const LIMIT = Math.max(1, Number(process.env.QZONE_LIMIT || 40))
 const PAGE_SIZE = Math.min(40, Math.max(1, Number(process.env.QZONE_PAGE_SIZE || 20)))
-const MAX_IMAGES = Math.max(1, Number(process.env.QZONE_MAX_IMAGES || 9))
-const CACHE_IMAGES_PER_POST = Math.max(1, Number(process.env.QZONE_CACHE_IMAGES_PER_POST || 3))
+const MAX_IMAGES = parseImageLimit(process.env.QZONE_MAX_IMAGES, Infinity)
+const CACHE_IMAGES_PER_POST = parseImageLimit(process.env.QZONE_CACHE_IMAGES_PER_POST, Infinity)
 const CACHE_IMAGES = process.env.QZONE_CACHE_IMAGES !== '0' && Boolean(QZONE_COOKIE)
 const FETCH_DETAIL = process.env.QZONE_FETCH_DETAIL !== '0'
 
@@ -145,8 +145,9 @@ async function hydrateQzonePost(post, context) {
 
 function shouldFetchQzoneDetail(post, mapped) {
     const declaredPhotoCount = Number(post.pictotal || post.pic_total || post.picnum || post.photo_count || 0)
+    const expectedPhotoCount = Number.isFinite(MAX_IMAGES) ? Math.min(MAX_IMAGES, declaredPhotoCount) : declaredPhotoCount
     return Boolean(post.hasmore || post.has_more || post.has_more_con || post.more)
-        || (declaredPhotoCount && mapped.images.length < Math.min(MAX_IMAGES, declaredPhotoCount))
+        || (declaredPhotoCount && mapped.images.length < expectedPhotoCount)
 }
 
 async function fetchQzonePostDetail(post, { uin, cookie, gtk }) {
@@ -234,7 +235,7 @@ function mapQzonePost(post, uin) {
         title: 'QQ Zone Post',
         body: cleanText(post.content || conlistText(post) || post.shortcon || post.summary || ''),
         url: post.tid ? `https://user.qzone.qq.com/${uin}/311/${post.tid}` : `https://user.qzone.qq.com/${uin}/311`,
-        images: imageUrlsFromPost(post).slice(0, MAX_IMAGES)
+        images: limitImages(imageUrlsFromPost(post), MAX_IMAGES)
     }
 }
 
@@ -294,7 +295,7 @@ async function fetchSharePost(url, cookie) {
     const html = await response.text()
     const title = cleanText(extractMeta(html, ['og:title', 'twitter:title']) || extractTitle(html) || 'QQ Zone Shared Post')
     const body = cleanText(extractMeta(html, ['og:description', 'description', 'twitter:description']) || '')
-    const images = extractMetaImages(html).slice(0, 3)
+    const images = limitImages(extractMetaImages(html), MAX_IMAGES)
 
     return {
         id: shareIdFromUrl(url),
@@ -432,7 +433,7 @@ async function cachePostImages(posts, cookie, uin) {
     const activeFiles = new Set()
 
     for (const post of posts) {
-        const remoteImages = Array.isArray(post.images) ? post.images.filter(isRemoteImageUrl).slice(0, CACHE_IMAGES_PER_POST) : []
+        const remoteImages = limitImages(Array.isArray(post.images) ? post.images.filter(isRemoteImageUrl) : [], CACHE_IMAGES_PER_POST)
         if (!remoteImages.length) {
             continue
         }
@@ -626,8 +627,24 @@ function normalizePost(post) {
         title: cleanText(post.title || 'QQ Zone Post'),
         body: cleanText(post.body || post.content || ''),
         url: post.url || `https://user.qzone.qq.com/${QZONE_UIN}/311`,
-        images: Array.isArray(post.images) ? post.images.map(normalizeUrl).filter(isUsableImageUrl).slice(0, MAX_IMAGES) : []
+        images: limitImages(Array.isArray(post.images) ? post.images.map(normalizeUrl).filter(isUsableImageUrl) : [], MAX_IMAGES)
     }
+}
+
+function parseImageLimit(value, fallback) {
+    const raw = String(value ?? '').trim()
+    if (!raw) {
+        return fallback
+    }
+    if (/^(0|all|none|unlimited)$/i.test(raw)) {
+        return Infinity
+    }
+    const numeric = Number(raw)
+    return Number.isFinite(numeric) && numeric > 0 ? Math.floor(numeric) : fallback
+}
+
+function limitImages(images, limit) {
+    return Number.isFinite(limit) ? images.slice(0, limit) : images
 }
 
 function buildSyncStatus(postCount, harCount, shareCount, errors) {

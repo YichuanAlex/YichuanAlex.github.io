@@ -62,7 +62,7 @@ https://user.qzone.qq.com/proxy/domain/taotao.qq.com/cgi-bin/emotion_cgi_msglist
 
 It requests `ftype=0`, `sort=0`, `replynum=100`, `format=jsonp`, `need_private_comment=1`, and paginates with `pos` and `num`. The `g_tk` token is calculated from `p_skey` or `skey` in the secret cookie. Text, Unicode emoji, QQ custom `[em]...[/em]` emoji, and post images are normalized into `data/news.json`.
 
-QQ photo URLs are often temporary or protected by QQ's image service. The scheduled workflow therefore downloads the first displayed images for each post into `static/assets/qzone/` and rewrites `data/news.json` to use those local static files. This keeps the GitHub Pages News feed stable after the original QQ image URLs expire.
+QQ photo URLs are often temporary or protected by QQ's image service. The scheduled workflow therefore downloads every returned image for each post into `static/assets/qzone/` and rewrites `data/news.json` to use those local static files. `QZONE_MAX_IMAGES=0` and `QZONE_CACHE_IMAGES_PER_POST=0` mean no per-post image limit. This keeps the GitHub Pages News feed stable after the original QQ image URLs expire.
 
 ## Optional Shared Links
 

@@ -22,9 +22,9 @@ jobs:
           QZONE_UIN: "1527435659"
           QZONE_LIMIT: "40"
           QZONE_PAGE_SIZE: "20"
-          QZONE_MAX_IMAGES: "9"
+          QZONE_MAX_IMAGES: "0"
           QZONE_CACHE_IMAGES: "1"
-          QZONE_CACHE_IMAGES_PER_POST: "3"
+          QZONE_CACHE_IMAGES_PER_POST: "0"
           QZONE_COOKIE: ${{ secrets.QZONE_COOKIE }}
           QZONE_SHARE_URLS: ${{ secrets.QZONE_SHARE_URLS }}
       - name: Commit updated news
