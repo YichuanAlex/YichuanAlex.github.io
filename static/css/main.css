@@ -306,6 +306,51 @@ a:hover {
     font-size: 0.92rem;
 }
 
+.experience-list {
+    display: grid;
+    gap: 26px;
+}
+
+.experience-group h3 {
+    margin: 0 0 12px;
+    color: var(--ink);
+    font-size: 1.08rem;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.experience-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 18px;
+    padding: 15px 0;
+    border-top: 1px solid var(--line);
+}
+
+.experience-item h4 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 1rem;
+    line-height: 1.35;
+}
+
+.experience-role {
+    margin: 2px 0 7px;
+    color: var(--accent);
+    font-weight: 800;
+}
+
+.experience-item p {
+    margin: 0;
+}
+
+.experience-item time {
+    color: var(--muted);
+    font-size: 0.86rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
 .sidebar-stats {
     margin: clamp(8px, 1.2vh, 14px) 0;
     padding-top: clamp(8px, 1.2vh, 14px);
@@ -848,6 +893,7 @@ a:hover {
     .content *,
     .news-feed *,
     .publication-list *,
+    .experience-list *,
     .visitor-earth-shell * {
         min-width: 0;
     }
@@ -859,11 +905,22 @@ a:hover {
     .main-body,
     .main-body p,
     .pub-items li,
+    .experience-item,
+    .experience-item p,
     .news-item,
     .news-item p,
     .qzone-status {
         max-width: 100%;
         overflow-wrap: anywhere;
+    }
+
+    .experience-item {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .experience-item time {
+        white-space: normal;
     }
 
     .news-source-panel {
