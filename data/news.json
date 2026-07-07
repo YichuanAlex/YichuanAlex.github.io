@@ -8,9 +8,27 @@
   ],
   "qzone": {
     "profile_url": "https://user.qzone.qq.com/1527435659",
-    "last_synced_at": "2026-07-07T06:00:56.898Z",
-    "sync_status": "Fetched 0 QQ Zone posts; HAR import is not configured; QQ Zone API failed: 请先登录空间.",
+    "last_synced_at": "2026-07-07T07:01:36.956Z",
+    "sync_status": "Fetched 29 QQ Zone posts; Imported 20 QQ Zone posts from HAR.",
     "items": [
+      {
+        "id": "8bd10a5bbc96426acb6b0600",
+        "date": "2026-06-29T16:01:17.000Z",
+        "title": "QQ Zone Post",
+        "body": "2026年5-6月总结：\n1.伪需求\n2.地理套利\n3.我晋升你为上士，我的加利福尼亚男孩，猎头找我的时代已到来\n4.世界就是一个巨大的HomeBar，但是热闹供养不了生命\n5.熊彼特主义\n6.生活在树上\n7.Farewell My Concubine\n8.VibeSlop不是原始资本积累\n9.是学历贬值，是优绩主义，是A8A9，是博士清北但本科双非，是QS前50，是经济下行，是留学镀金，是不婚主义，是创一代，是紫人与绿人，是社达与社畜，是高敏感，是回避型，是认知觉醒，是大女主人设，是罗永浩的十字路口，是岩中花述，是奥德赛，是ADHD，是审美积累，是token，是AI大模型，是情感模式，是课题分离，是前额叶，是客体需要，是主体性，是摆脱性别叙事，是少年心气，是要爱不要钱，是性压抑，是原生家庭，是阶层滑落，是精英幻觉，是县城做题家，是小镇贵族梦，是中产返贫，是一线城市祛魅，是消费降级，是精神内耗，是低欲望社会，是脆皮年轻人，是gap year，是gap life，是松弛感，是班味，是爹味，是妈味，是祛魅，是祛魅后的空心，是赛博功德，是电子榨菜，是信息茧房，是情绪价值，是亲密关系去中心化，",
+        "url": "https://user.qzone.qq.com/1527435659/311/8bd10a5bbc96426acb6b0600",
+        "images": [
+          "static/assets/qzone/8bd10a5bbc96426acb6b0600-01-0e9e28f5483ac7.jpg",
+          "static/assets/qzone/8bd10a5bbc96426acb6b0600-02-dfa0eec95dc1c7.jpg",
+          "static/assets/qzone/8bd10a5bbc96426acb6b0600-03-319e8af2a32c6e.jpg",
+          "static/assets/qzone/8bd10a5bbc96426acb6b0600-04-af714d67ec0f7b.jpg",
+          "static/assets/qzone/8bd10a5bbc96426acb6b0600-05-4e8ca3407f3c2b.jpg",
+          "static/assets/qzone/8bd10a5bbc96426acb6b0600-06-aab06f5971fe6f.jpg",
+          "static/assets/qzone/8bd10a5bbc96426acb6b0600-07-fbd963455c75e3.jpg",
+          "static/assets/qzone/8bd10a5bbc96426acb6b0600-08-afcb5d1aab012c.jpg",
+          "static/assets/qzone/8bd10a5bbc96426acb6b0600-09-66aeea37e89899.jpg"
+        ]
+      },
       {
         "id": "8bd10a5ba5e9f2699d1e0e00",
         "date": "2026-04-30T05:33:25.000Z",
