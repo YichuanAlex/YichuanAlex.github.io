@@ -35,7 +35,7 @@ Open `http://127.0.0.1:8000/`.
 - `static/css/main.css` controls layout and visual style.
 - `static/js/scripts.js` loads Markdown and powers the visitor-region widget.
 - `static/js/visitor-config.js` points the browser to the deployed visitor collector.
-- `static/assets/source/cv.pdf` is the CV linked from the sidebar.
+- `static/assets/source/cv.docx` is the CV linked from the sidebar.
 - `static/assets/patent/` and `static/assets/copyright/` store publication-related certificates linked from Publications.
 - `workers/visitor-collector.js` safely writes aggregate visitor stats to `data/visitor-stats.json` through server-side GitHub credentials.
 
