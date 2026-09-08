@@ -4,8 +4,8 @@
   <article class="experience-item">
     <div>
       <h4>Clemson University</h4>
-      <p class="experience-role">Incoming Ph.D. Student in Computer Engineering and Research Assistant</p>
-      <p>Will join Prof. Lan Zhang's research group to study wireless AI systems, distributed learning, secure federated learning, and intelligent edge networks, with emphasis on reliable learning and inference under communication, privacy, and deployment constraints.</p>
+      <p class="experience-role">Ph.D. Student in Computer Engineering and Research Assistant</p>
+      <p>Works with Prof. Lan Zhang on wireless AI systems, distributed learning, secure federated learning, and intelligent edge networks, with emphasis on reliable learning and inference under communication, privacy, and deployment constraints.</p>
     </div>
     <time>09/2026 - 06/2031</time>
   </article>
@@ -14,7 +14,7 @@
     <div>
       <h4>University of Jyvaskyla</h4>
       <p class="experience-role">Summer School</p>
-      <p>Selected coursework includes entrepreneurship opportunities in blockchain technology and evolutionary multi-objective optimization, strengthening foundations in decentralized systems, optimization, and technology commercialization.</p>
+      <p>Completed summer-school study in entrepreneurship opportunities in blockchain technology, strengthening foundations in decentralized systems and technology commercialization.</p>
     </div>
     <time>07/2026 - 08/2026</time>
   </article>
@@ -41,7 +41,7 @@
     <div>
       <h4>Anhui University</h4>
       <p class="experience-role">B.S. in Data Science and Big Data Technology</p>
-      <p>Completed undergraduate training in data science, mathematical foundations, algorithms, data structures, probability and statistics, big-data analytics, Linux systems, and computing fundamentals. GPA: 3.51; rank: top 5%.</p>
+      <p>Completed undergraduate training in data science, mathematical foundations, algorithms, data structures, probability and statistics, big-data analytics, Linux systems, and computing fundamentals. Final GPA: 3.53; average score: 85.82; rank: top 5%.</p>
     </div>
     <time>09/2022 - 06/2026</time>
   </article>
@@ -121,6 +121,42 @@
 
 <div class="experience-group">
   <h3>Selected Research and Engineering Projects</h3>
+
+  <article class="experience-item">
+    <div>
+      <h4>PIVOT: Risk-Controlled Routing of Verifier Feedback for Reliable Policy Improvement</h4>
+      <p class="experience-role">ICLR 2027 Conference Submission, Under Review</p>
+      <p>Developed an optimizer-aware, sequential router for heterogeneous verifier feedback in LLM post-training. The framework combines calibrated reliability, LoRA-space update alignment, preference-graph adaptation, escalation, abstention, and a finite-sample risk certificate for controlling erroneous feedback admission under policy drift.</p>
+    </div>
+    <time>05/2026 - Present</time>
+  </article>
+
+  <article class="experience-item">
+    <div>
+      <h4>DeepLNP: Role-Aware Dual-Path Learning for Lipid Nanoparticle Delivery Efficacy Modelling and Within-Screen Ranking</h4>
+      <p class="experience-role">Briefings in Bioinformatics, Under Review</p>
+      <p>Built a role-aware molecular learning system that represents four lipid components, molar composition, and experimental context. A shared graph pathway predicts formulation-level endpoints while a gated fingerprint residual supports within-screen candidate ranking across group-disjoint experimental screens.</p>
+    </div>
+    <time>03/2026 - Present</time>
+  </article>
+
+  <article class="experience-item">
+    <div>
+      <h4>SourceGuard-Gait: Claim-Bounded Invariance for Heterogeneous Public-Source Abnormal-Gait Screening</h4>
+      <p class="experience-role">AAAI 2027 Conference Submission, Under Review</p>
+      <p>Developed a support-aware abnormal-gait screening protocol for heterogeneous public IMU, video, silhouette, skeleton, and mesh resources. A source-modality-label support matrix determines when source suppression and distribution alignment are empirically admissible, while frozen probes audit residual source information.</p>
+    </div>
+    <time>10/2024 - Present</time>
+  </article>
+
+  <article class="experience-item">
+    <div>
+      <h4>Economic World Models: Agent-Based and Learned Simulation in Financial Markets and Macroeconomics</h4>
+      <p class="experience-role">ICAIF 2026 Conference Submission</p>
+      <p>Surveyed interactive computational economies across rule-based agent-based models, learned market environments, and LLM-agent societies. Organized the literature by economic scope and learning location, and synthesized evaluation criteria spanning institutional integrity, behavioral realism, distributional fit, intervention validity, and reproducibility.</p>
+    </div>
+    <time>2026</time>
+  </article>
 
   <article class="experience-item">
     <div>

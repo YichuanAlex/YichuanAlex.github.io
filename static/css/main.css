@@ -276,6 +276,55 @@ a:hover {
     font-weight: 700;
 }
 
+.record-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.record-card {
+    display: grid;
+    align-content: start;
+    gap: 7px;
+    min-height: 154px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--accent);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--text);
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.record-card:hover {
+    border-color: rgba(15, 118, 110, 0.38);
+    color: var(--text);
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.09);
+}
+
+.record-card strong {
+    color: var(--ink);
+    font-size: 1.04rem;
+    line-height: 1.35;
+}
+
+.record-card > span:last-child {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.record-kicker {
+    color: var(--accent);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
 .publication-list h3 {
     margin: 0 0 8px;
     color: var(--ink);
@@ -917,6 +966,14 @@ a:hover {
     .experience-item {
         grid-template-columns: 1fr;
         gap: 6px;
+    }
+
+    .record-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .record-card {
+        min-height: 0;
     }
 
     .experience-item time {

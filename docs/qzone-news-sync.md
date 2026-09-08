@@ -52,7 +52,7 @@ If the helper cannot open Chrome automatically, start Chrome manually with remot
 node scripts/capture-qzone-session.mjs --attach --keep-open
 ```
 
-The workflow also runs automatically twice per hour at minute 17 and 47. GitHub may delay scheduled workflows, so this should be treated as near-real-time synchronization.
+The workflow also runs automatically twice per hour at minute 17 and 47. GitHub may delay scheduled workflows, so this should be treated as near-real-time synchronization. When the public post data and sync status are unchanged, the script preserves the previous timestamp so the workflow does not create an empty timestamp-only commit.
 
 The sync script uses the logged-in PC endpoint:
 

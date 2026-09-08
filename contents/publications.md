@@ -2,21 +2,31 @@
 <ol class="pub-items">
   <li>
     <strong>Zixi Jiang</strong>, Kexin Cao, Fang Ge, and Zhusheng Huang. Multi-Omics Graph Attention Network for Key Gene Prediction in Triple-Negative Breast Cancer. <em>IEEE/ACM Transactions on Computational Biology and Bioinformatics</em>, 2026.
-    <span class="pub-links"><a href="https://ieeexplore.ieee.org/document/11478305" target="_blank" rel="noopener">IEEE Xplore</a> · <a href="https://doi.org/10.1109/tcbbio.2026.3682485" target="_blank" rel="noopener">DOI</a></span>
+    <span class="pub-links"><a href="static/assets/paper/IEEE_TCBB.pdf" target="_blank" rel="noopener">PDF</a> · <a href="https://ieeexplore.ieee.org/document/11478305" target="_blank" rel="noopener">IEEE Xplore</a> · <a href="https://doi.org/10.1109/tcbbio.2026.3682485" target="_blank" rel="noopener">DOI</a></span>
   </li>
   <li>
     Chunchun Li, Xin Ding, Huayang Zhang, Dejiong Wang, Ziyang Wang, <strong>Zixi Jiang</strong>, and Yu Lei. A Named Entity Recognition Method for Tea Plant Pests and Diseases Based on BERT-BiLSTM-CRF. <em>Transactions of the Chinese Society for Agricultural Machinery</em>, 56(11):517-527, 2025.
-    <span class="pub-links"><a href="https://www.j-csam.org/jcsam/article/abstract/20251150?st=article_issue" target="_blank" rel="noopener">Paper</a></span>
+    <span class="pub-links"><a href="static/assets/paper/CSAM2025.pdf" target="_blank" rel="noopener">PDF</a> · <a href="https://www.j-csam.org/jcsam/article/abstract/20251150?st=article_issue" target="_blank" rel="noopener">Journal</a></span>
   </li>
 </ol>
 
-<h3>Manuscripts and Ongoing Work</h3>
+<h3>Manuscripts Under Review</h3>
 <ol class="pub-items">
   <li>
-    <strong>Zixi Jiang</strong> and collaborators. DeepLNP: A Multi-Modal Discriminative Model with Four-Component Encoding for Lipid Nanoparticle Formulation Property Prediction. Target venue: IEEE International Conference on Bioinformatics and Biomedicine, ongoing, 2026-present.
+    <strong>Zixi Jiang</strong>, Kexin Cao, and Zhusheng Huang. DeepLNP: Role-Aware Dual-Path Learning for Lipid Nanoparticle Delivery Efficacy Modelling and Within-Screen Ranking. Under review at <em>Briefings in Bioinformatics</em>, manuscript BIB-26-2159, 2026.
+    <span class="pub-links"><a href="static/assets/paper/BIB-26-2159_Proof_hi.pdf" target="_blank" rel="noopener">Submission PDF</a></span>
   </li>
   <li>
-    <strong>Zixi Jiang</strong> and collaborators. AdaptiveGaitSegNet: An Innovative Model with Advanced Feature Extraction for Enhanced Parkinson's Disease Gait Recognition. Under review at <em>IEEE Transactions on Human-Machine Systems</em>, 2024-present.
+    <strong>Zixi Jiang</strong> and collaborators. PIVOT: Risk-Controlled Routing of Verifier Feedback for Reliable Policy Improvement. Under double-blind review at <em>ICLR 2027</em>.
+    <span class="pub-links"><a href="static/assets/paper/ICLR2027.pdf" target="_blank" rel="noopener">Manuscript</a></span>
+  </li>
+  <li>
+    <strong>Zixi Jiang</strong> and collaborators. SourceGuard-Gait: Claim-Bounded Invariance for Heterogeneous Public-Source Abnormal-Gait Screening. Under double-blind review at <em>AAAI 2027</em>.
+    <span class="pub-links"><a href="static/assets/paper/AAAI2027.pdf" target="_blank" rel="noopener">Manuscript</a></span>
+  </li>
+  <li>
+    <strong>Zixi Jiang</strong> and collaborators. Economic World Models: A Survey of Agent-Based and Learned Simulation in Financial Markets and Macroeconomics. <em>ICAIF 2026</em> conference submission.
+    <span class="pub-links"><a href="static/assets/paper/ICAIF2026.pdf" target="_blank" rel="noopener">Manuscript</a></span>
   </li>
 </ol>
 

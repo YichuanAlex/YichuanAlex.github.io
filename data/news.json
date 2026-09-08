@@ -8,9 +8,27 @@
   ],
   "qzone": {
     "profile_url": "https://user.qzone.qq.com/1527435659",
-    "last_synced_at": "2026-09-08T06:32:34.158Z",
-    "sync_status": "Fetched 0 QQ Zone posts; HAR import is not configured; QQ Zone API failed: 请先登录空间.",
+    "last_synced_at": "2026-09-08T06:14:39.874Z",
+    "sync_status": "Fetched 30 QQ Zone posts; Imported 20 QQ Zone posts from HAR.",
     "items": [
+      {
+        "id": "8bd10a5be900956a595f0a00",
+        "date": "2026-08-31T04:19:53.000Z",
+        "title": "QQ Zone Post",
+        "body": "2026年7-8月总结：\n1.新天地退潮\n2.wok，被shanghai了\n3.叔本华的钟摆什么时候停？\n4.Jobless Boom🙌\n5.马丁内斯最后一名红军\n6.S1烂成这样了，S2还有救吗？\n7.那些很经典的故事，能说很多遍\n8.另外，你能来北京吗？我沉默了。她以为我不想去。\n9.我有亚斯伯格症",
+        "url": "https://user.qzone.qq.com/1527435659/311/8bd10a5be900956a595f0a00",
+        "images": [
+          "static/assets/qzone/8bd10a5be900956a595f0a00-01-fdcd82c2b80962.jpg",
+          "static/assets/qzone/8bd10a5be900956a595f0a00-02-469469ca66a55f.jpg",
+          "static/assets/qzone/8bd10a5be900956a595f0a00-03-66edd553f20333.jpg",
+          "static/assets/qzone/8bd10a5be900956a595f0a00-04-5d9ade91763d4f.jpg",
+          "static/assets/qzone/8bd10a5be900956a595f0a00-05-1548ab6d0acc30.png",
+          "static/assets/qzone/8bd10a5be900956a595f0a00-06-187a58bb219492.jpg",
+          "static/assets/qzone/8bd10a5be900956a595f0a00-07-4a219b51913987.jpg",
+          "static/assets/qzone/8bd10a5be900956a595f0a00-08-852fc15a495cfd.jpg",
+          "static/assets/qzone/8bd10a5be900956a595f0a00-09-fc91519baee596.jpg"
+        ]
+      },
       {
         "id": "8bd10a5bbc96426acb6b0600",
         "date": "2026-06-29T16:01:17.000Z",
@@ -200,7 +218,7 @@
         "images": [
           "static/assets/qzone/8bd10a5bf59c3a6880400e00-01-bc433f686a09f9.jpg",
           "static/assets/qzone/8bd10a5bf59c3a6880400e00-02-c9cbd2fdce1b03.jpg",
-          "static/assets/qzone/8bd10a5bf59c3a6880400e00-03-5ce2ecc25ebcda.jpg",
+          "static/assets/qzone/8bd10a5bf59c3a6880400e00-03-5ce2ecc25ebcda.gif",
           "static/assets/qzone/8bd10a5bf59c3a6880400e00-04-88c17d65178f23.jpg",
           "static/assets/qzone/8bd10a5bf59c3a6880400e00-05-4eb9fa41d72ec4.jpg",
           "static/assets/qzone/8bd10a5bf59c3a6880400e00-06-deba96b43a2b4f.jpg",
