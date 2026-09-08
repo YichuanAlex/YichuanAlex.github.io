@@ -8,8 +8,8 @@
   ],
   "qzone": {
     "profile_url": "https://user.qzone.qq.com/1527435659",
-    "last_synced_at": "2026-09-08T06:14:39.874Z",
-    "sync_status": "Fetched 30 QQ Zone posts; Imported 20 QQ Zone posts from HAR.",
+    "last_synced_at": "2026-09-08T11:45:01.952Z",
+    "sync_status": "Fetched 0 QQ Zone posts; HAR import is not configured; QQ Zone API failed: 请先登录空间.",
     "items": [
       {
         "id": "8bd10a5be900956a595f0a00",
