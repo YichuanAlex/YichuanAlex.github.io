@@ -55,15 +55,25 @@ if (CACHE_IMAGES) {
     await cachePostImages(mergedPosts, QZONE_COOKIE, QZONE_UIN)
 }
 
+const profileUrl = `https://user.qzone.qq.com/${QZONE_UIN}`
+const syncStatus = buildSyncStatus(qzonePosts.length, harPosts.length, sharePosts.length, errors)
+const contentChanged = JSON.stringify(existingPosts) !== JSON.stringify(mergedPosts)
+const statusChanged = news.qzone?.sync_status !== syncStatus || news.qzone?.profile_url !== profileUrl
+
 news.qzone = Object.assign({}, news.qzone, {
-    profile_url: `https://user.qzone.qq.com/${QZONE_UIN}`,
-    last_synced_at: new Date().toISOString(),
-    sync_status: buildSyncStatus(qzonePosts.length, harPosts.length, sharePosts.length, errors),
+    profile_url: profileUrl,
+    last_synced_at: contentChanged || statusChanged || !news.qzone?.last_synced_at
+        ? new Date().toISOString()
+        : news.qzone.last_synced_at,
+    sync_status: syncStatus,
     items: mergedPosts
 })
 
 await writeFile(DATA_PATH, `${JSON.stringify(news, null, 2)}\n`)
 console.log(news.qzone.sync_status)
+if (!contentChanged && !statusChanged) {
+    console.log('No public QQ Zone content changed; preserved the previous sync timestamp.')
+}
 
 async function fetchQzonePosts(uin, cookie, limit) {
     const gtk = QZONE_G_TK || qzoneGtk(cookie)

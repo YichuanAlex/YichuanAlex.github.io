@@ -29,13 +29,15 @@ Open `http://127.0.0.1:8000/`.
 
 ## Editing
 
-- `contents/*.md` controls the main text sections, including About, Publications, Experiences, and News.
+- `contents/*.md` controls the main text sections, including About, Academic Records, Publications, Experiences, and News.
 - `data/news.json` controls the News feed shown on the homepage.
 - `contents/config.yml` controls small global labels.
 - `static/css/main.css` controls layout and visual style.
 - `static/js/scripts.js` loads Markdown and powers the visitor-region widget.
 - `static/js/visitor-config.js` points the browser to the deployed visitor collector.
-- `static/assets/source/cv.docx` is the CV linked from the sidebar.
+- `static/assets/source/cv/cv.pdf` is the current CV linked from the sidebar; the editable LaTeX source is stored beside it.
+- `static/assets/paper/` stores local paper and manuscript PDFs linked from Publications.
+- `static/assets/transcript/` stores the academic transcript and TOEFL score report linked from Academic Records.
 - `static/assets/patent/` and `static/assets/copyright/` store publication-related certificates linked from Publications.
 - `workers/visitor-collector.js` safely writes aggregate visitor stats to `data/visitor-stats.json` through server-side GitHub credentials.
 
