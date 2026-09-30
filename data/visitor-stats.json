@@ -1,57 +1,15 @@
 {
-  "total_visits": 2,
-  "unique_visitors": 1,
-  "regions": {
-    "JP / 13 / Tokyo": 2
-  },
-  "countries": {
-    "JP": 2
-  },
-  "recent_visits": [
-    {
-      "time": "2026-09-30T09:38:32.845Z",
-      "country": "JP",
-      "region": "13",
-      "city": "Tokyo",
-      "timezone": "Asia/Tokyo",
-      "latitude": 35.6893,
-      "longitude": 139.6899,
-      "path": "/visitor-insights.html?live-check=8c3215a",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "9fea41a6a2cb"
-    },
-    {
-      "time": "2026-09-30T09:36:42.000Z",
-      "country": "JP",
-      "region": "13",
-      "city": "Tokyo",
-      "timezone": "Asia/Tokyo",
-      "latitude": 35.6893,
-      "longitude": 139.6899,
-      "path": "/?live-check=6dc3a5c",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "9fea41a6a2cb"
-    }
-  ],
-  "daily_visits": {
-    "2026-09-30": 2
-  },
-  "pages": {
-    "/?live-check=6dc3a5c": 1,
-    "/visitor-insights.html?live-check=8c3215a": 1
-  },
-  "referrers": {
-    "Direct": 2
-  },
-  "devices": {
-    "desktop": 2
-  },
-  "visitor_hashes": {
-    "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:36:42.000Z"
-  },
-  "updated_at": "2026-09-30T09:38:32.845Z",
+  "total_visits": 0,
+  "unique_visitors": 0,
+  "regions": {},
+  "countries": {},
+  "recent_visits": [],
+  "daily_visits": {},
+  "pages": {},
+  "referrers": {},
+  "devices": {},
+  "visitor_hashes": {},
+  "updated_at": "",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
