@@ -4,10 +4,15 @@
   "regions": {},
   "countries": {},
   "recent_visits": [],
+  "daily_visits": {},
+  "pages": {},
+  "referrers": {},
+  "devices": {},
   "visitor_hashes": {},
   "updated_at": "",
   "meta": {
+    "schema_version": 2,
     "storage": "GitHub repository",
-    "privacy": "Stores aggregate region counts and salted visitor hashes only. Raw IP addresses are not stored."
+    "privacy": "Stores aggregate dimensions, bounded approximate visit locations, and salted visitor hashes. Raw IP addresses and full referrer URLs are not stored."
   }
 }

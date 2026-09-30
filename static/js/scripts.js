@@ -7,6 +7,7 @@ const visitorEarthState = {
     stats: {},
     current: null,
     providerVisits: [],
+    sharedGlobe: null,
     stars: [],
     animationStarted: false,
     globe: {
@@ -250,8 +251,8 @@ function syncMapMyVisitorsPoints(tracker) {
         })
     })
 
-    visitorEarthState.providerVisits = visits
-    tracker.setAttribute('data-synced-points', String(visits.length))
+    visitorEarthState.providerVisits = window.VisitorData ? window.VisitorData.cacheProviderVisits(visits) : visits
+    tracker.setAttribute('data-synced-points', String(visitorEarthState.providerVisits.length))
     renderEarthDashboard()
     finalizeVisitorEarthData()
 }
@@ -268,22 +269,33 @@ function inverseMillerProjection(x, y, width, height) {
 }
 
 function loadCurrentVisitorLocation() {
-    return getVisitorRegion()
-        .then(data => {
+    if (!window.VisitorData) {
+        return getVisitorRegion().then(data => {
             visitorEarthState.current = Object.assign({
                 time: new Date().toISOString(),
                 isCurrent: true,
                 approximate: true
             }, data)
             renderEarthDashboard()
-        })
-        .catch(() => {
-            visitorEarthState.current = Object.assign(inferVisitFromTimezone(), {
-                isCurrent: true,
-                approximate: true
-            })
+            return visitorEarthState.current
+        }).catch(() => {
+            visitorEarthState.current = inferVisitFromTimezone()
             renderEarthDashboard()
+            return visitorEarthState.current
         })
+    }
+
+    visitorEarthState.current = window.VisitorData.readCurrentLocation()
+    if (visitorEarthState.current) {
+        renderEarthDashboard()
+    }
+
+    return window.VisitorData.locateCurrent().then(visit => {
+        if (!visit) return null
+        visitorEarthState.current = visit
+        renderEarthDashboard()
+        return window.VisitorData.reportVisitOnce(visit)
+    })
 }
 
 function finalizeVisitorEarthData() {
@@ -417,9 +429,12 @@ function fetchJsonWithTimeout(url, timeout) {
 function initVisitorEarthCanvas() {
     const canvas = document.getElementById('visitor-earth-canvas')
     const stage = document.getElementById('visitor-earth-stage')
-    const status = document.getElementById('visitor-earth-status')
+    const tooltip = document.getElementById('visitor-earth-tooltip')
+    if (!canvas) return
 
-    if (!canvas) {
+    if (window.VisitorGlobe && window.THREE) {
+        visitorEarthState.sharedGlobe = new window.VisitorGlobe({ canvas, stage, tooltip })
+        visitorEarthState.sharedGlobe.setVisits(collectEarthVisits())
         return
     }
 
@@ -430,24 +445,8 @@ function initVisitorEarthCanvas() {
         console.log('Three.js visitor globe unavailable; falling back to canvas renderer.', error)
         resetThreeVisitorGlobe()
     }
-    if (!visitorEarthState.animationStarted) {
-        visitorEarthState.animationStarted = true
-        requestAnimationFrame(drawVisitorEarth)
-    }
-    if (stage) {
-        stage.setAttribute('aria-busy', 'true')
-    }
-    if (status) {
-        status.hidden = false
-    }
-
-    window.addEventListener('resize', () => {
-        if (visitorEarthState.globe.renderer) {
-            resizeThreeGlobe()
-        } else {
-            resizeEarthCanvas(canvas)
-        }
-    })
+    visitorEarthState.animationStarted = true
+    requestAnimationFrame(drawVisitorEarth)
 }
 
 function renderEarthDashboard() {
@@ -464,13 +463,18 @@ function renderEarthDashboard() {
     setText('earth_total_visits', Math.max(Number(stats.total_visits || 0), visits.length ? 1 : 0).toLocaleString())
     setText('earth_country_count', countries.size.toLocaleString())
     renderLatestVisitors(visits)
-    syncGlobePins(visits)
+    if (visitorEarthState.sharedGlobe) {
+        visitorEarthState.sharedGlobe.setVisits(visits)
+    }
 }
 
 function collectEarthVisits() {
     const stats = visitorEarthState.stats || {}
     const recent = Array.isArray(stats.recent_visits) ? stats.recent_visits : []
-    const providerVisits = Array.isArray(visitorEarthState.providerVisits) ? visitorEarthState.providerVisits : []
+    const cachedProviderVisits = window.VisitorData ? window.VisitorData.readProviderVisits() : []
+    const providerVisits = Array.isArray(visitorEarthState.providerVisits) && visitorEarthState.providerVisits.length
+        ? visitorEarthState.providerVisits
+        : cachedProviderVisits
     const rows = recent.map(visit => normaliseVisit(visit, false))
         .concat(providerVisits.map(visit => normaliseVisit(visit, false)))
 
@@ -478,17 +482,20 @@ function collectEarthVisits() {
         rows.unshift(normaliseVisit(visitorEarthState.current, true))
     }
 
-    return rows.filter(Boolean).slice(0, 24)
+    const normalized = rows.filter(Boolean).map(visit => Object.assign({}, visit, {
+        source: visit.source || visit.provider || (visit.isCurrent ? 'Current session' : 'Repository'),
+        timestamp: visit.timestamp || visit.time || ''
+    }))
+    return window.VisitorData ? window.VisitorData.dedupeVisits(normalized).slice(0, 100) : normalized.slice(0, 100)
 }
 
 function normaliseVisit(visit, isCurrent) {
     const country = visit.country || 'Unknown'
     const region = visit.region || ''
     const city = visit.city || ''
-    const inferred = coordinatesForLocation(country, region, city)
-    const hasExplicitCoordinates = Number.isFinite(Number(visit.latitude)) && Number.isFinite(Number(visit.longitude))
-    const latitude = numberOrFallback(visit.latitude, inferred && inferred.latitude)
-    const longitude = numberOrFallback(visit.longitude, inferred && inferred.longitude)
+    const latitude = numberOrFallback(visit.latitude, null)
+    const longitude = numberOrFallback(visit.longitude, null)
+    const hasExplicitCoordinates = Number.isFinite(latitude) && Number.isFinite(longitude)
 
     return {
         country,
@@ -496,11 +503,13 @@ function normaliseVisit(visit, isCurrent) {
         city,
         latitude,
         longitude,
-        time: visit.time || '',
+        time: visit.time || visit.timestamp || '',
+        timestamp: visit.timestamp || visit.time || '',
         timezone: visit.timezone || '',
         visitor: visit.visitor || (isCurrent ? 'current' : ''),
-        provider: visit.provider || '',
-        approximate: Boolean(visit.approximate || (!hasExplicitCoordinates && inferred)),
+        provider: visit.provider || visit.source || '',
+        source: visit.source || visit.provider || (isCurrent ? 'Current session' : 'Repository'),
+        approximate: Boolean(visit.approximate || !hasExplicitCoordinates),
         isCurrent
     }
 }
@@ -576,9 +585,8 @@ function initThreeVisitorGlobe(canvas) {
     const sphereSegments = mobileRendering ? 48 : 72
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobileRendering ? 1.35 : 2))
     renderer.setClearColor(0x000000, 0)
-    // 地球纹理已经包含自然昼夜明暗，不再叠加色调映射和聚光效果。
-    renderer.toneMapping = THREE.NoToneMapping
-    renderer.toneMappingExposure = 1
+    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.toneMappingExposure = 0.72
     if (THREE.SRGBColorSpace) {
         renderer.outputColorSpace = THREE.SRGBColorSpace
     } else if (THREE.sRGBEncoding) {
@@ -593,16 +601,18 @@ function initThreeVisitorGlobe(canvas) {
     group.rotation.x = toRadians(-8)
     scene.add(group)
 
-    const earthMaterial = new THREE.MeshBasicMaterial({
+    const earthMaterial = new THREE.MeshStandardMaterial({
         map: createEarthTexture(THREE),
-        color: 0xffffff
+        color: 0xe8f1f8,
+        roughness: 0.96,
+        metalness: 0
     })
     const earth = new THREE.Mesh(new THREE.SphereGeometry(1, sphereSegments, sphereSegments), earthMaterial)
     group.add(earth)
 
     const clouds = new THREE.Mesh(
         new THREE.SphereGeometry(1.012, sphereSegments, sphereSegments),
-        new THREE.MeshBasicMaterial({
+        new THREE.MeshLambertMaterial({
             map: createCloudTexture(THREE),
             transparent: true,
             opacity: 0.1,
@@ -614,6 +624,12 @@ function initThreeVisitorGlobe(canvas) {
     const pinGroup = new THREE.Group()
     group.add(pinGroup)
 
+    const ambient = new THREE.HemisphereLight(0xdbeafe, 0x07111f, 1.15)
+    const sun = new THREE.DirectionalLight(0xfff4dd, 0.72)
+    sun.position.set(-2.2, 1.4, 3.2)
+    const rim = new THREE.DirectionalLight(0x60a5fa, 0.22)
+    rim.position.set(2.8, -1.2, -2.4)
+    scene.add(ambient, sun, rim)
     scene.add(createStarPoints(THREE))
 
     Object.assign(globe, {
@@ -1377,51 +1393,10 @@ function landMasses() {
     ]
 }
 
-function coordinatesForLocation(country, region, city) {
-    const key = String(country || '').trim().toLowerCase()
-    const regionKey = `${country || ''} ${region || ''} ${city || ''}`.toLowerCase()
-    const precise = [
-        [/beijing/, { latitude: 39.9042, longitude: 116.4074 }],
-        [/shanghai/, { latitude: 31.2304, longitude: 121.4737 }],
-        [/anhui|hefei/, { latitude: 31.8612, longitude: 117.2857 }],
-        [/new york/, { latitude: 40.7128, longitude: -74.006 }],
-        [/california|san francisco|los angeles/, { latitude: 36.7783, longitude: -119.4179 }],
-        [/tokyo/, { latitude: 35.6762, longitude: 139.6503 }],
-        [/moscow|москва/, { latitude: 55.7558, longitude: 37.6173 }],
-        [/frankfurt|germany|deutschland/, { latitude: 50.1109, longitude: 8.6821 }]
-    ].find(([pattern]) => pattern.test(regionKey))
-
-    if (precise) {
-        return precise[1]
-    }
-
-    const countries = {
-        cn: { latitude: 35.8617, longitude: 104.1954 },
-        china: { latitude: 35.8617, longitude: 104.1954 },
-        us: { latitude: 39.8283, longitude: -98.5795 },
-        usa: { latitude: 39.8283, longitude: -98.5795 },
-        'united states': { latitude: 39.8283, longitude: -98.5795 },
-        jp: { latitude: 36.2048, longitude: 138.2529 },
-        japan: { latitude: 36.2048, longitude: 138.2529 },
-        ru: { latitude: 61.524, longitude: 105.3188 },
-        russia: { latitude: 61.524, longitude: 105.3188 },
-        de: { latitude: 51.1657, longitude: 10.4515 },
-        germany: { latitude: 51.1657, longitude: 10.4515 },
-        fr: { latitude: 46.2276, longitude: 2.2137 },
-        france: { latitude: 46.2276, longitude: 2.2137 },
-        gb: { latitude: 55.3781, longitude: -3.436 },
-        uk: { latitude: 55.3781, longitude: -3.436 },
-        'united kingdom': { latitude: 55.3781, longitude: -3.436 },
-        sg: { latitude: 1.3521, longitude: 103.8198 },
-        singapore: { latitude: 1.3521, longitude: 103.8198 },
-        au: { latitude: -25.2744, longitude: 133.7751 },
-        australia: { latitude: -25.2744, longitude: 133.7751 }
-    }
-
-    return countries[key] || null
-}
-
 function numberOrFallback(value, fallback) {
+    if (value === '' || value === null || value === undefined) {
+        return fallback === '' || fallback === null || fallback === undefined ? null : Number(fallback)
+    }
     const number = Number(value)
     if (Number.isFinite(number)) {
         return number
