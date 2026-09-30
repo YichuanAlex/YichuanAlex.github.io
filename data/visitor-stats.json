@@ -1,13 +1,28 @@
 {
-  "total_visits": 1,
-  "unique_visitors": 1,
+  "total_visits": 2,
+  "unique_visitors": 2,
   "regions": {
-    "CN / Henan / Zhengzhou": 1
+    "CN / Henan / Zhengzhou": 1,
+    "JP / 13 / Tokyo": 1
   },
   "countries": {
-    "CN": 1
+    "CN": 1,
+    "JP": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-09-30T09:33:34.816Z",
+      "country": "JP",
+      "region": "13",
+      "city": "Tokyo",
+      "timezone": "Asia/Tokyo",
+      "latitude": 35.6893,
+      "longitude": 139.6899,
+      "path": "/?collector-test=fc1c2e8",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "9fea41a6a2cb"
+    },
     {
       "time": "2026-09-30T09:31:10.857Z",
       "country": "CN",
@@ -23,21 +38,24 @@
     }
   ],
   "daily_visits": {
-    "2026-09-30": 1
+    "2026-09-30": 2
   },
   "pages": {
-    "/collector-validation": 1
+    "/collector-validation": 1,
+    "/?collector-test=fc1c2e8": 1
   },
   "referrers": {
-    "yichuanalex.github.io": 1
+    "yichuanalex.github.io": 1,
+    "Direct": 1
   },
   "devices": {
-    "desktop": 1
+    "desktop": 2
   },
   "visitor_hashes": {
+    "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:33:34.816Z",
     "14dd32fc656b722fa8a5cfca9a424e6de78530e07fe447df9bd8248ccf8e85ac": "2026-09-30T09:31:10.857Z"
   },
-  "updated_at": "2026-09-30T09:31:10.857Z",
+  "updated_at": "2026-09-30T09:33:34.816Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
