@@ -1,9 +1,12 @@
+/* global jsyaml, marked */
+
 const content_dir = 'contents/'
 const config_file = 'config.yml'
 const section_names = ['home', 'records', 'publications', 'experiences', 'news']
 const visitorEarthState = {
     stats: {},
     current: null,
+    providerVisits: [],
     stars: [],
     animationStarted: false,
     globe: {
@@ -13,11 +16,14 @@ const visitorEarthState = {
         group: null,
         pinGroup: null,
         interactivePins: [],
+        pulsePins: [],
         raycaster: null,
         pointer: null,
         pointerActive: false,
         dragging: false,
         lastPointer: { x: 0, y: 0 },
+        activePointers: new Map(),
+        lastPinchDistance: null,
         targetScale: 0.92,
         scale: 0.92,
         interactionsAttached: false
@@ -30,8 +36,11 @@ window.addEventListener('DOMContentLoaded', () => {
     loadMarkdownSections()
     loadNewsFeed()
     initVisitorEarthCanvas()
-    loadRepositoryStats()
-    initVisitorStats()
+    Promise.allSettled([
+        loadRepositoryStats(),
+        loadCurrentVisitorLocation()
+    ]).then(finalizeVisitorEarthData)
+    initMapMyVisitorsTracker()
 })
 
 function loadConfig() {
@@ -180,37 +189,136 @@ function formatDate(value) {
     return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
 }
 
-function initVisitorStats() {
-    const regionNode = document.getElementById('visitor-region')
-    const statusNode = document.getElementById('visitor-log-status')
-
-    if (!regionNode) {
+function initMapMyVisitorsTracker() {
+    const tracker = document.getElementById('mapmyvisitors-tracker')
+    if (!tracker) {
         return
     }
 
-    getVisitorRegion()
+    let syncTimer = null
+    const scheduleSync = () => {
+        window.clearTimeout(syncTimer)
+        syncTimer = window.setTimeout(() => syncMapMyVisitorsPoints(tracker), 80)
+    }
+    const observer = new MutationObserver(scheduleSync)
+    observer.observe(tracker, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['cx', 'cy', 'title', 'aria-label']
+    })
+    scheduleSync()
+    window.setTimeout(() => syncMapMyVisitorsPoints(tracker), 15000)
+}
+
+function syncMapMyVisitorsPoints(tracker) {
+    const svg = tracker.querySelector('.dots_svg')
+    if (!svg) {
+        return
+    }
+
+    const viewBox = (svg.getAttribute('viewBox') || '0 0 1800 900').split(/\s+/).map(Number)
+    const width = Number.isFinite(viewBox[2]) && viewBox[2] > 0 ? viewBox[2] : 1800
+    const height = Number.isFinite(viewBox[3]) && viewBox[3] > 0 ? viewBox[3] : 900
+    const seen = new Set()
+    const visits = []
+
+    svg.querySelectorAll('.svg_points circle, .svg_points ellipse, .svg_points [cx][cy]').forEach(node => {
+        const cx = Number(node.getAttribute('cx'))
+        const cy = Number(node.getAttribute('cy'))
+        if (!Number.isFinite(cx) || !Number.isFinite(cy)) {
+            return
+        }
+        const label = (node.querySelector('title') && node.querySelector('title').textContent) ||
+            node.getAttribute('aria-label') || node.getAttribute('title') || node.dataset.title || ''
+        const key = `${cx.toFixed(2)}:${cy.toFixed(2)}:${label}`
+        if (seen.has(key)) {
+            return
+        }
+        seen.add(key)
+        const coordinates = inverseMillerProjection(cx, cy, width, height)
+        visits.push({
+            country: '',
+            region: '',
+            city: label.trim(),
+            latitude: coordinates.latitude,
+            longitude: coordinates.longitude,
+            time: node.dataset.time || '',
+            visitor: 'MapMyVisitors',
+            approximate: true,
+            provider: 'MapMyVisitors'
+        })
+    })
+
+    visitorEarthState.providerVisits = visits
+    tracker.setAttribute('data-synced-points', String(visits.length))
+    renderEarthDashboard()
+    finalizeVisitorEarthData()
+}
+
+function inverseMillerProjection(x, y, width, height) {
+    const millerExtent = 2.303412543
+    const longitude = (x / width) * 360 - 180
+    const projectedY = millerExtent - (y / height) * millerExtent * 2
+    const latitude = (Math.atan(Math.exp(projectedY / 1.25)) - Math.PI / 4) / 0.4 * 180 / Math.PI
+    return {
+        latitude: clamp(latitude, -90, 90),
+        longitude: clamp(longitude, -180, 180)
+    }
+}
+
+function loadCurrentVisitorLocation() {
+    return getVisitorRegion()
         .then(data => {
-            const parts = [data.city, data.region, data.country].filter(Boolean)
-            const location = parts.length ? parts.join(', ') : 'Approximate region unavailable'
-            const timezone = data.timezone ? ` · ${data.timezone}` : ''
-            regionNode.textContent = `${location}${timezone}`
-            visitorEarthState.current = Object.assign({ time: new Date().toISOString() }, data)
+            visitorEarthState.current = Object.assign({
+                time: new Date().toISOString(),
+                isCurrent: true,
+                approximate: true
+            }, data)
             renderEarthDashboard()
-            submitVisitorEvent(data, statusNode)
         })
         .catch(() => {
-            const fallback = inferVisitFromTimezone()
-            const parts = [fallback.city, fallback.region, fallback.country].filter(Boolean)
-            const location = parts.length ? parts.join(', ') : 'Approximate region unavailable'
-            regionNode.textContent = fallback.country === 'Unknown' ? location : `${location} · ${fallback.timezone}`
-            visitorEarthState.current = fallback
+            visitorEarthState.current = Object.assign(inferVisitFromTimezone(), {
+                isCurrent: true,
+                approximate: true
+            })
             renderEarthDashboard()
-            submitVisitorEvent(fallback, statusNode)
         })
 }
 
+function finalizeVisitorEarthData() {
+    const visits = collectEarthVisits()
+    const stage = document.getElementById('visitor-earth-stage')
+    const status = document.getElementById('visitor-earth-status')
+
+    if (stage) {
+        stage.classList.add('is-ready')
+        stage.setAttribute('aria-busy', 'false')
+    }
+    if (!status) {
+        return
+    }
+    const coordinateVisits = visits.filter(visit => Number.isFinite(visit.latitude) && Number.isFinite(visit.longitude))
+    const hasHistoricalPoints = (visitorEarthState.stats.recent_visits || []).length > 0 || visitorEarthState.providerVisits.length > 0
+    status.classList.remove('is-empty', 'is-note')
+    if (coordinateVisits.length && hasHistoricalPoints) {
+        status.hidden = true
+        return
+    }
+    if (coordinateVisits.some(visit => visit.isCurrent)) {
+        status.classList.add('is-note')
+        status.innerHTML = '<span>Current approximate location shown · historical points awaiting MapMyVisitors sync.</span>'
+        status.hidden = false
+        return
+    }
+
+    status.classList.add('is-empty')
+    status.innerHTML = '<span>No visitor locations with coordinates yet.</span>'
+    status.hidden = false
+}
+
 function loadRepositoryStats() {
-    fetch('data/visitor-stats.json', { cache: 'no-store' })
+    return fetch('data/visitor-stats.json', { cache: 'no-store' })
         .then(response => response.json())
         .then(applyRepositoryStats)
         .catch(() => {
@@ -308,6 +416,8 @@ function fetchJsonWithTimeout(url, timeout) {
 
 function initVisitorEarthCanvas() {
     const canvas = document.getElementById('visitor-earth-canvas')
+    const stage = document.getElementById('visitor-earth-stage')
+    const status = document.getElementById('visitor-earth-status')
 
     if (!canvas) {
         return
@@ -323,6 +433,12 @@ function initVisitorEarthCanvas() {
     if (!visitorEarthState.animationStarted) {
         visitorEarthState.animationStarted = true
         requestAnimationFrame(drawVisitorEarth)
+    }
+    if (stage) {
+        stage.setAttribute('aria-busy', 'true')
+    }
+    if (status) {
+        status.hidden = false
     }
 
     window.addEventListener('resize', () => {
@@ -354,7 +470,9 @@ function renderEarthDashboard() {
 function collectEarthVisits() {
     const stats = visitorEarthState.stats || {}
     const recent = Array.isArray(stats.recent_visits) ? stats.recent_visits : []
+    const providerVisits = Array.isArray(visitorEarthState.providerVisits) ? visitorEarthState.providerVisits : []
     const rows = recent.map(visit => normaliseVisit(visit, false))
+        .concat(providerVisits.map(visit => normaliseVisit(visit, false)))
 
     if (visitorEarthState.current) {
         rows.unshift(normaliseVisit(visitorEarthState.current, true))
@@ -368,6 +486,7 @@ function normaliseVisit(visit, isCurrent) {
     const region = visit.region || ''
     const city = visit.city || ''
     const inferred = coordinatesForLocation(country, region, city)
+    const hasExplicitCoordinates = Number.isFinite(Number(visit.latitude)) && Number.isFinite(Number(visit.longitude))
     const latitude = numberOrFallback(visit.latitude, inferred && inferred.latitude)
     const longitude = numberOrFallback(visit.longitude, inferred && inferred.longitude)
 
@@ -377,9 +496,11 @@ function normaliseVisit(visit, isCurrent) {
         city,
         latitude,
         longitude,
-        time: visit.time || new Date().toISOString(),
+        time: visit.time || '',
         timezone: visit.timezone || '',
         visitor: visit.visitor || (isCurrent ? 'current' : ''),
+        provider: visit.provider || '',
+        approximate: Boolean(visit.approximate || (!hasExplicitCoordinates && inferred)),
         isCurrent
     }
 }
@@ -451,8 +572,18 @@ function initThreeVisitorGlobe(canvas) {
         alpha: true,
         antialias: true
     })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+    const mobileRendering = window.matchMedia('(max-width: 700px)').matches
+    const sphereSegments = mobileRendering ? 48 : 72
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobileRendering ? 1.35 : 2))
     renderer.setClearColor(0x000000, 0)
+    // 地球纹理已经包含自然昼夜明暗，不再叠加色调映射和聚光效果。
+    renderer.toneMapping = THREE.NoToneMapping
+    renderer.toneMappingExposure = 1
+    if (THREE.SRGBColorSpace) {
+        renderer.outputColorSpace = THREE.SRGBColorSpace
+    } else if (THREE.sRGBEncoding) {
+        renderer.outputEncoding = THREE.sRGBEncoding
+    }
 
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100)
@@ -462,20 +593,19 @@ function initThreeVisitorGlobe(canvas) {
     group.rotation.x = toRadians(-8)
     scene.add(group)
 
-    const earthMaterial = new THREE.MeshPhongMaterial({
+    const earthMaterial = new THREE.MeshBasicMaterial({
         map: createEarthTexture(THREE),
-        specular: new THREE.Color(0x0f3a5f),
-        shininess: 18
+        color: 0xffffff
     })
-    const earth = new THREE.Mesh(new THREE.SphereGeometry(1, 96, 96), earthMaterial)
+    const earth = new THREE.Mesh(new THREE.SphereGeometry(1, sphereSegments, sphereSegments), earthMaterial)
     group.add(earth)
 
     const clouds = new THREE.Mesh(
-        new THREE.SphereGeometry(1.012, 96, 96),
-        new THREE.MeshLambertMaterial({
+        new THREE.SphereGeometry(1.012, sphereSegments, sphereSegments),
+        new THREE.MeshBasicMaterial({
             map: createCloudTexture(THREE),
             transparent: true,
-            opacity: 0.24,
+            opacity: 0.1,
             depthWrite: false
         })
     )
@@ -484,12 +614,6 @@ function initThreeVisitorGlobe(canvas) {
     const pinGroup = new THREE.Group()
     group.add(pinGroup)
 
-    const ambient = new THREE.AmbientLight(0xffffff, 1.9)
-    const sun = new THREE.DirectionalLight(0xffffff, 2.25)
-    sun.position.set(-2.2, 1.4, 3.2)
-    const rim = new THREE.DirectionalLight(0x60a5fa, 0.75)
-    rim.position.set(2.8, -1.2, -2.4)
-    scene.add(ambient, sun, rim)
     scene.add(createStarPoints(THREE))
 
     Object.assign(globe, {
@@ -504,7 +628,8 @@ function initThreeVisitorGlobe(canvas) {
         pointerActive: false,
         targetScale: 0.92,
         scale: 0.92,
-        interactivePins: []
+        interactivePins: [],
+        pulsePins: []
     })
 
     focusThreeGlobe()
@@ -522,6 +647,7 @@ function resetThreeVisitorGlobe() {
         group: null,
         pinGroup: null,
         interactivePins: [],
+        pulsePins: [],
         raycaster: null,
         pointer: null,
         pointerActive: false,
@@ -535,6 +661,8 @@ function createEarthTexture(THREE) {
         loaded => {
             if (THREE.SRGBColorSpace) {
                 loaded.colorSpace = THREE.SRGBColorSpace
+            } else if (THREE.sRGBEncoding) {
+                loaded.encoding = THREE.sRGBEncoding
             }
             loaded.anisotropy = 4
         },
@@ -543,6 +671,8 @@ function createEarthTexture(THREE) {
     )
     if (THREE.SRGBColorSpace) {
         texture.colorSpace = THREE.SRGBColorSpace
+    } else if (THREE.sRGBEncoding) {
+        texture.encoding = THREE.sRGBEncoding
     }
     texture.anisotropy = 4
     return texture
@@ -554,6 +684,8 @@ function createCloudTexture(THREE) {
         loaded => {
             if (THREE.SRGBColorSpace) {
                 loaded.colorSpace = THREE.SRGBColorSpace
+            } else if (THREE.sRGBEncoding) {
+                loaded.encoding = THREE.sRGBEncoding
             }
         },
         undefined,
@@ -561,6 +693,8 @@ function createCloudTexture(THREE) {
     )
     if (THREE.SRGBColorSpace) {
         texture.colorSpace = THREE.SRGBColorSpace
+    } else if (THREE.sRGBEncoding) {
+        texture.encoding = THREE.sRGBEncoding
     }
     return texture
 }
@@ -594,15 +728,50 @@ function attachGlobeInteractions(canvas) {
         return
     }
 
+    const pointerDistance = () => {
+        const points = Array.from(globe.activePointers.values())
+        return points.length > 1 ? Math.hypot(points[0].x - points[1].x, points[0].y - points[1].y) : null
+    }
+    const finishPointer = event => {
+        globe.activePointers.delete(event.pointerId)
+        globe.lastPinchDistance = pointerDistance()
+        globe.dragging = globe.activePointers.size > 0
+        const [remaining] = globe.activePointers.values()
+        if (remaining) {
+            globe.lastPointer = remaining
+        }
+        if (canvas.hasPointerCapture(event.pointerId)) {
+            canvas.releasePointerCapture(event.pointerId)
+        }
+        if (event.pointerType === 'touch') {
+            updateGlobePointer(event)
+            updateGlobeHover()
+            window.setTimeout(hideGlobeTooltip, 2800)
+        }
+    }
+
     canvas.addEventListener('pointerdown', event => {
+        globe.activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY })
         globe.dragging = true
         globe.lastPointer = { x: event.clientX, y: event.clientY }
+        globe.lastPinchDistance = pointerDistance()
         canvas.setPointerCapture(event.pointerId)
     })
 
     canvas.addEventListener('pointermove', event => {
         updateGlobePointer(event)
-        if (!globe.dragging || !globe.group) {
+        if (!globe.activePointers.has(event.pointerId) || !globe.group) {
+            return
+        }
+
+        globe.activePointers.set(event.pointerId, { x: event.clientX, y: event.clientY })
+        if (globe.activePointers.size > 1) {
+            const distance = pointerDistance()
+            if (globe.lastPinchDistance && distance) {
+                globe.targetScale = clamp(globe.targetScale + (distance - globe.lastPinchDistance) * 0.003, 0.72, 1.08)
+            }
+            globe.lastPinchDistance = distance
+            hideGlobeTooltip()
             return
         }
 
@@ -614,27 +783,38 @@ function attachGlobeInteractions(canvas) {
         hideGlobeTooltip()
     })
 
-    canvas.addEventListener('pointerup', event => {
-        globe.dragging = false
-        if (canvas.hasPointerCapture(event.pointerId)) {
-            canvas.releasePointerCapture(event.pointerId)
-        }
-    })
-
-    canvas.addEventListener('pointercancel', () => {
-        globe.dragging = false
-    })
-
-    canvas.addEventListener('pointerleave', () => {
+    canvas.addEventListener('pointerup', finishPointer)
+    canvas.addEventListener('pointercancel', finishPointer)
+    canvas.addEventListener('pointerleave', event => {
         globe.pointerActive = false
-        globe.dragging = false
+        if (event.pointerType === 'mouse' && !canvas.hasPointerCapture(event.pointerId)) {
+            globe.dragging = false
+        }
         hideGlobeTooltip()
     })
 
     canvas.addEventListener('wheel', event => {
         event.preventDefault()
-        globe.targetScale = clamp(globe.targetScale + (event.deltaY > 0 ? -0.06 : 0.06), 0.72, 1.04)
+        globe.targetScale = clamp(globe.targetScale + (event.deltaY > 0 ? -0.06 : 0.06), 0.72, 1.08)
     }, { passive: false })
+
+    canvas.addEventListener('keydown', event => {
+        if (!globe.group) {
+            return
+        }
+        const actions = {
+            ArrowLeft: () => { globe.group.rotation.y -= 0.12 },
+            ArrowRight: () => { globe.group.rotation.y += 0.12 },
+            ArrowUp: () => { globe.group.rotation.x = clamp(globe.group.rotation.x - 0.1, -1.05, 1.05) },
+            ArrowDown: () => { globe.group.rotation.x = clamp(globe.group.rotation.x + 0.1, -1.05, 1.05) },
+            '+': () => { globe.targetScale = clamp(globe.targetScale + 0.06, 0.72, 1.08) },
+            '-': () => { globe.targetScale = clamp(globe.targetScale - 0.06, 0.72, 1.08) }
+        }
+        if (actions[event.key]) {
+            event.preventDefault()
+            actions[event.key]()
+        }
+    })
 
     globe.interactionsAttached = true
 }
@@ -663,29 +843,46 @@ function syncGlobePins(visits) {
     }
 
     globe.interactivePins = []
-    visits.slice(0, 18).forEach((visit, index) => {
+    globe.pulsePins = []
+    visits.slice(0, 24).forEach((visit, index) => {
         if (!Number.isFinite(visit.latitude) || !Number.isFinite(visit.longitude)) {
             return
         }
 
-        const base = latLonToVector3(THREE, visit.latitude, visit.longitude, 1.03)
-        const pinMaterial = new THREE.MeshBasicMaterial({ color: visit.isCurrent ? 0xfacc15 : 0xef4444 })
-        const pin = new THREE.Mesh(new THREE.SphereGeometry(visit.isCurrent ? 0.035 : 0.025, 18, 18), pinMaterial)
+        const color = visit.isCurrent ? 0xfacc15 : 0xfb7185
+        const base = latLonToVector3(THREE, visit.latitude, visit.longitude, 1.035)
+        const normal = base.clone().normalize()
+        const pinMaterial = new THREE.MeshBasicMaterial({ color })
+        const pin = new THREE.Mesh(new THREE.SphereGeometry(visit.isCurrent ? 0.032 : 0.024, 16, 16), pinMaterial)
         pin.position.copy(base)
         pin.userData.visit = visit
         globe.pinGroup.add(pin)
         globe.interactivePins.push(pin)
 
+        const stemHeight = visit.isCurrent ? 0.12 : 0.08
+        const stem = new THREE.Mesh(
+            new THREE.CylinderGeometry(0.008, 0.012, stemHeight, 10),
+            pinMaterial
+        )
+        stem.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal)
+        stem.position.copy(normal.clone().multiplyScalar(1.03 + stemHeight / 2))
+        globe.pinGroup.add(stem)
+
         const glow = new THREE.Sprite(new THREE.SpriteMaterial({
-            map: createPinGlowTexture(THREE, visit.isCurrent ? '#facc15' : '#ef4444'),
+            map: createPinGlowTexture(THREE, visit.isCurrent ? '#facc15' : '#fb7185'),
             transparent: true,
-            opacity: visit.isCurrent ? 0.72 : 0.5,
+            opacity: visit.isCurrent ? 0.66 : 0.42,
             depthWrite: false
         }))
-        glow.position.copy(latLonToVector3(THREE, visit.latitude, visit.longitude, 1.04))
-        glow.scale.set(visit.isCurrent ? 0.28 : 0.18, visit.isCurrent ? 0.28 : 0.18, 1)
+        glow.position.copy(latLonToVector3(THREE, visit.latitude, visit.longitude, 1.055))
+        const glowSize = visit.isCurrent ? 0.24 : 0.16
+        glow.scale.set(glowSize, glowSize, 1)
         glow.userData.visit = visit
+        glow.userData.baseScale = glowSize
         globe.pinGroup.add(glow)
+        if (visit.isCurrent || index < 3) {
+            globe.pulsePins.push(glow)
+        }
 
         if (visit.isCurrent || index < 2) {
             const label = createGlobeLabel(THREE, visit)
@@ -694,6 +891,13 @@ function syncGlobePins(visits) {
         }
     })
 
+    const stage = document.getElementById('visitor-earth-stage')
+    if (stage) {
+        stage.dataset.renderedPoints = String(globe.interactivePins.length)
+        stage.dataset.repositoryPoints = String((visitorEarthState.stats.recent_visits || []).length)
+        stage.dataset.mapmyvisitorsPoints = String(visitorEarthState.providerVisits.length)
+        stage.dataset.currentPoint = String(visits.some(visit => visit.isCurrent && Number.isFinite(visit.latitude) && Number.isFinite(visit.longitude)))
+    }
     focusThreeGlobe()
 }
 
@@ -753,7 +957,8 @@ function drawThreeVisitorGlobe() {
 
     resizeThreeGlobe()
 
-    if (!globe.dragging) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!globe.dragging && !reduceMotion) {
         globe.group.rotation.y += 0.0022
         if (globe.clouds) {
             globe.clouds.rotation.y += 0.0007
@@ -762,6 +967,12 @@ function drawThreeVisitorGlobe() {
 
     globe.scale += (globe.targetScale - globe.scale) * 0.08
     globe.group.scale.setScalar(globe.scale)
+    globe.pulsePins.forEach((pulse, index) => {
+        const wave = reduceMotion ? 0 : (Math.sin(performance.now() * 0.004 + index) + 1) * 0.5
+        const size = pulse.userData.baseScale * (1 + wave * 0.22)
+        pulse.scale.set(size, size, 1)
+        pulse.material.opacity = 0.34 + wave * 0.3
+    })
     updateGlobeHover()
     globe.renderer.render(globe.scene, globe.camera)
     return true
@@ -777,7 +988,8 @@ function resizeThreeGlobe() {
     const canvas = globe.renderer.domElement
     const width = Math.max(120, Math.floor(canvas.clientWidth || canvas.getBoundingClientRect().width || 240))
     const height = Math.max(120, Math.floor(canvas.clientHeight || canvas.getBoundingClientRect().height || 240))
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
+    const mobileRendering = window.matchMedia('(max-width: 700px)').matches
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, mobileRendering ? 1.35 : 2)
 
     globe.renderer.setPixelRatio(pixelRatio)
     globe.renderer.setSize(width, height, false)
@@ -811,8 +1023,9 @@ function showGlobeTooltip(visit, pointer) {
         return
     }
 
-    const place = [visit.city, visit.region, visit.country].filter(Boolean).join(', ') || 'Unknown region'
-    tooltip.textContent = `${place} · ${relativeTime(visit.time)}`
+    const place = [visit.city, visit.region, visit.country].filter(Boolean).join(', ') || 'Location unavailable'
+    const precision = visit.approximate ? ' · approximate' : ''
+    tooltip.textContent = `${place}${precision} · ${relativeTime(visit.time)}`
     tooltip.style.display = 'block'
     tooltip.style.left = `${Math.max(18, Math.min(pointer.x, tooltip.parentElement.clientWidth - 18))}px`
     tooltip.style.top = `${Math.max(18, pointer.y - 12)}px`
@@ -1238,9 +1451,12 @@ function countryCode(country) {
 }
 
 function relativeTime(value) {
+    if (!value) {
+        return 'time unavailable'
+    }
     const time = new Date(value).getTime()
     if (!Number.isFinite(time)) {
-        return 'now'
+        return 'time unavailable'
     }
 
     const minutes = Math.max(0, Math.round((Date.now() - time) / 60000))
@@ -1273,53 +1489,4 @@ function escapeAttribute(value) {
 
 function toRadians(degrees) {
     return degrees * Math.PI / 180
-}
-
-function submitVisitorEvent(data, statusNode) {
-    const endpoint = window.VISITOR_STATS_ENDPOINT
-
-    if (!endpoint) {
-        if (statusNode) {
-            statusNode.textContent = 'Drag · zoom · hover visitor'
-        }
-        return
-    }
-
-    const payload = {
-        url: window.location.href,
-        path: window.location.pathname,
-        referrer: document.referrer || '',
-        city: data.city || '',
-        region: data.region || '',
-        country: data.country || '',
-        latitude: data.latitude || '',
-        longitude: data.longitude || '',
-        timezone: data.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || ''
-    }
-
-    fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        keepalive: true
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Collector unavailable')
-            }
-            return response.json()
-        })
-        .then(result => {
-            if (result && result.stats) {
-                applyRepositoryStats(result.stats)
-            }
-            if (statusNode) {
-                statusNode.textContent = 'Visit recorded · drag · hover'
-            }
-        })
-        .catch(() => {
-            if (statusNode) {
-                statusNode.textContent = 'Live counters ready · drag · hover'
-            }
-        })
 }

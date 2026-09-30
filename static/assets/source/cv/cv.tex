@@ -1,5 +1,5 @@
 \documentclass[10pt,a4paper]{article}
-\usepackage[left=28.32bp,right=28.32bp,top=26.76bp,bottom=19.00bp]{geometry}
+\usepackage[left=28.32bp,right=28.32bp,top=26.76bp,bottom=14.00bp]{geometry}
 \usepackage{fontspec}
 \setmainfont[FakeStretch=0.988]{Times New Roman}
 \usepackage{graphicx}
@@ -20,20 +20,24 @@
 \raggedbottom
 \AtBeginDocument{\fontsize{9.12bp}{10.32bp}\selectfont}
 
+% Unified vertical rhythm: section > entry heading > underlined metadata > body.
 \newcommand{\sectionrule}[1]{%
-  \par\vspace{3.36bp}\noindent\textbf{#1}\par\vspace{2.62bp}%
-  \hrule height 0.72bp\vspace{2.34bp}%
+  \par\vspace{1.80bp}\noindent\textbf{#1}\par\vspace{2.62bp}%
+  \hrule height 0.72bp\vspace{1.80bp}%
 }
-\newcommand{\compactsectionrule}[1]{%
-  \par\vspace{0.24bp}\noindent\textbf{#1}\par\vspace{2.62bp}%
-  \hrule height 0.72bp\vspace{0.66bp}%
+\let\compactsectionrule\sectionrule
+\newcommand{\entrycompany}[2]{%
+  \par\vspace{0.80bp}\noindent\textbf{#1}\hfill\textbf{#2}\par\vspace{0.50bp}%
 }
-\newcommand{\educompany}[2]{\par\noindent\textbf{#1}\hfill\textbf{#2}\par\vspace{1.44bp}}
-\newcommand{\jobcompany}[2]{\par\vspace{1.92bp}\noindent\textbf{#1}\hfill\textbf{#2}\par\vspace{1.44bp}}
-\newcommand{\titleline}[1]{\par\noindent\textbf{#1}\par}
-\newcommand{\roleline}[2]{\par\noindent\uline{\textit{#1}}\hfill\textbf{#2}\par}
-\newcommand{\eduroleline}[2]{\par\noindent\uline{\textit{#1}}\hfill\textbf{#2}\par\vspace{1.44bp}}
-\newcommand{\venueline}[2]{\par\noindent\uline{\textit{#1}}\hfill\textbf{#2}\par}
+\let\educompany\entrycompany
+\let\jobcompany\entrycompany
+\newcommand{\titleline}[1]{\par\vspace{0.80bp}\noindent\textbf{#1}\par\vspace{0.50bp}}
+\newcommand{\metaline}[2]{%
+  \par\noindent\uline{\textit{#1}}\hfill\textbf{#2}\par\vspace{0.50bp}%
+}
+\let\roleline\metaline
+\let\eduroleline\metaline
+\let\venueline\metaline
 \newenvironment{cvitems}{%
   \begin{itemize}[leftmargin=14.20bp,labelwidth=4.20bp,labelsep=10.00bp,align=left,
     topsep=0bp,itemsep=0bp,parsep=0bp,partopsep=0bp,label={\textbullet}]
@@ -114,9 +118,17 @@ Email: \href{mailto:jiangzixi1527435659@gmail.com}{jiangzixi1527435659@gmail.com
   \end{subitems}
 \end{cvitems}
 
-\vspace{-1.35bp}\sectionrule{INTERNSHIP EXPERIENCE}
+\sectionrule{INTERNSHIP EXPERIENCE}
+\jobcompany{ByteDance Ltd.}{International Payments Department}
+\roleline{Payment Risk Strategy Analyst}{09/2026 -- Present}
+\begin{cvitems}
+\item Conduct payment risk and fraud research to identify suspicious risks and address issues escalated or reported by cross-functional teams; balance risk mitigation with customer experience when developing solutions.
+\item Continuously track and monitor the performance of risk decisioning systems and models, and produce clear, easy-to-understand data visualizations, dashboards, and reports.
+\item Support the Risk Strategy team on various strategic initiatives, special projects, and ad hoc assignments.
+\end{cvitems}
+
 \jobcompany{DiDi Global Inc.}{Strategic \& Business Analysis Department}
-\roleline{Commercialization Strategy \& Operations Officer}{06/2026 -- Present}
+\roleline{Commercialization Strategy \& Operations Officer}{06/2026 -- 09/2026}
 \begin{cvitems}
 \item Spearheaded AI-centric strategic research by tracking product-market dynamics and evaluating innovative AI applications; synthesized findings into comprehensive reports to deliver actionable insights to core management and business teams.
 \item Conducted in-depth competitive intelligence analysis through secondary research and expert interviews; systematically collected and interpreted competitor data to identify market trends and strategic opportunities.
@@ -134,7 +146,7 @@ Email: \href{mailto:jiangzixi1527435659@gmail.com}{jiangzixi1527435659@gmail.com
 \roleline{ADAS System Engineer}{09/2025 -- 02/2026}
 \begin{cvitems}
 \item Deeply participate in the ADAS data closed-loop project, and for the next-generation L2+/L3 ADAS functions, conduct batch processing on test vehicles to build an integrated data closed-loop of vehicle-cloud-scene. Connect the entire chain (refer to true value sensor modification → bypass data acquisition at the vehicle end → cloud data lake → scene reconstruction → KPI visualization) to provide a replicable data toolchain for SOP models in 2026
-\item Based on the truth data of CARIAD Small Loop, a three-stage world model training pipeline of ``offline - closed loop - distillation'' was built. Data augmentation was carried out by calling the GAIA-1 derivative script based on the OrienLink platform. Expand 0.2TB of real vehicle data to an\newpage
+\item Based on the truth data of CARIAD Small Loop, a three-stage world model training pipeline of ``offline - closed loop - distillation'' was built. Data augmentation was carried out by calling the GAIA-1 derivative script based on the OrienLink platform. Expand 0.2TB of real vehicle data to an
 8TB virtual long-tail scene (such as heavy rain, construction, spillage from the preceding vehicle, etc.), and automatically generate the future 5-\linebreak
 second occupation raster and optical flow with 4D-BEV annotations; The OpenScenario/OpenDrive scenario was injected into the CARLA-\linebreak
 Cosmos co-simulator, and the end-to-end driving strategy was trained with reinforcement learning (Dreamer-V3) for closed-loop simulation. The\linebreak
@@ -194,11 +206,11 @@ performed on the J6 domain control, reducing the false braking rate by 19\%
 \venueline{AAAI 2027 Conference Submission, Under Review}{10/2024 -- present}
 \begin{cvitems}
 \item The work content of this paper is to propose a model called AdaptiveGaitSegNet, which is used to accurately identify the gait of patients with Parkinson's disease and address the limitations of traditional assessment methods. This model integrates techniques such as data preprocessing, dual-branch feature extraction, multi-scale feature fusion, and joint loss function to comprehensively analyze the gait of PD. Experiments on the GAIT-IT and GAIT-IST datasets show that the model performs exceptionally well in terms of accuracy, precision, recall rate, and F1 score, outperforming other advanced models and demonstrating high practical application value.
-\item This paper designs a dual-branch feature extraction mechanism, extracting local frame features and global sequence features respectively, and fusing the features through residual connections. Introduce the focus convolution operation to accurately capture the local motion features of different parts of the human body, avoiding the feature blurring problem of traditional convolution. The edge-aware pooling method is adopted to dynamically adjust the pooling operation and enhance the capture of edge information. By applying multi-scale pyramid pooling, the multi-scale features of gait are comprehensively captured to enhance the model's adaptability to complex scenarios. A joint loss function is proposed, combining triplet loss and cross-entropy loss to optimize the geometric structure of the feature space and enhance classification performance. These\newpage
+\item This paper designs a dual-branch feature extraction mechanism, extracting local frame features and global sequence features respectively, and fusing the features through residual connections. Introduce the focus convolution operation to accurately capture the local motion features of different parts of the human body, avoiding the feature blurring problem of traditional convolution. The edge-aware pooling method is adopted to dynamically adjust the pooling operation and enhance the capture of edge information. By applying multi-scale pyramid pooling, the multi-scale features of gait are comprehensively captured to enhance the model's adaptability to complex scenarios. A joint loss function is proposed, combining triplet loss and cross-entropy loss to optimize the geometric structure of the feature space and enhance classification performance. These
 innovations have significantly enhanced the robustness and recognition accuracy of the model.
 \end{cvitems}
 
-\vspace{1.92bp}\titleline{Graph Attention Network-Based Multi-Omics Data Integration for Precise Key Gene Prediction in Triple-Negative Breast Cancer}
+\titleline{\href{https://ieeexplore.ieee.org/document/11478305}{Multi-Omics Graph Attention Network for Key Gene Prediction in Triple-Negative Breast Cancer}}
 \venueline{IEEE/ACM Transactions on Computational Biology and Bioinformatics (SCI), Apr 2026}{07/2024 -- 05/2025}
 \begin{cvitems}
 \item This paper addresses triple-negative breast cancer (TNBC) with a multi-omics framework using Graph Attention Network (GAT) to predict key genes and improve prognosis. It integrates single-cell RNA-seq, chromatin accessibility, and radiomics data. After quality control and standardization, features are extracted via PCA and UMAP dimensionality reduction. Cell types are annotated using CellMarker 2.0. Canonical correlation analysis aligns multi-omics features to build a multimodal gene network including gene homology, PPIs, and transcription factor networks. Multi-head attention captures gene interactions, highlighting key modules, and CellphoneDB analyzes intercellular communication. The model is validated on external datasets, with hyperparameters optimized for robustness and generalization. Pathway enrichment links key genes to TNBC biological processes. An MLP model stratifies patient risks and verifies clinical relevance.
@@ -206,7 +218,7 @@ innovations have significantly enhanced the robustness and recognition accuracy 
 multimodal feature matrix, constructed via canonical correlation analysis (CCA) alignment, enhances the capture of complex gene relationships. This framework enables stratification of triple-negative breast cancer (TNBC) patients into distinct risk groups, thereby providing clinically validated biomarkers and therapeutic targets. Systematic hyperparameter optimization, implemented through grid search and cross-validation, ensures model stability and generalization capability. Variational Dropout enhances robustness, mitigates overfitting, and improves handling of high-dimensional data.
 \end{cvitems}
 
-\vspace{1.92bp}\titleline{A Named Entity Recognition Method for Tea Plant Pests and Diseases Based on BERT-BiLSTM-CRF}
+\titleline{\href{https://www.j-csam.org/jcsam/article/abstract/20251150?st=article_issue}{Named Entity Recognition Method for Tea Tree Pests and Diseases Based on BERT-BiLSTM-CRF}}
 \venueline{Transactions of the Chinese Society for Agricultural Machinery (EI), July 2025}{05/2023 -- 05/2024}
 \venueline{National Invention Patent (2025104224368), In Substantive Examination}{07/2024 -- 05/2025}
 \venueline{Copyright of Computer Software (2024SR0720539), Aug 2024}{07/2024 -- 05/2025}
@@ -215,7 +227,7 @@ multimodal feature matrix, constructed via canonical correlation analysis (CCA) 
 \item An innovative BBC model-based method is proposed for identifying named entities of tea tree pests and diseases, combining BERT's pre-training, BiLSTM's sequence modeling, and CRF's global optimization. This significantly improves recognition accuracy and efficiency. A knowledge graph of tea tree pests and diseases has been constructed, integrating multi-source heterogeneous data for structured organization and supporting applications like intelligent question answering. An intelligent question answering system, based on this knowledge map, integrates the BBC and BertForSequenceClassification models to handle question understanding, knowledge retrieval, and answer generation, providing an efficient tool for decision-making on pest and disease control.
 \end{cvitems}
 
-\vspace{2.16bp}\compactsectionrule{PROJECT EXPERIENCE}
+\compactsectionrule{PROJECT EXPERIENCE}
 \titleline{Vehicle Trajectory Prediction System Based on Graph-WaveNet}
 \venueline{Copyright of Computer Software (2025SR0673325), Aug 2024}{12/2022 -- 05/2023}
 \begin{cvitems}

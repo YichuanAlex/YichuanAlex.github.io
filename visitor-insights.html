@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Visitor analytics dashboard for Zixi Jiang's personal homepage, rendered from repository statistics, Vercount, and MapMyVisitors." />
+    <title>Visitor Insights | Zixi Jiang</title>
+    <link rel="icon" type="image/x-icon" href="static/assets/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="static/css/visitor-insights.css" />
+    <script defer src="https://events.vercount.one/js"></script>
+    <script defer src="static/js/visitor-insights.js"></script>
+</head>
+<body>
+    <a class="skip-link" href="#dashboard">Skip to dashboard</a>
+    <header class="site-header">
+        <div class="page-width header-inner">
+            <a class="back-link" href="index.html#stats"><span aria-hidden="true">←</span> Back to Visitor Earth</a>
+            <div class="header-actions">
+                <label class="range-control">Range
+                    <select id="time-range" disabled aria-describedby="range-help">
+                        <option>All available data</option>
+                    </select>
+                </label>
+                <span id="range-help" class="sr-only">Time-range filtering is unavailable because the repository data has no historical time series.</span>
+                <button id="refresh-dashboard" class="refresh-button" type="button"><span aria-hidden="true">↻</span> Refresh</button>
+            </div>
+        </div>
+    </header>
+
+    <main id="dashboard">
+        <section class="hero">
+            <div class="page-width hero-grid">
+                <div>
+                    <p class="eyebrow">Visitor analytics</p>
+                    <h1>Audience overview</h1>
+                    <p class="hero-lead">A transparent view of the visitor data currently available to this site. Every number and mark below comes from the repository JSON or live Vercount nodes; unavailable dimensions are labeled explicitly.</p>
+                    <div class="freshness-row">
+                        <span id="dashboard-state" class="status-pill is-loading">Loading data</span>
+                        <span>Repository updated: <strong id="data-updated-at">Checking…</strong></span>
+                    </div>
+                </div>
+                <div class="hero-map" aria-label="World distribution map">
+                    <svg viewBox="0 0 1000 420" role="img" aria-labelledby="world-map-title world-map-desc">
+                        <title id="world-map-title">Visitor world distribution</title>
+                        <desc id="world-map-desc">Visitor points are rendered only when latitude and longitude are present in repository data.</desc>
+                        <g class="map-grid" aria-hidden="true">
+                            <path d="M0 105H1000M0 210H1000M0 315H1000M250 0V420M500 0V420M750 0V420"></path>
+                        </g>
+                        <g class="land" aria-hidden="true">
+                            <path d="M72 92 143 45 246 54 286 101 247 135 204 132 178 180 126 165 98 127Z"></path>
+                            <path d="m229 190 58 35 32 81-41 86-38-45-22-86Z"></path>
+                            <path d="m421 83 73-37 178 14 109 65-67 54-97-11-59 31-78-44-73-25Z"></path>
+                            <path d="m493 172 84 18 48 74-37 116-70-33-48-101Z"></path>
+                            <path d="m753 267 96-31 80 57-38 67-108-14Z"></path>
+                            <path d="m340 70 33-29 31 20-15 35Z"></path>
+                        </g>
+                        <g id="map-points" class="map-points"></g>
+                    </svg>
+                    <div id="map-empty" class="map-empty">No geocoded visits are available yet.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page-width metrics" aria-label="Visitor summary">
+            <article><span>Repository visits</span><strong id="repository-total">—</strong><small>All stored visits</small></article>
+            <article><span>Unique visitors</span><strong id="repository-unique">—</strong><small>Salted-hash estimate</small></article>
+            <article><span>Countries</span><strong id="country-count">—</strong><small>Distinct stored countries</small></article>
+            <article><span>Regions</span><strong id="region-count">—</strong><small>Distinct stored regions</small></article>
+        </section>
+
+        <section class="page-width live-metrics" aria-labelledby="vercount-title">
+            <div><p class="eyebrow">Live counter source</p><h2 id="vercount-title">Vercount snapshot</h2><p>These values are populated by Vercount for this dashboard page and the site aggregate.</p></div>
+            <div class="vercount-grid">
+                <article><span>Page views</span><strong id="vercount_value_page_pv">—</strong></article>
+                <article><span>Site views</span><strong id="vercount_value_site_pv">—</strong></article>
+                <article><span>Site visitors</span><strong id="vercount_value_site_uv">—</strong></article>
+            </div>
+        </section>
+
+        <div class="page-width dashboard-grid">
+            <section class="panel ranking-panel" aria-labelledby="countries-title">
+                <div class="panel-heading"><div><p class="eyebrow">Repository aggregate</p><h2 id="countries-title">Top countries</h2></div><span id="countries-total" class="panel-badge">0 records</span></div>
+                <div id="country-ranking" class="ranking-list" aria-live="polite"></div>
+            </section>
+
+            <section class="panel ranking-panel" aria-labelledby="regions-title">
+                <div class="panel-heading"><div><p class="eyebrow">Repository aggregate</p><h2 id="regions-title">Top regions</h2></div><span id="regions-total" class="panel-badge">0 records</span></div>
+                <div id="region-ranking" class="ranking-list" aria-live="polite"></div>
+            </section>
+
+            <section class="panel timeline-panel" aria-labelledby="recent-title">
+                <div class="panel-heading"><div><p class="eyebrow">Repository sample</p><h2 id="recent-title">Recent visitors</h2></div><span id="recent-count" class="panel-badge">0 entries</span></div>
+                <ol id="recent-visitors" class="timeline" aria-live="polite"></ol>
+            </section>
+
+            <section class="panel source-panel" aria-labelledby="sources-title">
+                <div class="panel-heading"><div><p class="eyebrow">Coverage</p><h2 id="sources-title">Data sources</h2></div></div>
+                <div class="source-list">
+                    <article><span id="repository-source-dot" class="source-dot is-pending"></span><div><strong>Repository visitor stats</strong><p id="repository-source-status">Loading local aggregate data…</p></div></article>
+                    <article><span id="vercount-source-dot" class="source-dot is-pending"></span><div><strong>Vercount</strong><p id="vercount-source-status">Waiting for live counters…</p></div></article>
+                    <article><span class="source-dot is-linked"></span><div><strong>MapMyVisitors</strong><p>Tracking runs on the homepage. Detailed provider statistics are available in the public viewer.</p><a href="https://mapmyvisitors.com/web/1c8k0" target="_blank" rel="noopener">Open full MapMyVisitors statistics ↗</a></div></article>
+                </div>
+            </section>
+        </div>
+
+        <section class="page-width availability" aria-labelledby="availability-title">
+            <div class="section-title"><p class="eyebrow">Schema-aware reporting</p><h2 id="availability-title">Analytics coverage</h2><p>Cards marked “Not connected” are intentionally empty. The current sources do not contain those fields, so no proxy or synthetic data is shown.</p></div>
+            <div class="availability-grid">
+                <article data-source-field="updated_at,total_visits"><span class="availability-state">Available</span><h3>Totals &amp; freshness</h3><p>Requires aggregate visit counts and an update timestamp from the repository JSON.</p></article>
+                <article data-source-field="countries,regions"><span class="availability-state">Available</span><h3>Geographic distribution</h3><p>Country and region aggregates; map points additionally require latitude and longitude.</p></article>
+                <article data-source-field="recent_visits"><span class="availability-state">Available</span><h3>Recent activity</h3><p>Uses the bounded recent-visits sample and its location/time fields.</p></article>
+                <article class="is-missing"><span class="availability-state">Not connected</span><h3>Historical trend</h3><p>Needs daily or hourly timestamp buckets. Current JSON stores no time series, so range filtering is disabled.</p></article>
+                <article class="is-missing"><span class="availability-state">Not connected</span><h3>Traffic sources</h3><p>Needs referrer or UTM fields in an analytics export.</p></article>
+                <article class="is-missing"><span class="availability-state">Not connected</span><h3>Top pages</h3><p>Needs page-path visit counts from Vercount, MapMyVisitors export, or another analytics source.</p></article>
+                <article class="is-missing"><span class="availability-state">Not connected</span><h3>Device &amp; performance</h3><p>Needs device class, browser, Core Web Vitals, or RUM measurements.</p></article>
+                <article class="is-missing"><span class="availability-state">Not connected</span><h3>Anomaly &amp; bot traffic</h3><p>Needs timestamped request rates, user agents, and server or CDN security logs.</p></article>
+                <article class="is-missing"><span class="availability-state">Not connected</span><h3>Localization outcomes</h3><p>Needs page locale plus engagement or conversion fields by region.</p></article>
+            </div>
+        </section>
+
+        <section class="page-width privacy-panel" aria-labelledby="privacy-title">
+            <div><p class="eyebrow">Data handling</p><h2 id="privacy-title">Privacy &amp; interpretation</h2></div>
+            <p id="privacy-copy">Loading repository privacy metadata…</p>
+            <p>Map points are shown only from stored coordinates. Empty results mean “no data available”, not “no visitors exist”. No raw IP address or credential is displayed by this dashboard.</p>
+        </section>
+    </main>
+
+    <footer class="site-footer"><div class="page-width"><span>Visitor Insights · Zixi Jiang</span><a href="index.html#stats">Return to homepage</a></div></footer>
+</body>
+</html>

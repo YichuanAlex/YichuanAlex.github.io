@@ -17,10 +17,9 @@
 
     <script type="text/javascript" src="static/js/marked.min.js"></script>
     <script type="text/javascript" src="static/js/js-yaml.min.js"></script>
-    <script type="text/javascript" src="static/js/visitor-config.js"></script>
     <script defer src="https://events.vercount.one/js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
-    <script type="text/javascript" src="static/js/scripts.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
+    <script type="text/javascript" src="static/js/scripts.js?v=20260930-natural-earth"></script>
 </head>
 
 <body>
@@ -73,40 +72,31 @@
                 </div>
 
                 <div class="visitor-earth-shell sidebar-earth">
-                    <div class="earth-topbar">
+                    <div class="mapmyvisitors-header">
                         <div>
-                            <h3>Visitors</h3>
-                            <p id="visitor-region">Detecting region...</p>
+                            <h3>Visitors around the world</h3>
+                            <p>Live locations powered by MapMyVisitors</p>
                         </div>
-                        <div class="earth-metrics" aria-label="Repository-backed visitor summary">
-                            <span><strong id="earth_total_visits">0</strong> visits</span>
-                            <span><strong id="earth_country_count">0</strong> countries</span>
-                        </div>
+                        <span class="mapmyvisitors-live" aria-label="Live visitor map">Live</span>
                     </div>
-
-                    <div class="earth-layout">
-                        <div class="earth-stage">
-                            <canvas id="visitor-earth-canvas" width="360" height="240" aria-label="Visitor earth visualization"></canvas>
-                            <div id="visitor-earth-tooltip" class="earth-tooltip" role="status"></div>
-                            <div class="earth-status">
-                                <span id="visitor-log-status">Repository-backed collector ready.</span>
-                            </div>
+                    <div id="visitor-earth-stage" class="mapmyvisitors-globe" aria-busy="true">
+                        <canvas id="visitor-earth-canvas" width="360" height="240" tabindex="0" aria-label="Interactive 3D visitor earth. Drag to rotate and use the wheel, pinch, arrow keys, plus, or minus to navigate."></canvas>
+                        <div id="visitor-earth-tooltip" class="earth-tooltip" role="status"></div>
+                        <div id="visitor-earth-status" class="mapmyvisitors-status" role="status">
+                            <span class="mapmyvisitors-spinner" aria-hidden="true"></span>
+                            <span>Loading 3D visitor earth…</span>
                         </div>
-                        <aside class="earth-recent-panel">
-                            <h3>Recent</h3>
-                            <div id="earth_latest_visitors" class="earth-visitor-list">
-                                <p>No recorded visits yet.</p>
-                            </div>
-                        </aside>
+                        <a class="visitor-insights-button" href="visitor-insights.html" aria-label="Open visitor insights overview" title="Visitor insights">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M2.4 12s3.5-6 9.6-6 9.6 6 9.6 6-3.5 6-9.6 6-9.6-6-9.6-6Z"></path>
+                                <circle cx="12" cy="12" r="2.8"></circle>
+                            </svg>
+                        </a>
                     </div>
-                </div>
-
-                <div class="repo-mini">
-                    <span>Repo Visits <strong id="repo_total_visits">0</strong></span>
-                    <span>Unique <strong id="repo_unique_visitors">0</strong></span>
-                    <span id="repo_top_region">Pending</span>
-                    <span id="repo_region_list">No repository-backed visits recorded yet.</span>
-                    <span id="repo_updated_at">Pending</span>
+                    <div id="mapmyvisitors-tracker" class="mapmyvisitors-tracker" aria-hidden="true">
+                        <script type="text/javascript" id="mmvst_globe" src="//mapmyvisitors.com/globe.js?d=CQiPuNcAW0-LPIL2nOvzlpCwNSkYRXjKaJi7VonQS2c"></script>
+                    </div>
+                    <noscript><a class="mapmyvisitors-noscript" href="https://mapmyvisitors.com/web/1c8k0" target="_blank" rel="noopener">View visitor map on MapMyVisitors</a></noscript>
                 </div>
             </section>
 
