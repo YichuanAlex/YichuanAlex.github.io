@@ -1,15 +1,43 @@
 {
-  "total_visits": 0,
-  "unique_visitors": 0,
-  "regions": {},
-  "countries": {},
-  "recent_visits": [],
-  "daily_visits": {},
-  "pages": {},
-  "referrers": {},
-  "devices": {},
-  "visitor_hashes": {},
-  "updated_at": "",
+  "total_visits": 1,
+  "unique_visitors": 1,
+  "regions": {
+    "JP / 13 / Tokyo": 1
+  },
+  "countries": {
+    "JP": 1
+  },
+  "recent_visits": [
+    {
+      "time": "2026-09-30T09:42:29.994Z",
+      "country": "JP",
+      "region": "13",
+      "city": "Tokyo",
+      "timezone": "Asia/Tokyo",
+      "latitude": 35.6893,
+      "longitude": 139.6899,
+      "path": "/visitor-insights.html",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "9fea41a6a2cb"
+    }
+  ],
+  "daily_visits": {
+    "2026-09-30": 1
+  },
+  "pages": {
+    "/visitor-insights.html": 1
+  },
+  "referrers": {
+    "Direct": 1
+  },
+  "devices": {
+    "desktop": 1
+  },
+  "visitor_hashes": {
+    "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
+  },
+  "updated_at": "2026-09-30T09:42:29.994Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
