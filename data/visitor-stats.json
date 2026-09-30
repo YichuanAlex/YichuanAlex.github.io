@@ -1,15 +1,43 @@
 {
-  "total_visits": 0,
-  "unique_visitors": 0,
-  "regions": {},
-  "countries": {},
-  "recent_visits": [],
-  "daily_visits": {},
-  "pages": {},
-  "referrers": {},
-  "devices": {},
-  "visitor_hashes": {},
-  "updated_at": "",
+  "total_visits": 1,
+  "unique_visitors": 1,
+  "regions": {
+    "CN / Henan / Zhengzhou": 1
+  },
+  "countries": {
+    "CN": 1
+  },
+  "recent_visits": [
+    {
+      "time": "2026-09-30T09:31:10.857Z",
+      "country": "CN",
+      "region": "Henan",
+      "city": "Zhengzhou",
+      "timezone": "Asia/Tokyo",
+      "latitude": 34.77,
+      "longitude": 113.72,
+      "path": "/collector-validation",
+      "referrer": "yichuanalex.github.io",
+      "device_type": "desktop",
+      "visitor": "14dd32fc656b"
+    }
+  ],
+  "daily_visits": {
+    "2026-09-30": 1
+  },
+  "pages": {
+    "/collector-validation": 1
+  },
+  "referrers": {
+    "yichuanalex.github.io": 1
+  },
+  "devices": {
+    "desktop": 1
+  },
+  "visitor_hashes": {
+    "14dd32fc656b722fa8a5cfca9a424e6de78530e07fe447df9bd8248ccf8e85ac": "2026-09-30T09:31:10.857Z"
+  },
+  "updated_at": "2026-09-30T09:31:10.857Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
