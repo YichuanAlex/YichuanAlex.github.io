@@ -1,15 +1,30 @@
 {
-  "total_visits": 9,
-  "unique_visitors": 5,
+  "total_visits": 10,
+  "unique_visitors": 6,
   "regions": {
     "JP / 13 / Tokyo": 3,
-    "SG / Unknown / Singapore": 6
+    "SG / Unknown / Singapore": 6,
+    "US / VA / Portland": 1
   },
   "countries": {
     "JP": 3,
-    "SG": 6
+    "SG": 6,
+    "US": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-01T14:09:16.346Z",
+      "country": "US",
+      "region": "VA",
+      "city": "Portland",
+      "timezone": "America/Los_Angeles",
+      "latitude": 38.6879,
+      "longitude": -77.2978,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "023d36397f0e"
+    },
     {
       "time": "2026-10-01T14:09:09.006Z",
       "country": "SG",
@@ -130,27 +145,28 @@
   ],
   "daily_visits": {
     "2026-09-30": 3,
-    "2026-10-01": 6
+    "2026-10-01": 7
   },
   "pages": {
     "/visitor-insights.html": 1,
-    "/": 8
+    "/": 9
   },
   "referrers": {
-    "Direct": 9
+    "Direct": 10
   },
   "devices": {
-    "desktop": 6,
+    "desktop": 7,
     "mobile": 3
   },
   "visitor_hashes": {
+    "023d36397f0e08e7f407fe01c08a3a6fdfd1994e62780fa681926ace1cf0baaf": "2026-10-01T14:09:16.346Z",
     "fc3bc036c6a4ae5edfb24d742fd14f6f287c22eab54a6d7fbb037e233d396426": "2026-10-01T14:09:06.837Z",
     "e78770119036446401a548ce4bfc8abd4c5295716ba821715ca32f45870c5f0a": "2026-10-01T14:09:05.155Z",
     "093b66c2bfb03e424e164916c4e2d87807c39b3721d860bfe192e79808e504ad": "2026-10-01T14:08:48.579Z",
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-01T14:09:09.006Z",
+  "updated_at": "2026-10-01T14:09:16.346Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
