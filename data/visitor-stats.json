@@ -1,20 +1,33 @@
 {
-  "total_visits": 13,
-  "unique_visitors": 9,
+  "total_visits": 14,
+  "unique_visitors": 10,
   "regions": {
     "JP / 13 / Tokyo": 4,
     "SG / Unknown / Singapore": 6,
     "US / VA / Portland": 1,
     "HK / Unknown / Kowloon": 1,
-    "US / CA / Los Angeles": 1
+    "US / CA / Los Angeles": 2
   },
   "countries": {
     "JP": 4,
     "SG": 6,
-    "US": 2,
+    "US": 3,
     "HK": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-01T14:49:18.773Z",
+      "country": "US",
+      "region": "CA",
+      "city": "Los Angeles",
+      "timezone": "America/Los_Angeles",
+      "latitude": 34.0544,
+      "longitude": -118.244,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "ad4c04dd2cfd"
+    },
     {
       "time": "2026-10-01T14:31:58.411Z",
       "country": "JP",
@@ -187,21 +200,22 @@
   ],
   "daily_visits": {
     "2026-09-30": 3,
-    "2026-10-01": 10
+    "2026-10-01": 11
   },
   "pages": {
     "/visitor-insights.html": 1,
-    "/": 12
+    "/": 13
   },
   "referrers": {
-    "Direct": 11,
+    "Direct": 12,
     "weixin110.qq.com": 2
   },
   "devices": {
-    "desktop": 8,
+    "desktop": 9,
     "mobile": 5
   },
   "visitor_hashes": {
+    "ad4c04dd2cfd1b25b880f84f16a418c6768254694040b4f28487fffba49f7f47": "2026-10-01T14:49:18.773Z",
     "912350acd8327d72c55e592b79854b3c4417583cf4768cb56a4b4b111498d508": "2026-10-01T14:31:58.411Z",
     "b13f940a56a271b46feb28fd894e6e88dd6ca2fcd59599f30367445835839942": "2026-10-01T14:23:11.794Z",
     "d7367dd39800f269e9b6e2a108c2bf67abafc833539513d2ccf82e27ff5d0157": "2026-10-01T14:21:20.326Z",
@@ -212,7 +226,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-01T14:31:58.411Z",
+  "updated_at": "2026-10-01T14:49:18.773Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
