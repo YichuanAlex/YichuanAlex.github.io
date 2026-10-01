@@ -1,17 +1,32 @@
 {
-  "total_visits": 10,
-  "unique_visitors": 6,
+  "total_visits": 11,
+  "unique_visitors": 7,
   "regions": {
     "JP / 13 / Tokyo": 3,
     "SG / Unknown / Singapore": 6,
-    "US / VA / Portland": 1
+    "US / VA / Portland": 1,
+    "HK / Unknown / Kowloon": 1
   },
   "countries": {
     "JP": 3,
     "SG": 6,
-    "US": 1
+    "US": 1,
+    "HK": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-01T14:21:20.326Z",
+      "country": "HK",
+      "region": "Unknown",
+      "city": "Kowloon",
+      "timezone": "Asia/Hong_Kong",
+      "latitude": 22.3163,
+      "longitude": 114.1842,
+      "path": "/",
+      "referrer": "weixin110.qq.com",
+      "device_type": "mobile",
+      "visitor": "d7367dd39800"
+    },
     {
       "time": "2026-10-01T14:09:16.346Z",
       "country": "US",
@@ -145,20 +160,22 @@
   ],
   "daily_visits": {
     "2026-09-30": 3,
-    "2026-10-01": 7
+    "2026-10-01": 8
   },
   "pages": {
     "/visitor-insights.html": 1,
-    "/": 9
+    "/": 10
   },
   "referrers": {
-    "Direct": 10
+    "Direct": 10,
+    "weixin110.qq.com": 1
   },
   "devices": {
     "desktop": 7,
-    "mobile": 3
+    "mobile": 4
   },
   "visitor_hashes": {
+    "d7367dd39800f269e9b6e2a108c2bf67abafc833539513d2ccf82e27ff5d0157": "2026-10-01T14:21:20.326Z",
     "023d36397f0e08e7f407fe01c08a3a6fdfd1994e62780fa681926ace1cf0baaf": "2026-10-01T14:09:16.346Z",
     "fc3bc036c6a4ae5edfb24d742fd14f6f287c22eab54a6d7fbb037e233d396426": "2026-10-01T14:09:06.837Z",
     "e78770119036446401a548ce4bfc8abd4c5295716ba821715ca32f45870c5f0a": "2026-10-01T14:09:05.155Z",
@@ -166,7 +183,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-01T14:09:16.346Z",
+  "updated_at": "2026-10-01T14:21:20.326Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
