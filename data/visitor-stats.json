@@ -1,19 +1,33 @@
 {
-  "total_visits": 11,
-  "unique_visitors": 7,
+  "total_visits": 12,
+  "unique_visitors": 8,
   "regions": {
     "JP / 13 / Tokyo": 3,
     "SG / Unknown / Singapore": 6,
     "US / VA / Portland": 1,
-    "HK / Unknown / Kowloon": 1
+    "HK / Unknown / Kowloon": 1,
+    "US / CA / Los Angeles": 1
   },
   "countries": {
     "JP": 3,
     "SG": 6,
-    "US": 1,
+    "US": 2,
     "HK": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-01T14:23:11.794Z",
+      "country": "US",
+      "region": "CA",
+      "city": "Los Angeles",
+      "timezone": "America/Los_Angeles",
+      "latitude": 34.0544,
+      "longitude": -118.244,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "b13f940a56a2"
+    },
     {
       "time": "2026-10-01T14:21:20.326Z",
       "country": "HK",
@@ -160,21 +174,22 @@
   ],
   "daily_visits": {
     "2026-09-30": 3,
-    "2026-10-01": 8
+    "2026-10-01": 9
   },
   "pages": {
     "/visitor-insights.html": 1,
-    "/": 10
+    "/": 11
   },
   "referrers": {
-    "Direct": 10,
+    "Direct": 11,
     "weixin110.qq.com": 1
   },
   "devices": {
-    "desktop": 7,
+    "desktop": 8,
     "mobile": 4
   },
   "visitor_hashes": {
+    "b13f940a56a271b46feb28fd894e6e88dd6ca2fcd59599f30367445835839942": "2026-10-01T14:23:11.794Z",
     "d7367dd39800f269e9b6e2a108c2bf67abafc833539513d2ccf82e27ff5d0157": "2026-10-01T14:21:20.326Z",
     "023d36397f0e08e7f407fe01c08a3a6fdfd1994e62780fa681926ace1cf0baaf": "2026-10-01T14:09:16.346Z",
     "fc3bc036c6a4ae5edfb24d742fd14f6f287c22eab54a6d7fbb037e233d396426": "2026-10-01T14:09:06.837Z",
@@ -183,7 +198,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-01T14:21:20.326Z",
+  "updated_at": "2026-10-01T14:23:11.794Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
