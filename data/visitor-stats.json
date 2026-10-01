@@ -1,15 +1,28 @@
 {
-  "total_visits": 4,
-  "unique_visitors": 2,
+  "total_visits": 5,
+  "unique_visitors": 3,
   "regions": {
     "JP / 13 / Tokyo": 3,
-    "SG / Unknown / Singapore": 1
+    "SG / Unknown / Singapore": 2
   },
   "countries": {
     "JP": 3,
-    "SG": 1
+    "SG": 2
   },
   "recent_visits": [
+    {
+      "time": "2026-10-01T14:08:48.579Z",
+      "country": "SG",
+      "region": "Unknown",
+      "city": "Singapore",
+      "timezone": "Asia/Singapore",
+      "latitude": 1.2872,
+      "longitude": 103.8507,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "mobile",
+      "visitor": "093b66c2bfb0"
+    },
     {
       "time": "2026-10-01T14:08:48.107Z",
       "country": "SG",
@@ -65,23 +78,25 @@
   ],
   "daily_visits": {
     "2026-09-30": 3,
-    "2026-10-01": 1
+    "2026-10-01": 2
   },
   "pages": {
     "/visitor-insights.html": 1,
-    "/": 3
+    "/": 4
   },
   "referrers": {
-    "Direct": 4
+    "Direct": 5
   },
   "devices": {
-    "desktop": 4
+    "desktop": 4,
+    "mobile": 1
   },
   "visitor_hashes": {
+    "093b66c2bfb03e424e164916c4e2d87807c39b3721d860bfe192e79808e504ad": "2026-10-01T14:08:48.579Z",
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-01T14:08:48.107Z",
+  "updated_at": "2026-10-01T14:08:48.579Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
