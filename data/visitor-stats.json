@@ -1,20 +1,33 @@
 {
-  "total_visits": 17,
-  "unique_visitors": 11,
+  "total_visits": 18,
+  "unique_visitors": 12,
   "regions": {
     "JP / 13 / Tokyo": 4,
-    "SG / Unknown / Singapore": 9,
+    "SG / Unknown / Singapore": 10,
     "US / VA / Portland": 1,
     "HK / Unknown / Kowloon": 1,
     "US / CA / Los Angeles": 2
   },
   "countries": {
     "JP": 4,
-    "SG": 9,
+    "SG": 10,
     "US": 3,
     "HK": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-02T04:06:02.850Z",
+      "country": "SG",
+      "region": "Unknown",
+      "city": "Singapore",
+      "timezone": "Asia/Singapore",
+      "latitude": 1.2872,
+      "longitude": 103.8507,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "e6f3269edc62"
+    },
     {
       "time": "2026-10-02T04:06:01.775Z",
       "country": "SG",
@@ -240,21 +253,22 @@
   "daily_visits": {
     "2026-09-30": 3,
     "2026-10-01": 11,
-    "2026-10-02": 3
+    "2026-10-02": 4
   },
   "pages": {
     "/visitor-insights.html": 1,
-    "/": 16
+    "/": 17
   },
   "referrers": {
-    "Direct": 15,
+    "Direct": 16,
     "weixin110.qq.com": 2
   },
   "devices": {
-    "desktop": 11,
+    "desktop": 12,
     "mobile": 6
   },
   "visitor_hashes": {
+    "e6f3269edc620ae1c2779be1695e9c45a97dba4d547587c3a9af0ad7786912f5": "2026-10-02T04:06:02.850Z",
     "7d4ab1457aa831495ab52069c5952ec114f7ffce498108376b7ca0e02e02ab95": "2026-10-02T04:05:45.647Z",
     "ad4c04dd2cfd1b25b880f84f16a418c6768254694040b4f28487fffba49f7f47": "2026-10-01T14:49:18.773Z",
     "912350acd8327d72c55e592b79854b3c4417583cf4768cb56a4b4b111498d508": "2026-10-01T14:31:58.411Z",
@@ -267,7 +281,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-02T04:06:01.775Z",
+  "updated_at": "2026-10-02T04:06:02.850Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
