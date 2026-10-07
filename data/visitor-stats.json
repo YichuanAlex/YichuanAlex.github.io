@@ -1,5 +1,5 @@
 {
-  "total_visits": 38,
+  "total_visits": 39,
   "unique_visitors": 28,
   "regions": {
     "JP / 13 / Tokyo": 7,
@@ -12,7 +12,7 @@
     "US / WV / Wheeling": 1,
     "United States / Washington / Redmond": 1,
     "US / VA / Boydton": 1,
-    "HK / Unknown / Hong Kong": 2,
+    "HK / Unknown / Hong Kong": 3,
     "US / CT / New Haven": 1,
     "US / NC / Cary": 1,
     "JP / 27 / Osaka": 2,
@@ -22,11 +22,24 @@
     "JP": 9,
     "SG": 13,
     "US": 9,
-    "HK": 4,
+    "HK": 5,
     "GB": 2,
     "United States": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-07T14:24:12.791Z",
+      "country": "HK",
+      "region": "Unknown",
+      "city": "Hong Kong",
+      "timezone": "Asia/Hong_Kong",
+      "latitude": 22.2578,
+      "longitude": 114.1657,
+      "path": "/",
+      "referrer": "www.linkedin.com",
+      "device_type": "desktop",
+      "visitor": "7c4a874afe76"
+    },
     {
       "time": "2026-10-07T14:22:04.471Z",
       "country": "HK",
@@ -529,20 +542,20 @@
     "2026-10-04": 2,
     "2026-10-05": 3,
     "2026-10-06": 5,
-    "2026-10-07": 6
+    "2026-10-07": 7
   },
   "pages": {
     "/visitor-insights.html": 1,
-    "/": 37
+    "/": 38
   },
   "referrers": {
     "Direct": 32,
     "weixin110.qq.com": 2,
-    "www.linkedin.com": 3,
+    "www.linkedin.com": 4,
     "com.linkedin.android": 1
   },
   "devices": {
-    "desktop": 24,
+    "desktop": 25,
     "mobile": 14
   },
   "visitor_hashes": {
@@ -575,7 +588,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-07T14:22:04.471Z",
+  "updated_at": "2026-10-07T14:24:12.791Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
