@@ -1,9 +1,9 @@
 {
-  "total_visits": 45,
+  "total_visits": 46,
   "unique_visitors": 32,
   "regions": {
     "JP / 13 / Tokyo": 7,
-    "SG / Unknown / Singapore": 17,
+    "SG / Unknown / Singapore": 18,
     "US / VA / Portland": 1,
     "HK / Unknown / Kowloon": 1,
     "US / CA / Los Angeles": 3,
@@ -21,7 +21,7 @@
   },
   "countries": {
     "JP": 9,
-    "SG": 17,
+    "SG": 18,
     "US": 9,
     "HK": 5,
     "GB": 2,
@@ -29,6 +29,19 @@
     "AU": 2
   },
   "recent_visits": [
+    {
+      "time": "2026-10-08T03:47:02.157Z",
+      "country": "SG",
+      "region": "Unknown",
+      "city": "Singapore",
+      "timezone": "Asia/Singapore",
+      "latitude": 1.2872,
+      "longitude": 103.8507,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "7062816152e6"
+    },
     {
       "time": "2026-10-08T03:47:00.579Z",
       "country": "SG",
@@ -623,20 +636,20 @@
     "2026-10-05": 3,
     "2026-10-06": 5,
     "2026-10-07": 8,
-    "2026-10-08": 5
+    "2026-10-08": 6
   },
   "pages": {
     "/visitor-insights.html": 1,
-    "/": 44
+    "/": 45
   },
   "referrers": {
-    "Direct": 38,
+    "Direct": 39,
     "weixin110.qq.com": 2,
     "www.linkedin.com": 4,
     "com.linkedin.android": 1
   },
   "devices": {
-    "desktop": 28,
+    "desktop": 29,
     "mobile": 17
   },
   "visitor_hashes": {
@@ -673,7 +686,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-08T03:47:00.579Z",
+  "updated_at": "2026-10-08T03:47:02.157Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
