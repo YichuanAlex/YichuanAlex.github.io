@@ -1,6 +1,6 @@
 {
-  "total_visits": 63,
-  "unique_visitors": 43,
+  "total_visits": 64,
+  "unique_visitors": 44,
   "regions": {
     "JP / 13 / Tokyo": 9,
     "SG / Unknown / Singapore": 24,
@@ -25,12 +25,13 @@
     "US / VA / Ashburn": 1,
     "United States / California / Los Angeles": 1,
     "TW / TXG / Taichung": 1,
-    "United States / Alabama / Auburn": 1
+    "United States / Alabama / Auburn": 1,
+    "US / CO / Colorado Springs": 1
   },
   "countries": {
     "JP": 11,
     "SG": 24,
-    "US": 13,
+    "US": 14,
     "HK": 6,
     "GB": 2,
     "United States": 3,
@@ -39,6 +40,19 @@
     "TW": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-09T20:03:04.987Z",
+      "country": "US",
+      "region": "CO",
+      "city": "Colorado Springs",
+      "timezone": "America/Chicago",
+      "latitude": 38.9301,
+      "longitude": -104.8441,
+      "path": "/",
+      "referrer": "bing.com",
+      "device_type": "desktop",
+      "visitor": "6bb746876eff"
+    },
     {
       "time": "2026-10-09T20:01:57.740Z",
       "country": "United States",
@@ -868,11 +882,11 @@
     "2026-10-06": 5,
     "2026-10-07": 8,
     "2026-10-08": 9,
-    "2026-10-09": 14
+    "2026-10-09": 15
   },
   "pages": {
     "/visitor-insights.html": 1,
-    "/": 62
+    "/": 63
   },
   "referrers": {
     "Direct": 53,
@@ -880,13 +894,15 @@
     "www.linkedin.com": 4,
     "com.linkedin.android": 1,
     "github.com": 1,
-    "www.google.com": 1
+    "www.google.com": 1,
+    "bing.com": 1
   },
   "devices": {
-    "desktop": 41,
+    "desktop": 42,
     "mobile": 22
   },
   "visitor_hashes": {
+    "6bb746876eff1dd5a2e48dae7555acfba7ccd88cb79acd0b2e587ee29f90115e": "2026-10-09T20:03:04.987Z",
     "a94cc4c6093bae04107ce1f8b3d02fdb46956c0a25ce342423b2aabaf0237cae": "2026-10-09T20:01:57.740Z",
     "5953f6b25b1bc4b1f231cd8f5a91056854bf66be448873eb7a0d23df1959c953": "2026-10-09T10:28:43.578Z",
     "78523863251c5d29700e49c8d92ed0d22aa828a6a6fac65518637fc25e56dea4": "2026-10-09T10:25:49.915Z",
@@ -931,7 +947,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-09T20:01:57.740Z",
+  "updated_at": "2026-10-09T20:03:04.987Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
