@@ -1,5 +1,5 @@
 {
-  "total_visits": 65,
+  "total_visits": 66,
   "unique_visitors": 45,
   "regions": {
     "JP / 13 / Tokyo": 9,
@@ -25,7 +25,7 @@
     "US / VA / Ashburn": 1,
     "United States / California / Los Angeles": 1,
     "TW / TXG / Taichung": 1,
-    "United States / Alabama / Auburn": 1,
+    "United States / Alabama / Auburn": 2,
     "US / CO / Colorado Springs": 1,
     "US / IA / Council Bluffs": 1
   },
@@ -35,12 +35,25 @@
     "US": 15,
     "HK": 6,
     "GB": 2,
-    "United States": 3,
+    "United States": 4,
     "AU": 2,
     "Japan": 1,
     "TW": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-09T20:22:13.951Z",
+      "country": "United States",
+      "region": "Alabama",
+      "city": "Auburn",
+      "timezone": "America/New_York",
+      "latitude": 32.5484,
+      "longitude": -85.4682,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "a94cc4c6093b"
+    },
     {
       "time": "2026-10-09T20:03:08.142Z",
       "country": "US",
@@ -896,14 +909,14 @@
     "2026-10-06": 5,
     "2026-10-07": 8,
     "2026-10-08": 9,
-    "2026-10-09": 16
+    "2026-10-09": 17
   },
   "pages": {
     "/visitor-insights.html": 1,
-    "/": 64
+    "/": 65
   },
   "referrers": {
-    "Direct": 54,
+    "Direct": 55,
     "weixin110.qq.com": 3,
     "www.linkedin.com": 4,
     "com.linkedin.android": 1,
@@ -912,7 +925,7 @@
     "bing.com": 1
   },
   "devices": {
-    "desktop": 43,
+    "desktop": 44,
     "mobile": 22
   },
   "visitor_hashes": {
@@ -962,7 +975,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-09T20:03:08.142Z",
+  "updated_at": "2026-10-09T20:22:13.951Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
