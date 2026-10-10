@@ -1,6 +1,6 @@
 {
-  "total_visits": 67,
-  "unique_visitors": 46,
+  "total_visits": 68,
+  "unique_visitors": 47,
   "regions": {
     "JP / 13 / Tokyo": 9,
     "SG / Unknown / Singapore": 24,
@@ -12,7 +12,7 @@
     "US / WV / Wheeling": 1,
     "United States / Washington / Redmond": 1,
     "US / VA / Boydton": 1,
-    "HK / Unknown / Hong Kong": 4,
+    "HK / Unknown / Hong Kong": 5,
     "US / CT / New Haven": 1,
     "US / NC / Cary": 1,
     "JP / 27 / Osaka": 2,
@@ -33,7 +33,7 @@
     "JP": 11,
     "SG": 24,
     "US": 16,
-    "HK": 6,
+    "HK": 7,
     "GB": 2,
     "United States": 4,
     "AU": 2,
@@ -41,6 +41,19 @@
     "TW": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-10T00:49:19.308Z",
+      "country": "HK",
+      "region": "Unknown",
+      "city": "Hong Kong",
+      "timezone": "Asia/Hong_Kong",
+      "latitude": 22.2842,
+      "longitude": 114.1759,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "027ff60b3f2e"
+    },
     {
       "time": "2026-10-09T21:39:37.496Z",
       "country": "US",
@@ -922,14 +935,15 @@
     "2026-10-06": 5,
     "2026-10-07": 8,
     "2026-10-08": 9,
-    "2026-10-09": 18
+    "2026-10-09": 18,
+    "2026-10-10": 1
   },
   "pages": {
     "/visitor-insights.html": 1,
-    "/": 66
+    "/": 67
   },
   "referrers": {
-    "Direct": 56,
+    "Direct": 57,
     "weixin110.qq.com": 3,
     "www.linkedin.com": 4,
     "com.linkedin.android": 1,
@@ -938,10 +952,11 @@
     "bing.com": 1
   },
   "devices": {
-    "desktop": 45,
+    "desktop": 46,
     "mobile": 22
   },
   "visitor_hashes": {
+    "027ff60b3f2e4d5b33c5ffcb2091b9d219a407c3951c2a7526a92823191d2b69": "2026-10-10T00:49:19.308Z",
     "94a09e23087e3992950e9e90b46518649a53f1c55457b0761a8f7ce3d14b1f4c": "2026-10-09T21:39:37.496Z",
     "247837b221a0256b2e4e01a7d9c4de261ef34b135061d369f9d451de3a1af49b": "2026-10-09T20:03:08.142Z",
     "6bb746876eff1dd5a2e48dae7555acfba7ccd88cb79acd0b2e587ee29f90115e": "2026-10-09T20:03:04.987Z",
@@ -989,7 +1004,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-09T21:39:37.496Z",
+  "updated_at": "2026-10-10T00:49:19.308Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
