@@ -1,5 +1,5 @@
 {
-  "total_visits": 73,
+  "total_visits": 74,
   "unique_visitors": 52,
   "regions": {
     "JP / 13 / Tokyo": 10,
@@ -12,7 +12,7 @@
     "US / WV / Wheeling": 1,
     "United States / Washington / Redmond": 1,
     "US / VA / Boydton": 1,
-    "HK / Unknown / Hong Kong": 5,
+    "HK / Unknown / Hong Kong": 6,
     "US / CT / New Haven": 1,
     "US / NC / Cary": 1,
     "JP / 27 / Osaka": 2,
@@ -37,7 +37,7 @@
     "JP": 12,
     "SG": 24,
     "US": 16,
-    "HK": 7,
+    "HK": 8,
     "GB": 2,
     "United States": 5,
     "AU": 2,
@@ -48,6 +48,19 @@
     "KR": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-11T05:57:05.684Z",
+      "country": "HK",
+      "region": "Unknown",
+      "city": "Hong Kong",
+      "timezone": "Asia/Hong_Kong",
+      "latitude": 22.2842,
+      "longitude": 114.1759,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "027ff60b3f2e"
+    },
     {
       "time": "2026-10-10T11:32:19.244Z",
       "country": "KR",
@@ -1008,14 +1021,15 @@
     "2026-10-07": 8,
     "2026-10-08": 9,
     "2026-10-09": 18,
-    "2026-10-10": 6
+    "2026-10-10": 6,
+    "2026-10-11": 1
   },
   "pages": {
     "/visitor-insights.html": 2,
-    "/": 71
+    "/": 72
   },
   "referrers": {
-    "Direct": 60,
+    "Direct": 61,
     "weixin110.qq.com": 3,
     "www.linkedin.com": 5,
     "com.linkedin.android": 1,
@@ -1025,7 +1039,7 @@
     "yichuanalex.github.io": 1
   },
   "devices": {
-    "desktop": 51,
+    "desktop": 52,
     "mobile": 22
   },
   "visitor_hashes": {
@@ -1082,7 +1096,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-10T11:32:19.244Z",
+  "updated_at": "2026-10-11T05:57:05.684Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
