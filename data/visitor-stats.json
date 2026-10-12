@@ -1,5 +1,5 @@
 {
-  "total_visits": 77,
+  "total_visits": 78,
   "unique_visitors": 55,
   "regions": {
     "JP / 13 / Tokyo": 10,
@@ -27,7 +27,7 @@
     "TW / TXG / Taichung": 1,
     "United States / Alabama / Auburn": 2,
     "US / CO / Colorado Springs": 2,
-    "US / IA / Council Bluffs": 1,
+    "US / IA / Council Bluffs": 2,
     "CN / Tokyo / Asagaya-minami": 1,
     "Singapore / Unknown / Singapore": 1,
     "United States / Washington / Moses Lake": 1,
@@ -37,7 +37,7 @@
   "countries": {
     "JP": 12,
     "SG": 24,
-    "US": 18,
+    "US": 19,
     "HK": 9,
     "GB": 2,
     "United States": 5,
@@ -49,6 +49,19 @@
     "KR": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-12T06:46:50.651Z",
+      "country": "US",
+      "region": "IA",
+      "city": "Council Bluffs",
+      "timezone": "America/Chicago",
+      "latitude": 41.2591,
+      "longitude": -95.8517,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "247837b221a0"
+    },
     {
       "time": "2026-10-12T03:09:30.363Z",
       "country": "US",
@@ -1063,14 +1076,14 @@
     "2026-10-09": 18,
     "2026-10-10": 6,
     "2026-10-11": 3,
-    "2026-10-12": 1
+    "2026-10-12": 2
   },
   "pages": {
     "/visitor-insights.html": 2,
-    "/": 75
+    "/": 76
   },
   "referrers": {
-    "Direct": 63,
+    "Direct": 64,
     "weixin110.qq.com": 3,
     "www.linkedin.com": 6,
     "com.linkedin.android": 1,
@@ -1080,7 +1093,7 @@
     "yichuanalex.github.io": 1
   },
   "devices": {
-    "desktop": 54,
+    "desktop": 55,
     "mobile": 23
   },
   "visitor_hashes": {
@@ -1140,7 +1153,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-12T03:09:30.363Z",
+  "updated_at": "2026-10-12T06:46:50.651Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
