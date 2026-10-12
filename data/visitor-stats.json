@@ -1,8 +1,8 @@
 {
-  "total_visits": 83,
+  "total_visits": 84,
   "unique_visitors": 60,
   "regions": {
-    "JP / 13 / Tokyo": 10,
+    "JP / 13 / Tokyo": 11,
     "SG / Unknown / Singapore": 26,
     "US / VA / Portland": 1,
     "HK / Unknown / Kowloon": 1,
@@ -36,7 +36,7 @@
     "AU / VIC / Melbourne": 1
   },
   "countries": {
-    "JP": 12,
+    "JP": 13,
     "SG": 26,
     "US": 21,
     "HK": 9,
@@ -50,6 +50,19 @@
     "KR": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-12T12:39:59.473Z",
+      "country": "JP",
+      "region": "13",
+      "city": "Tokyo",
+      "timezone": "Asia/Tokyo",
+      "latitude": 35.6893,
+      "longitude": 139.6899,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "82b182b46c9a"
+    },
     {
       "time": "2026-10-12T11:57:21.843Z",
       "country": "SG",
@@ -1142,14 +1155,14 @@
     "2026-10-09": 18,
     "2026-10-10": 6,
     "2026-10-11": 3,
-    "2026-10-12": 7
+    "2026-10-12": 8
   },
   "pages": {
     "/visitor-insights.html": 2,
-    "/": 81
+    "/": 82
   },
   "referrers": {
-    "Direct": 69,
+    "Direct": 70,
     "weixin110.qq.com": 3,
     "www.linkedin.com": 6,
     "com.linkedin.android": 1,
@@ -1159,7 +1172,7 @@
     "yichuanalex.github.io": 1
   },
   "devices": {
-    "desktop": 60,
+    "desktop": 61,
     "mobile": 23
   },
   "visitor_hashes": {
@@ -1224,7 +1237,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-12T11:57:21.843Z",
+  "updated_at": "2026-10-12T12:39:59.473Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
