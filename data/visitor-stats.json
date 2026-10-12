@@ -1,6 +1,6 @@
 {
-  "total_visits": 80,
-  "unique_visitors": 57,
+  "total_visits": 81,
+  "unique_visitors": 58,
   "regions": {
     "JP / 13 / Tokyo": 10,
     "SG / Unknown / Singapore": 24,
@@ -32,7 +32,8 @@
     "Singapore / Unknown / Singapore": 1,
     "United States / Washington / Moses Lake": 1,
     "KR / 28 / Incheon": 1,
-    "US / California / San Jose": 1
+    "US / California / San Jose": 1,
+    "AU / VIC / Melbourne": 1
   },
   "countries": {
     "JP": 12,
@@ -41,7 +42,7 @@
     "HK": 9,
     "GB": 2,
     "United States": 5,
-    "AU": 2,
+    "AU": 3,
     "Japan": 1,
     "TW": 1,
     "CN": 1,
@@ -49,6 +50,19 @@
     "KR": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-12T09:20:33.961Z",
+      "country": "AU",
+      "region": "VIC",
+      "city": "Melbourne",
+      "timezone": "Australia/Melbourne",
+      "latitude": -37.8159,
+      "longitude": 144.9669,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "75c28379fe58"
+    },
     {
       "time": "2026-10-12T07:23:22.262Z",
       "country": "US",
@@ -1102,14 +1116,14 @@
     "2026-10-09": 18,
     "2026-10-10": 6,
     "2026-10-11": 3,
-    "2026-10-12": 4
+    "2026-10-12": 5
   },
   "pages": {
     "/visitor-insights.html": 2,
-    "/": 78
+    "/": 79
   },
   "referrers": {
-    "Direct": 66,
+    "Direct": 67,
     "weixin110.qq.com": 3,
     "www.linkedin.com": 6,
     "com.linkedin.android": 1,
@@ -1119,10 +1133,11 @@
     "yichuanalex.github.io": 1
   },
   "devices": {
-    "desktop": 57,
+    "desktop": 58,
     "mobile": 23
   },
   "visitor_hashes": {
+    "75c28379fe58b5ca2d44d2107c6c3d1cfb5fbdefa8d062aebaabdf8f5f3d5867": "2026-10-12T09:20:33.961Z",
     "53f7d6d19603c453cdc5a9e76c2e67b4678d128eaa1b779787873594cfcba373": "2026-10-12T07:23:22.262Z",
     "319a67500540070de8baad527df23f6c733766207bceba0e3be4efd8c2ca901a": "2026-10-12T07:07:13.999Z",
     "615070a9bce75d91b2c33db715659a1c0db209f85c5b71432c982dc4fe6d1bb4": "2026-10-12T03:09:30.363Z",
@@ -1181,7 +1196,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-12T07:23:22.262Z",
+  "updated_at": "2026-10-12T09:20:33.961Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
