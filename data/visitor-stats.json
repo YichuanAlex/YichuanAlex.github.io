@@ -1,6 +1,6 @@
 {
-  "total_visits": 113,
-  "unique_visitors": 83,
+  "total_visits": 114,
+  "unique_visitors": 84,
   "regions": {
     "JP / 13 / Tokyo": 16,
     "SG / Unknown / Singapore": 31,
@@ -22,7 +22,7 @@
     "US / Arizona / Phoenix": 2,
     "US / WA / Seattle": 1,
     "US / TX / Sugar Land": 1,
-    "US / VA / Ashburn": 1,
+    "US / VA / Ashburn": 2,
     "United States / California / Los Angeles": 1,
     "TW / TXG / Taichung": 1,
     "United States / Alabama / Auburn": 2,
@@ -49,7 +49,7 @@
   "countries": {
     "JP": 19,
     "SG": 31,
-    "US": 28,
+    "US": 29,
     "HK": 10,
     "GB": 2,
     "United States": 8,
@@ -61,6 +61,19 @@
     "KR": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-16T06:36:23.465Z",
+      "country": "US",
+      "region": "VA",
+      "city": "Ashburn",
+      "timezone": "America/New_York",
+      "latitude": 39.0469,
+      "longitude": -77.4903,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "a369442ffc42"
+    },
     {
       "time": "2026-10-16T06:36:17.514Z",
       "country": "US",
@@ -1347,19 +1360,6 @@
       "referrer": "Direct",
       "device_type": "mobile",
       "visitor": "7d4ab1457aa8"
-    },
-    {
-      "time": "2026-10-01T14:49:18.773Z",
-      "country": "US",
-      "region": "CA",
-      "city": "Los Angeles",
-      "timezone": "America/Los_Angeles",
-      "latitude": 34.0544,
-      "longitude": -118.244,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "ad4c04dd2cfd"
     }
   ],
   "daily_visits": {
@@ -1378,14 +1378,14 @@
     "2026-10-13": 5,
     "2026-10-14": 4,
     "2026-10-15": 8,
-    "2026-10-16": 12
+    "2026-10-16": 13
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 109
+    "/": 110
   },
   "referrers": {
-    "Direct": 97,
+    "Direct": 98,
     "weixin110.qq.com": 3,
     "www.linkedin.com": 6,
     "com.linkedin.android": 1,
@@ -1395,10 +1395,11 @@
     "yichuanalex.github.io": 3
   },
   "devices": {
-    "desktop": 86,
+    "desktop": 87,
     "mobile": 27
   },
   "visitor_hashes": {
+    "a369442ffc425516742e895c8e0d8efe7504826caa54ea51266831b453d63621": "2026-10-16T06:36:23.465Z",
     "d05da37b221f0aaf7d6c11181a618df3c678ace9465548032b02dcf9520fe6b5": "2026-10-16T06:36:17.514Z",
     "67a767ddaaf7e214fc95677f829a045aa92f1e08f1f928678778d1b2c31cfaef": "2026-10-16T06:16:12.565Z",
     "6b1cf44edda228b7237e23b37887264869c3dd385272cf7f20c7aa2077b11a56": "2026-10-16T06:12:34.496Z",
@@ -1483,7 +1484,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-16T06:36:17.514Z",
+  "updated_at": "2026-10-16T06:36:23.465Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
