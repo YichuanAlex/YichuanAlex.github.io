@@ -1,6 +1,6 @@
 {
-  "total_visits": 124,
-  "unique_visitors": 88,
+  "total_visits": 125,
+  "unique_visitors": 89,
   "regions": {
     "JP / 13 / Tokyo": 16,
     "SG / Unknown / Singapore": 37,
@@ -42,7 +42,7 @@
     "US / California / Santa Clara": 1,
     "Japan / Tokyo / Tokyo": 1,
     "US / OR / Hillsboro": 1,
-    "United States / California / San Jose": 1,
+    "United States / California / San Jose": 2,
     "United States / Iowa / Des Moines": 1,
     "US / MA / Waltham": 1,
     "US / CA / San Jose": 1,
@@ -55,7 +55,7 @@
     "US": 31,
     "HK": 10,
     "GB": 2,
-    "United States": 9,
+    "United States": 10,
     "AU": 3,
     "Japan": 2,
     "TW": 1,
@@ -64,6 +64,19 @@
     "KR": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-16T15:54:08.178Z",
+      "country": "United States",
+      "region": "California",
+      "city": "San Jose",
+      "timezone": "America/Los_Angeles",
+      "latitude": 37.3388,
+      "longitude": -121.8916,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "2030dc208b47"
+    },
     {
       "time": "2026-10-16T15:52:24.291Z",
       "country": "United States",
@@ -1350,19 +1363,6 @@
       "referrer": "com.linkedin.android",
       "device_type": "mobile",
       "visitor": "61ef6d355926"
-    },
-    {
-      "time": "2026-10-05T01:37:01.702Z",
-      "country": "JP",
-      "region": "13",
-      "city": "Tokyo",
-      "timezone": "Asia/Tokyo",
-      "latitude": 35.6893,
-      "longitude": 139.6899,
-      "path": "/",
-      "referrer": "www.linkedin.com",
-      "device_type": "mobile",
-      "visitor": "974775fb18e8"
     }
   ],
   "daily_visits": {
@@ -1381,14 +1381,14 @@
     "2026-10-13": 5,
     "2026-10-14": 4,
     "2026-10-15": 8,
-    "2026-10-16": 23
+    "2026-10-16": 24
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 120
+    "/": 121
   },
   "referrers": {
-    "Direct": 108,
+    "Direct": 109,
     "weixin110.qq.com": 3,
     "www.linkedin.com": 6,
     "com.linkedin.android": 1,
@@ -1398,10 +1398,11 @@
     "yichuanalex.github.io": 3
   },
   "devices": {
-    "desktop": 96,
+    "desktop": 97,
     "mobile": 28
   },
   "visitor_hashes": {
+    "2030dc208b477dc6d05866ebe2155552f14815d2ef4cd001861c9273e4ca772f": "2026-10-16T15:54:08.178Z",
     "fddbcc2afc21e06373201fa543946aef8b49b18fb104e0b385bfa8e481aec5f0": "2026-10-16T15:52:24.291Z",
     "fefe519edb0a9e05ba3b064f81ddaeb80cbcba349fbeb1480484c8faca08bc93": "2026-10-16T15:14:08.362Z",
     "59fd29003aa23428508ea3ea2a700e4735d0e61ae671b9f153958bc9a2ac6ab2": "2026-10-16T07:30:23.659Z",
@@ -1491,7 +1492,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-16T15:52:24.291Z",
+  "updated_at": "2026-10-16T15:54:08.178Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
