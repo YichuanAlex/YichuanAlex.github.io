@@ -1,5 +1,5 @@
 {
-  "total_visits": 126,
+  "total_visits": 127,
   "unique_visitors": 90,
   "regions": {
     "JP / 13 / Tokyo": 16,
@@ -48,7 +48,7 @@
     "US / CA / San Jose": 1,
     "US / SC / Seneca": 1,
     "United States / Missouri / Rolla": 1,
-    "VN / Hanoi / Hanoi": 1
+    "VN / Hanoi / Hanoi": 2
   },
   "countries": {
     "JP": 19,
@@ -63,9 +63,22 @@
     "CN": 8,
     "Singapore": 1,
     "KR": 1,
-    "VN": 1
+    "VN": 2
   },
   "recent_visits": [
+    {
+      "time": "2026-10-18T09:54:09.492Z",
+      "country": "VN",
+      "region": "Hanoi",
+      "city": "Hanoi",
+      "timezone": "Asia/Bangkok",
+      "latitude": 16.1667,
+      "longitude": 107.8333,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "5b7878dfc10a"
+    },
     {
       "time": "2026-10-18T09:50:10.069Z",
       "country": "VN",
@@ -1352,19 +1365,6 @@
       "referrer": "Direct",
       "device_type": "desktop",
       "visitor": "2155a07c2481"
-    },
-    {
-      "time": "2026-10-05T02:57:01.606Z",
-      "country": "United States",
-      "region": "Washington",
-      "city": "Redmond",
-      "timezone": "America/Los_Angeles",
-      "latitude": 47.6711,
-      "longitude": -122.1253,
-      "path": "/",
-      "referrer": "www.linkedin.com",
-      "device_type": "mobile",
-      "visitor": "f9a6d84e8b83"
     }
   ],
   "daily_visits": {
@@ -1384,14 +1384,14 @@
     "2026-10-14": 4,
     "2026-10-15": 8,
     "2026-10-16": 24,
-    "2026-10-18": 1
+    "2026-10-18": 2
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 122
+    "/": 123
   },
   "referrers": {
-    "Direct": 110,
+    "Direct": 111,
     "weixin110.qq.com": 3,
     "www.linkedin.com": 6,
     "com.linkedin.android": 1,
@@ -1401,7 +1401,7 @@
     "yichuanalex.github.io": 3
   },
   "devices": {
-    "desktop": 98,
+    "desktop": 99,
     "mobile": 28
   },
   "visitor_hashes": {
@@ -1496,7 +1496,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-18T09:50:10.069Z",
+  "updated_at": "2026-10-18T09:54:09.492Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
