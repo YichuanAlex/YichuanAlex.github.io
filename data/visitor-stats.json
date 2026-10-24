@@ -1,5 +1,5 @@
 {
-  "total_visits": 155,
+  "total_visits": 156,
   "unique_visitors": 112,
   "regions": {
     "JP / 13 / Tokyo": 19,
@@ -57,7 +57,7 @@
     "US / GA / Covington": 1,
     "United States / Colorado / Fort Worth": 1,
     "US / CA / Sacramento": 1,
-    "CA / QC / Montreal": 3
+    "CA / QC / Montreal": 4
   },
   "countries": {
     "JP": 22,
@@ -73,9 +73,22 @@
     "Singapore": 1,
     "KR": 1,
     "VN": 2,
-    "CA": 3
+    "CA": 4
   },
   "recent_visits": [
+    {
+      "time": "2026-10-24T04:49:00.335Z",
+      "country": "CA",
+      "region": "QC",
+      "city": "Montreal",
+      "timezone": "America/Toronto",
+      "latitude": 45.5312,
+      "longitude": -73.5863,
+      "path": "/",
+      "referrer": "scholar.google.com",
+      "device_type": "mobile",
+      "visitor": "c0327f9d7d98"
+    },
     {
       "time": "2026-10-24T04:40:24.179Z",
       "country": "CA",
@@ -1362,19 +1375,6 @@
       "referrer": "www.google.com",
       "device_type": "mobile",
       "visitor": "0aee248527c7"
-    },
-    {
-      "time": "2026-10-09T02:06:34.996Z",
-      "country": "SG",
-      "region": "Unknown",
-      "city": "Singapore",
-      "timezone": "Asia/Singapore",
-      "latitude": 1.2872,
-      "longitude": 103.8507,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "7062816152e6"
     }
   ],
   "daily_visits": {
@@ -1400,11 +1400,11 @@
     "2026-10-21": 3,
     "2026-10-22": 7,
     "2026-10-23": 2,
-    "2026-10-24": 4
+    "2026-10-24": 5
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 151
+    "/": 152
   },
   "referrers": {
     "Direct": 132,
@@ -1415,12 +1415,12 @@
     "www.google.com": 1,
     "bing.com": 2,
     "yichuanalex.github.io": 3,
-    "scholar.google.com": 2,
+    "scholar.google.com": 3,
     "google.com": 2
   },
   "devices": {
     "desktop": 120,
-    "mobile": 35
+    "mobile": 36
   },
   "visitor_hashes": {
     "c2f57e1cbb40622d5266ea683b34faca4d5cb6ac8f2d0130919b87ed75c6f874": "2026-10-24T04:40:24.179Z",
@@ -1536,7 +1536,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-24T04:40:24.179Z",
+  "updated_at": "2026-10-24T04:49:00.335Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
