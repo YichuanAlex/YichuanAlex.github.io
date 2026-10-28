@@ -1,6 +1,6 @@
 {
-  "total_visits": 181,
-  "unique_visitors": 119,
+  "total_visits": 182,
+  "unique_visitors": 120,
   "regions": {
     "JP / 13 / Tokyo": 20,
     "SG / Unknown / Singapore": 57,
@@ -59,7 +59,8 @@
     "US / CA / Sacramento": 1,
     "CA / QC / Montreal": 6,
     "Hong Kong / Unknown / Hong Kong": 1,
-    "US / NC / Raleigh": 1
+    "US / NC / Raleigh": 1,
+    "KR / Incheon / Incheon": 1
   },
   "countries": {
     "JP": 23,
@@ -73,12 +74,25 @@
     "TW": 1,
     "CN": 8,
     "Singapore": 1,
-    "KR": 1,
+    "KR": 2,
     "VN": 2,
     "CA": 6,
     "Hong Kong": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-28T07:45:15.778Z",
+      "country": "KR",
+      "region": "Incheon",
+      "city": "Incheon",
+      "timezone": "Asia/Seoul",
+      "latitude": 37.5112,
+      "longitude": 126.9741,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "7d4fc781d912"
+    },
     {
       "time": "2026-10-28T06:59:04.921Z",
       "country": "SG",
@@ -1365,19 +1379,6 @@
       "referrer": "Direct",
       "device_type": "desktop",
       "visitor": "4657c19cec8f"
-    },
-    {
-      "time": "2026-10-12T09:34:19.166Z",
-      "country": "SG",
-      "region": "Unknown",
-      "city": "Singapore",
-      "timezone": "Asia/Singapore",
-      "latitude": 1.2872,
-      "longitude": 103.8507,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "8c6ad20e047a"
     }
   ],
   "daily_visits": {
@@ -1407,14 +1408,14 @@
     "2026-10-25": 1,
     "2026-10-26": 4,
     "2026-10-27": 8,
-    "2026-10-28": 8
+    "2026-10-28": 9
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 177
+    "/": 178
   },
   "referrers": {
-    "Direct": 155,
+    "Direct": 156,
     "weixin110.qq.com": 3,
     "www.linkedin.com": 8,
     "com.linkedin.android": 1,
@@ -1426,10 +1427,11 @@
     "google.com": 2
   },
   "devices": {
-    "desktop": 138,
+    "desktop": 139,
     "mobile": 43
   },
   "visitor_hashes": {
+    "7d4fc781d9122758d61293987205ba9b8a2c97bd0d63403e4622769f7d8d4203": "2026-10-28T07:45:15.778Z",
     "2573e010651a241d3f3cdc900cc8983d1cb40d3bd68f0ffa58c2873f2e4a4916": "2026-10-27T08:06:51.554Z",
     "6a1ed4816ff79837b831b7b3e2059d9d10a84364fdb8c9f9d315fe554114efd6": "2026-10-27T05:12:47.214Z",
     "913e52832bc3eabb4182ebd9390c2c0999b7fc9616a7c4ad3e5ed5b2dbd52d43": "2026-10-26T19:20:36.175Z",
@@ -1550,7 +1552,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-28T06:59:04.921Z",
+  "updated_at": "2026-10-28T07:45:15.778Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
