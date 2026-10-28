@@ -1,5 +1,5 @@
 {
-  "total_visits": 173,
+  "total_visits": 174,
   "unique_visitors": 119,
   "regions": {
     "JP / 13 / Tokyo": 20,
@@ -46,7 +46,7 @@
     "United States / Iowa / Des Moines": 1,
     "US / MA / Waltham": 1,
     "US / CA / San Jose": 1,
-    "US / SC / Seneca": 3,
+    "US / SC / Seneca": 4,
     "United States / Missouri / Rolla": 1,
     "VN / Hanoi / Hanoi": 2,
     "US / PA / Pittsburgh": 2,
@@ -64,7 +64,7 @@
   "countries": {
     "JP": 23,
     "SG": 50,
-    "US": 50,
+    "US": 51,
     "HK": 11,
     "GB": 2,
     "United States": 12,
@@ -79,6 +79,19 @@
     "Hong Kong": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-28T04:51:04.286Z",
+      "country": "US",
+      "region": "SC",
+      "city": "Seneca",
+      "timezone": "America/New_York",
+      "latitude": 34.6806,
+      "longitude": -82.9371,
+      "path": "/",
+      "referrer": "scholar.google.com",
+      "device_type": "desktop",
+      "visitor": "fefe519edb0a"
+    },
     {
       "time": "2026-10-27T08:06:54.072Z",
       "country": "SG",
@@ -1365,19 +1378,6 @@
       "referrer": "Direct",
       "device_type": "desktop",
       "visitor": "5bc943d30a00"
-    },
-    {
-      "time": "2026-10-11T05:57:05.684Z",
-      "country": "HK",
-      "region": "Unknown",
-      "city": "Hong Kong",
-      "timezone": "Asia/Hong_Kong",
-      "latitude": 22.2842,
-      "longitude": 114.1759,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "027ff60b3f2e"
     }
   ],
   "daily_visits": {
@@ -1406,11 +1406,12 @@
     "2026-10-24": 9,
     "2026-10-25": 1,
     "2026-10-26": 4,
-    "2026-10-27": 8
+    "2026-10-27": 8,
+    "2026-10-28": 1
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 169
+    "/": 170
   },
   "referrers": {
     "Direct": 148,
@@ -1421,11 +1422,11 @@
     "www.google.com": 1,
     "bing.com": 2,
     "yichuanalex.github.io": 3,
-    "scholar.google.com": 4,
+    "scholar.google.com": 5,
     "google.com": 2
   },
   "devices": {
-    "desktop": 133,
+    "desktop": 134,
     "mobile": 40
   },
   "visitor_hashes": {
@@ -1549,7 +1550,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-27T08:06:54.072Z",
+  "updated_at": "2026-10-28T04:51:04.286Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
