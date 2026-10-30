@@ -1,9 +1,9 @@
 {
-  "total_visits": 202,
+  "total_visits": 203,
   "unique_visitors": 130,
   "regions": {
     "JP / 13 / Tokyo": 23,
-    "SG / Unknown / Singapore": 66,
+    "SG / Unknown / Singapore": 67,
     "US / VA / Portland": 1,
     "HK / Unknown / Kowloon": 1,
     "US / CA / Los Angeles": 6,
@@ -69,7 +69,7 @@
   },
   "countries": {
     "JP": 28,
-    "SG": 66,
+    "SG": 67,
     "US": 54,
     "HK": 11,
     "GB": 2,
@@ -86,6 +86,19 @@
     "Canada": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-30T03:13:47.594Z",
+      "country": "SG",
+      "region": "Unknown",
+      "city": "Singapore",
+      "timezone": "Asia/Singapore",
+      "latitude": 1.2872,
+      "longitude": 103.8507,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "mobile",
+      "visitor": "093b66c2bfb0"
+    },
     {
       "time": "2026-10-30T03:13:45.076Z",
       "country": "SG",
@@ -1372,19 +1385,6 @@
       "referrer": "yichuanalex.github.io",
       "device_type": "desktop",
       "visitor": "b2534627b4da"
-    },
-    {
-      "time": "2026-10-16T02:59:15.339Z",
-      "country": "US",
-      "region": "OR",
-      "city": "Hillsboro",
-      "timezone": "America/Los_Angeles",
-      "latitude": 45.526,
-      "longitude": -122.9874,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "ba2c3f0ac1c4"
     }
   ],
   "daily_visits": {
@@ -1416,14 +1416,14 @@
     "2026-10-27": 8,
     "2026-10-28": 9,
     "2026-10-29": 11,
-    "2026-10-30": 9
+    "2026-10-30": 10
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 198
+    "/": 199
   },
   "referrers": {
-    "Direct": 172,
+    "Direct": 173,
     "weixin110.qq.com": 4,
     "www.linkedin.com": 10,
     "com.linkedin.android": 1,
@@ -1436,7 +1436,7 @@
   },
   "devices": {
     "desktop": 151,
-    "mobile": 51
+    "mobile": 52
   },
   "visitor_hashes": {
     "058eb09d578db28164ddadb63a106740fa0bed2983efb51df865db1a1fc74df4": "2026-10-29T14:36:24.276Z",
@@ -1570,7 +1570,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-30T03:13:45.076Z",
+  "updated_at": "2026-10-30T03:13:47.594Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
