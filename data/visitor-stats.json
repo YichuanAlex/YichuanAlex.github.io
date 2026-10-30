@@ -1,5 +1,5 @@
 {
-  "total_visits": 214,
+  "total_visits": 215,
   "unique_visitors": 130,
   "regions": {
     "JP / 13 / Tokyo": 23,
@@ -27,7 +27,7 @@
     "TW / TXG / Taichung": 1,
     "United States / Alabama / Auburn": 2,
     "US / CO / Colorado Springs": 3,
-    "US / IA / Council Bluffs": 8,
+    "US / IA / Council Bluffs": 9,
     "CN / Tokyo / Asagaya-minami": 6,
     "Singapore / Unknown / Singapore": 1,
     "United States / Washington / Moses Lake": 2,
@@ -70,7 +70,7 @@
   "countries": {
     "JP": 28,
     "SG": 77,
-    "US": 55,
+    "US": 56,
     "HK": 11,
     "GB": 2,
     "United States": 14,
@@ -86,6 +86,19 @@
     "Canada": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-10-30T11:51:23.127Z",
+      "country": "US",
+      "region": "IA",
+      "city": "Council Bluffs",
+      "timezone": "America/Chicago",
+      "latitude": 41.2591,
+      "longitude": -95.8517,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "247837b221a0"
+    },
     {
       "time": "2026-10-30T07:57:00.550Z",
       "country": "SG",
@@ -1372,19 +1385,6 @@
       "referrer": "Direct",
       "device_type": "desktop",
       "visitor": "59fd29003aa2"
-    },
-    {
-      "time": "2026-10-16T06:37:35.914Z",
-      "country": "US",
-      "region": "CA",
-      "city": "San Jose",
-      "timezone": "America/Los_Angeles",
-      "latitude": 37.3388,
-      "longitude": -121.8916,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "6c2967597880"
     }
   ],
   "daily_visits": {
@@ -1416,14 +1416,14 @@
     "2026-10-27": 8,
     "2026-10-28": 9,
     "2026-10-29": 11,
-    "2026-10-30": 21
+    "2026-10-30": 22
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 210
+    "/": 211
   },
   "referrers": {
-    "Direct": 184,
+    "Direct": 185,
     "weixin110.qq.com": 4,
     "www.linkedin.com": 10,
     "com.linkedin.android": 1,
@@ -1435,7 +1435,7 @@
     "google.com": 2
   },
   "devices": {
-    "desktop": 157,
+    "desktop": 158,
     "mobile": 57
   },
   "visitor_hashes": {
@@ -1570,7 +1570,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-10-30T07:57:00.550Z",
+  "updated_at": "2026-10-30T11:51:23.127Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
