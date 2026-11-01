@@ -1,6 +1,6 @@
 {
-  "total_visits": 223,
-  "unique_visitors": 132,
+  "total_visits": 224,
+  "unique_visitors": 133,
   "regions": {
     "JP / 13 / Tokyo": 23,
     "SG / Unknown / Singapore": 77,
@@ -54,7 +54,7 @@
     "HK / Unknown / Tsuen Wan": 1,
     "US / NY / Stony Brook": 1,
     "US / New York / New York City": 1,
-    "US / GA / Covington": 5,
+    "US / GA / Covington": 6,
     "United States / Colorado / Fort Worth": 1,
     "US / CA / Sacramento": 1,
     "CA / QC / Montreal": 6,
@@ -72,7 +72,7 @@
   "countries": {
     "JP": 28,
     "SG": 77,
-    "US": 62,
+    "US": 63,
     "HK": 11,
     "GB": 2,
     "United States": 16,
@@ -88,6 +88,19 @@
     "Canada": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-11-01T16:15:30.214Z",
+      "country": "US",
+      "region": "GA",
+      "city": "Covington",
+      "timezone": "America/Chicago",
+      "latitude": 33.5325,
+      "longitude": -83.8547,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "b3ca8eec845b"
+    },
     {
       "time": "2026-11-01T16:15:08.264Z",
       "country": "US",
@@ -1374,19 +1387,6 @@
       "referrer": "Direct",
       "device_type": "desktop",
       "visitor": "2030dc208b47"
-    },
-    {
-      "time": "2026-10-16T15:52:24.291Z",
-      "country": "United States",
-      "region": "Missouri",
-      "city": "Rolla",
-      "timezone": "America/Chicago",
-      "latitude": 37.9475,
-      "longitude": -91.7636,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "fddbcc2afc21"
     }
   ],
   "daily_visits": {
@@ -1420,14 +1420,14 @@
     "2026-10-29": 11,
     "2026-10-30": 23,
     "2026-10-31": 5,
-    "2026-11-01": 2
+    "2026-11-01": 3
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 219
+    "/": 220
   },
   "referrers": {
-    "Direct": 192,
+    "Direct": 193,
     "weixin110.qq.com": 4,
     "www.linkedin.com": 10,
     "com.linkedin.android": 1,
@@ -1440,10 +1440,11 @@
     "cn.bing.com": 1
   },
   "devices": {
-    "desktop": 163,
+    "desktop": 164,
     "mobile": 60
   },
   "visitor_hashes": {
+    "b3ca8eec845bb9414dd2314bb6df65ec2e070d2018ea0f612a510166ff8c8f9d": "2026-11-01T16:15:30.214Z",
     "c0b0f4f612a78ef2706d67621702a155ed5a4c610cc3781c94a49d0e32488032": "2026-10-31T12:04:20.936Z",
     "3bcff8d5113584c0a1ab53b733c1e2e178e62540e4a79f2ee7de67f562d8192b": "2026-10-30T11:52:25.828Z",
     "058eb09d578db28164ddadb63a106740fa0bed2983efb51df865db1a1fc74df4": "2026-10-29T14:36:24.276Z",
@@ -1577,7 +1578,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-11-01T16:15:08.264Z",
+  "updated_at": "2026-11-01T16:15:30.214Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
