@@ -1,6 +1,6 @@
 {
-  "total_visits": 238,
-  "unique_visitors": 136,
+  "total_visits": 239,
+  "unique_visitors": 137,
   "regions": {
     "JP / 13 / Tokyo": 23,
     "SG / Unknown / Singapore": 86,
@@ -68,12 +68,13 @@
     "Canada / Ontario / Toronto": 1,
     "United States / Colorado / Dallas": 1,
     "United States / Iowa / Council Bluffs": 1,
-    "TW / HSQ / Hsinchu": 1
+    "TW / HSQ / Hsinchu": 1,
+    "US / MI / Oak Park": 1
   },
   "countries": {
     "JP": 28,
     "SG": 86,
-    "US": 63,
+    "US": 64,
     "HK": 12,
     "GB": 2,
     "United States": 17,
@@ -89,6 +90,19 @@
     "Canada": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-11-02T12:34:29.301Z",
+      "country": "US",
+      "region": "MI",
+      "city": "Oak Park",
+      "timezone": "America/Detroit",
+      "latitude": 42.4681,
+      "longitude": -83.1882,
+      "path": "/",
+      "referrer": "www.linkedin.com",
+      "device_type": "desktop",
+      "visitor": "279ebe8b8453"
+    },
     {
       "time": "2026-11-02T10:15:38.701Z",
       "country": "SG",
@@ -1375,19 +1389,6 @@
       "referrer": "Direct",
       "device_type": "desktop",
       "visitor": "b0041ec9bb72"
-    },
-    {
-      "time": "2026-10-20T13:28:25.937Z",
-      "country": "US",
-      "region": "NY",
-      "city": "Rochester",
-      "timezone": "America/New_York",
-      "latitude": 43.1234,
-      "longitude": -77.7334,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "9006c7d0e151"
     }
   ],
   "daily_visits": {
@@ -1422,16 +1423,16 @@
     "2026-10-30": 23,
     "2026-10-31": 5,
     "2026-11-01": 3,
-    "2026-11-02": 14
+    "2026-11-02": 15
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 234
+    "/": 235
   },
   "referrers": {
     "Direct": 206,
     "weixin110.qq.com": 4,
-    "www.linkedin.com": 11,
+    "www.linkedin.com": 12,
     "com.linkedin.android": 1,
     "github.com": 1,
     "www.google.com": 1,
@@ -1442,10 +1443,11 @@
     "cn.bing.com": 1
   },
   "devices": {
-    "desktop": 171,
+    "desktop": 172,
     "mobile": 67
   },
   "visitor_hashes": {
+    "279ebe8b845338c67ee12a542c488083eb38d4c62f0a12de8b263b06e5ad2bd1": "2026-11-02T12:34:29.301Z",
     "f88bdd702abef78b1d65951870325c98d9d7de624abc346db2c38646d752e2ac": "2026-11-02T08:43:45.712Z",
     "e416de0c4946b21e97a2dcb9ddcd14fbde3680a9afb93d308910f8c55ee851fb": "2026-11-02T07:39:20.478Z",
     "531d9c2702bffe958bff32b8f75c3c8e0ada124adcbcbb0d202853d5583be7ae": "2026-11-02T04:00:03.412Z",
@@ -1583,7 +1585,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-11-02T10:15:38.701Z",
+  "updated_at": "2026-11-02T12:34:29.301Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
