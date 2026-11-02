@@ -1,9 +1,9 @@
 {
-  "total_visits": 237,
+  "total_visits": 238,
   "unique_visitors": 136,
   "regions": {
     "JP / 13 / Tokyo": 23,
-    "SG / Unknown / Singapore": 85,
+    "SG / Unknown / Singapore": 86,
     "US / VA / Portland": 1,
     "HK / Unknown / Kowloon": 1,
     "US / CA / Los Angeles": 9,
@@ -72,7 +72,7 @@
   },
   "countries": {
     "JP": 28,
-    "SG": 85,
+    "SG": 86,
     "US": 63,
     "HK": 12,
     "GB": 2,
@@ -89,6 +89,19 @@
     "Canada": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-11-02T10:15:38.701Z",
+      "country": "SG",
+      "region": "Unknown",
+      "city": "Singapore",
+      "timezone": "Asia/Singapore",
+      "latitude": 1.2872,
+      "longitude": 103.8507,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "7062816152e6"
+    },
     {
       "time": "2026-11-02T10:15:37.053Z",
       "country": "SG",
@@ -1375,19 +1388,6 @@
       "referrer": "Direct",
       "device_type": "desktop",
       "visitor": "9006c7d0e151"
-    },
-    {
-      "time": "2026-10-20T09:46:11.443Z",
-      "country": "SG",
-      "region": "Unknown",
-      "city": "Singapore",
-      "timezone": "Asia/Singapore",
-      "latitude": 1.2872,
-      "longitude": 103.8507,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "e78770119036"
     }
   ],
   "daily_visits": {
@@ -1422,14 +1422,14 @@
     "2026-10-30": 23,
     "2026-10-31": 5,
     "2026-11-01": 3,
-    "2026-11-02": 13
+    "2026-11-02": 14
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 233
+    "/": 234
   },
   "referrers": {
-    "Direct": 205,
+    "Direct": 206,
     "weixin110.qq.com": 4,
     "www.linkedin.com": 11,
     "com.linkedin.android": 1,
@@ -1442,7 +1442,7 @@
     "cn.bing.com": 1
   },
   "devices": {
-    "desktop": 170,
+    "desktop": 171,
     "mobile": 67
   },
   "visitor_hashes": {
@@ -1583,7 +1583,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-11-02T10:15:37.053Z",
+  "updated_at": "2026-11-02T10:15:38.701Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
