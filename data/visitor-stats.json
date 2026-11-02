@@ -1,5 +1,5 @@
 {
-  "total_visits": 227,
+  "total_visits": 228,
   "unique_visitors": 135,
   "regions": {
     "JP / 13 / Tokyo": 23,
@@ -29,7 +29,7 @@
     "US / CO / Colorado Springs": 3,
     "US / IA / Council Bluffs": 10,
     "CN / Tokyo / Asagaya-minami": 6,
-    "Singapore / Unknown / Singapore": 1,
+    "Singapore / Unknown / Singapore": 2,
     "United States / Washington / Moses Lake": 2,
     "KR / 28 / Incheon": 1,
     "US / California / San Jose": 1,
@@ -81,7 +81,7 @@
     "Japan": 2,
     "TW": 2,
     "CN": 8,
-    "Singapore": 1,
+    "Singapore": 2,
     "KR": 2,
     "VN": 2,
     "CA": 6,
@@ -89,6 +89,19 @@
     "Canada": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-11-02T08:12:22.334Z",
+      "country": "Singapore",
+      "region": "Unknown",
+      "city": "Singapore",
+      "timezone": "Asia/Singapore",
+      "latitude": 1.2872,
+      "longitude": 103.8507,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "mobile",
+      "visitor": "f6484e3a4a6d"
+    },
     {
       "time": "2026-11-02T08:12:18.712Z",
       "country": "SG",
@@ -1375,19 +1388,6 @@
       "referrer": "www.linkedin.com",
       "device_type": "mobile",
       "visitor": "6f4cd7aaba4b"
-    },
-    {
-      "time": "2026-10-18T10:42:32.861Z",
-      "country": "SG",
-      "region": "Unknown",
-      "city": "Singapore",
-      "timezone": "Asia/Singapore",
-      "latitude": 1.2872,
-      "longitude": 103.8507,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "a9692fa5905d"
     }
   ],
   "daily_visits": {
@@ -1422,14 +1422,14 @@
     "2026-10-30": 23,
     "2026-10-31": 5,
     "2026-11-01": 3,
-    "2026-11-02": 3
+    "2026-11-02": 4
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 223
+    "/": 224
   },
   "referrers": {
-    "Direct": 195,
+    "Direct": 196,
     "weixin110.qq.com": 4,
     "www.linkedin.com": 11,
     "com.linkedin.android": 1,
@@ -1443,7 +1443,7 @@
   },
   "devices": {
     "desktop": 165,
-    "mobile": 62
+    "mobile": 63
   },
   "visitor_hashes": {
     "e416de0c4946b21e97a2dcb9ddcd14fbde3680a9afb93d308910f8c55ee851fb": "2026-11-02T07:39:20.478Z",
@@ -1582,7 +1582,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-11-02T08:12:18.712Z",
+  "updated_at": "2026-11-02T08:12:22.334Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
