@@ -1,6 +1,6 @@
 {
-  "total_visits": 246,
-  "unique_visitors": 144,
+  "total_visits": 247,
+  "unique_visitors": 145,
   "regions": {
     "JP / 13 / Tokyo": 23,
     "SG / Unknown / Singapore": 86,
@@ -70,7 +70,8 @@
     "United States / Iowa / Council Bluffs": 1,
     "TW / HSQ / Hsinchu": 1,
     "US / MI / Oak Park": 1,
-    "TW / TPE / Taipei": 1
+    "TW / TPE / Taipei": 1,
+    "CH / ZH / Zurich": 1
   },
   "countries": {
     "JP": 28,
@@ -88,9 +89,23 @@
     "VN": 2,
     "CA": 6,
     "Hong Kong": 1,
-    "Canada": 1
+    "Canada": 1,
+    "CH": 1
   },
   "recent_visits": [
+    {
+      "time": "2026-11-04T15:51:18.675Z",
+      "country": "CH",
+      "region": "ZH",
+      "city": "Zurich",
+      "timezone": "Europe/Zurich",
+      "latitude": 47.3952,
+      "longitude": 8.4925,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "bec7935df316"
+    },
     {
       "time": "2026-11-04T10:29:40.925Z",
       "country": "US",
@@ -1377,19 +1392,6 @@
       "referrer": "Direct",
       "device_type": "desktop",
       "visitor": "88ee1e8c2053"
-    },
-    {
-      "time": "2026-10-22T04:31:48.302Z",
-      "country": "US",
-      "region": "SC",
-      "city": "Seneca",
-      "timezone": "America/New_York",
-      "latitude": 34.6806,
-      "longitude": -82.9371,
-      "path": "/",
-      "referrer": "scholar.google.com",
-      "device_type": "desktop",
-      "visitor": "fefe519edb0a"
     }
   ],
   "daily_visits": {
@@ -1426,14 +1428,14 @@
     "2026-11-01": 3,
     "2026-11-02": 15,
     "2026-11-03": 3,
-    "2026-11-04": 4
+    "2026-11-04": 5
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 242
+    "/": 243
   },
   "referrers": {
-    "Direct": 213,
+    "Direct": 214,
     "weixin110.qq.com": 4,
     "www.linkedin.com": 12,
     "com.linkedin.android": 1,
@@ -1446,10 +1448,11 @@
     "cn.bing.com": 1
   },
   "devices": {
-    "desktop": 178,
+    "desktop": 179,
     "mobile": 68
   },
   "visitor_hashes": {
+    "bec7935df316180499884cf803211b0f20b714245d27aff68620dfb02b33a299": "2026-11-04T15:51:18.675Z",
     "34404a0098c78816890f7748c8e80adcf98edc2260ad4d32dab64c9baaa78b7f": "2026-11-04T10:29:40.925Z",
     "292acd20c2f5e9c6e362420cb0420549f3d5e8652132c29af7c5f70a8face7a5": "2026-11-04T10:21:57.462Z",
     "1db206668e4d3b9c74587135a11c0363e2d87c4f7f348ea99203f83560579061": "2026-11-04T06:17:39.412Z",
@@ -1595,7 +1598,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-11-04T10:29:40.925Z",
+  "updated_at": "2026-11-04T15:51:18.675Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
