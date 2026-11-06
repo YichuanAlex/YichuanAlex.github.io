@@ -1,6 +1,6 @@
 {
-  "total_visits": 262,
-  "unique_visitors": 159,
+  "total_visits": 263,
+  "unique_visitors": 160,
   "regions": {
     "JP / 13 / Tokyo": 23,
     "SG / Unknown / Singapore": 87,
@@ -76,7 +76,7 @@
     "US / NC / Apex": 1,
     "China / Shanghai / Shanghai": 1,
     "TW / TAO / Taoyuan": 1,
-    "Australia / New South Wales / Sydney": 1
+    "Australia / New South Wales / Sydney": 2
   },
   "countries": {
     "JP": 29,
@@ -97,9 +97,22 @@
     "Canada": 1,
     "CH": 1,
     "China": 1,
-    "Australia": 1
+    "Australia": 2
   },
   "recent_visits": [
+    {
+      "time": "2026-11-06T12:39:36.475Z",
+      "country": "Australia",
+      "region": "New South Wales",
+      "city": "Sydney",
+      "timezone": "Australia/Sydney",
+      "latitude": -33.8582,
+      "longitude": 151.127,
+      "path": "/",
+      "referrer": "Direct",
+      "device_type": "desktop",
+      "visitor": "ed54724b2974"
+    },
     {
       "time": "2026-11-06T12:39:30.033Z",
       "country": "AU",
@@ -1386,19 +1399,6 @@
       "referrer": "Direct",
       "device_type": "desktop",
       "visitor": "965496e3f684"
-    },
-    {
-      "time": "2026-10-26T04:40:42.752Z",
-      "country": "US",
-      "region": "IA",
-      "city": "Council Bluffs",
-      "timezone": "America/Chicago",
-      "latitude": 41.2591,
-      "longitude": -95.8517,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "247837b221a0"
     }
   ],
   "daily_visits": {
@@ -1437,14 +1437,14 @@
     "2026-11-03": 3,
     "2026-11-04": 5,
     "2026-11-05": 10,
-    "2026-11-06": 5
+    "2026-11-06": 6
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 258
+    "/": 259
   },
   "referrers": {
-    "Direct": 226,
+    "Direct": 227,
     "weixin110.qq.com": 6,
     "www.linkedin.com": 12,
     "com.linkedin.android": 1,
@@ -1457,10 +1457,11 @@
     "cn.bing.com": 1
   },
   "devices": {
-    "desktop": 190,
+    "desktop": 191,
     "mobile": 72
   },
   "visitor_hashes": {
+    "ed54724b2974dfa223617cd4f363ed32385ded5a64c4c4da3b934c906be97d32": "2026-11-06T12:39:36.475Z",
     "ba79a13c263f947f49adb35e3c1cc7d22e5468ef1245198b6d41572bafc99c22": "2026-11-06T12:39:30.033Z",
     "23c82fbc6cc0860219d1a0147888c2e03e9bcef8f77ad2dbc3e550a7e78cb61d": "2026-11-06T12:24:09.233Z",
     "17f616555658f6da77642de65ebc7f6e5bfdb600344c3fdd9a6273d1b9b3f27e": "2026-11-06T12:24:04.785Z",
@@ -1621,7 +1622,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-11-06T12:39:30.033Z",
+  "updated_at": "2026-11-06T12:39:36.475Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
