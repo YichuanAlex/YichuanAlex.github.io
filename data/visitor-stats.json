@@ -1,5 +1,5 @@
 {
-  "total_visits": 272,
+  "total_visits": 273,
   "unique_visitors": 167,
   "regions": {
     "JP / 13 / Tokyo": 23,
@@ -77,7 +77,7 @@
     "China / Shanghai / Shanghai": 1,
     "TW / TAO / Taoyuan": 1,
     "Australia / New South Wales / Sydney": 2,
-    "DE / BW / Reutlingen": 3,
+    "DE / BW / Reutlingen": 4,
     "DE / BW / Stuttgart": 1
   },
   "countries": {
@@ -100,9 +100,22 @@
     "CH": 1,
     "China": 1,
     "Australia": 2,
-    "DE": 4
+    "DE": 5
   },
   "recent_visits": [
+    {
+      "time": "2026-11-08T17:01:00.705Z",
+      "country": "DE",
+      "region": "BW",
+      "city": "Reutlingen",
+      "timezone": "Europe/Berlin",
+      "latitude": 48.514,
+      "longitude": 9.2262,
+      "path": "/",
+      "referrer": "weixin110.qq.com",
+      "device_type": "mobile",
+      "visitor": "2576d4831bf9"
+    },
     {
       "time": "2026-11-08T17:00:33.789Z",
       "country": "SG",
@@ -1389,19 +1402,6 @@
       "referrer": "scholar.google.com",
       "device_type": "desktop",
       "visitor": "fefe519edb0a"
-    },
-    {
-      "time": "2026-10-27T08:06:54.072Z",
-      "country": "SG",
-      "region": "Unknown",
-      "city": "Singapore",
-      "timezone": "Asia/Singapore",
-      "latitude": 1.2872,
-      "longitude": 103.8507,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "2573e010651a"
     }
   ],
   "daily_visits": {
@@ -1442,15 +1442,15 @@
     "2026-11-05": 10,
     "2026-11-06": 8,
     "2026-11-07": 2,
-    "2026-11-08": 5
+    "2026-11-08": 6
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 268
+    "/": 269
   },
   "referrers": {
     "Direct": 231,
-    "weixin110.qq.com": 10,
+    "weixin110.qq.com": 11,
     "www.linkedin.com": 12,
     "com.linkedin.android": 1,
     "github.com": 1,
@@ -1464,7 +1464,7 @@
   },
   "devices": {
     "desktop": 193,
-    "mobile": 79
+    "mobile": 80
   },
   "visitor_hashes": {
     "f626a0fc3a16806c2cc209540135a2ca76c2e96223760e91e6dcccf22c2e9db3": "2026-11-08T17:00:33.789Z",
@@ -1635,7 +1635,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-11-08T17:00:33.789Z",
+  "updated_at": "2026-11-08T17:01:00.705Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
