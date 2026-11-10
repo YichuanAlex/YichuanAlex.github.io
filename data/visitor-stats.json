@@ -1,5 +1,5 @@
 {
-  "total_visits": 277,
+  "total_visits": 278,
   "unique_visitors": 170,
   "regions": {
     "JP / 13 / Tokyo": 23,
@@ -59,7 +59,7 @@
     "US / CA / Sacramento": 1,
     "CA / QC / Montreal": 6,
     "Hong Kong / Unknown / Hong Kong": 1,
-    "US / NC / Raleigh": 2,
+    "US / NC / Raleigh": 3,
     "KR / Incheon / Incheon": 1,
     "JP / 28 / Tokyo": 1,
     "JP / Tokyo / Tokyo": 2,
@@ -84,7 +84,7 @@
   "countries": {
     "JP": 29,
     "SG": 90,
-    "US": 77,
+    "US": 78,
     "HK": 14,
     "GB": 2,
     "United States": 19,
@@ -104,6 +104,19 @@
     "DE": 5
   },
   "recent_visits": [
+    {
+      "time": "2026-11-10T03:06:07.047Z",
+      "country": "US",
+      "region": "NC",
+      "city": "Raleigh",
+      "timezone": "America/New_York",
+      "latitude": 35.797,
+      "longitude": -78.6865,
+      "path": "/",
+      "referrer": "www.google.com",
+      "device_type": "desktop",
+      "visitor": "2e06142ac1b3"
+    },
     {
       "time": "2026-11-10T03:02:35.462Z",
       "country": "US",
@@ -1390,19 +1403,6 @@
       "referrer": "Direct",
       "device_type": "desktop",
       "visitor": "e78770119036"
-    },
-    {
-      "time": "2026-10-28T06:58:55.922Z",
-      "country": "SG",
-      "region": "Unknown",
-      "city": "Singapore",
-      "timezone": "Asia/Singapore",
-      "latitude": 1.2872,
-      "longitude": 103.8507,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "desktop",
-      "visitor": "e78770119036"
     }
   ],
   "daily_visits": {
@@ -1445,11 +1445,11 @@
     "2026-11-07": 2,
     "2026-11-08": 7,
     "2026-11-09": 1,
-    "2026-11-10": 2
+    "2026-11-10": 3
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 273
+    "/": 274
   },
   "referrers": {
     "Direct": 233,
@@ -1457,7 +1457,7 @@
     "www.linkedin.com": 12,
     "com.linkedin.android": 1,
     "github.com": 1,
-    "www.google.com": 2,
+    "www.google.com": 3,
     "bing.com": 4,
     "yichuanalex.github.io": 3,
     "scholar.google.com": 5,
@@ -1466,7 +1466,7 @@
     "lnkd.in": 1
   },
   "devices": {
-    "desktop": 196,
+    "desktop": 197,
     "mobile": 81
   },
   "visitor_hashes": {
@@ -1641,7 +1641,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-11-10T03:02:35.462Z",
+  "updated_at": "2026-11-10T03:06:07.047Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
