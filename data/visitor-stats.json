@@ -1,5 +1,5 @@
 {
-  "total_visits": 311,
+  "total_visits": 312,
   "unique_visitors": 198,
   "regions": {
     "JP / 13 / Tokyo": 23,
@@ -92,13 +92,13 @@
     "US / IA / Coralville": 1,
     "US / FL / Oviedo": 1,
     "US / CA / Fremont": 1,
-    "US / WI / Madison": 1,
+    "US / WI / Madison": 2,
     "US / Virginia / Leesburg": 1
   },
   "countries": {
     "JP": 30,
     "SG": 93,
-    "US": 100,
+    "US": 101,
     "HK": 16,
     "GB": 2,
     "United States": 19,
@@ -118,6 +118,19 @@
     "DE": 6
   },
   "recent_visits": [
+    {
+      "time": "2026-11-27T07:28:16.954Z",
+      "country": "US",
+      "region": "WI",
+      "city": "Madison",
+      "timezone": "America/Chicago",
+      "latitude": 43.0773,
+      "longitude": -89.3994,
+      "path": "/",
+      "referrer": "www.bing.com",
+      "device_type": "desktop",
+      "visitor": "c82b62603991"
+    },
     {
       "time": "2026-11-24T13:41:21.141Z",
       "country": "US",
@@ -1404,19 +1417,6 @@
       "referrer": "Direct",
       "device_type": "desktop",
       "visitor": "7062816152e6"
-    },
-    {
-      "time": "2026-10-30T07:56:56.541Z",
-      "country": "SG",
-      "region": "Unknown",
-      "city": "Singapore",
-      "timezone": "Asia/Singapore",
-      "latitude": 1.2872,
-      "longitude": 103.8507,
-      "path": "/",
-      "referrer": "Direct",
-      "device_type": "mobile",
-      "visitor": "f6484e3a4a6d"
     }
   ],
   "daily_visits": {
@@ -1470,11 +1470,12 @@
     "2026-11-19": 5,
     "2026-11-20": 2,
     "2026-11-23": 1,
-    "2026-11-24": 1
+    "2026-11-24": 1,
+    "2026-11-27": 1
   },
   "pages": {
     "/visitor-insights.html": 4,
-    "/": 307
+    "/": 308
   },
   "referrers": {
     "Direct": 259,
@@ -1489,10 +1490,10 @@
     "google.com": 2,
     "cn.bing.com": 1,
     "lnkd.in": 1,
-    "www.bing.com": 2
+    "www.bing.com": 3
   },
   "devices": {
-    "desktop": 224,
+    "desktop": 225,
     "mobile": 87
   },
   "visitor_hashes": {
@@ -1695,7 +1696,7 @@
     "48757d3f5df8ce49b653fa598ca1206c1e42c0bc46d566de659694d18819080b": "2026-10-01T14:08:48.107Z",
     "9fea41a6a2cbe605dc1bd4c5abf7987c0a6d492c458180fa19cc20a835e81ca5": "2026-09-30T09:42:29.994Z"
   },
-  "updated_at": "2026-11-24T13:41:21.141Z",
+  "updated_at": "2026-11-27T07:28:16.954Z",
   "meta": {
     "schema_version": 2,
     "storage": "GitHub repository",
